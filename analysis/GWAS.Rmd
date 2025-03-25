@@ -1,546 +1,17 @@
 ---
-title: "GWAS"
+title: "Importance markers"
 author: "Costa, W. G."
 date: "`r Sys.Date()`"
 site: workflowr::wflow_site
 url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
 output:
   workflowr::wflow_html:
-    toc: yes
+    toc: TRUE
   highlight: github
 editor_options:
   chunk_output_type: console
 github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
-
-## Importance of markers for QTL detection by machine learning methods
-
-# Creating Genetic Map Chart
-
-## Libraries 
-
-```{r}
-library(tidyverse)
-library(data.table)
-library(metan)
-library(ggthemes)
-library(ggrepel)
-library(ggpubr)
-library(cowplot)
-library(tidytext)
-```
-
-## Phenotypic variance and genetic values
-
-```{r}
-pheno <- read.table("data/simulated_data/phenotype.txt")
-
-colnames(pheno) <- str_replace_all(colnames(pheno), "V", "P")
-
-genetic_values <-
-  read.table("data/simulated_data/genotypic values.txt")
-
-colnames(genetic_values) <-
-  str_replace_all(colnames(genetic_values), "V", "G")
-
-pheno <- pheno %>%
-  pivot_longer(1:18) %>%
-  mutate(trait = as.numeric(factor(name)))
-
-genetic_values <-  genetic_values %>%
-  pivot_longer(1:18) %>%
-  mutate(trait = as.numeric(factor(name)))
-
-data <- pheno %>%
-  full_join(genetic_values) %>%
-  mutate(type = ifelse(name %like% "P", "Phenotype", "Genetic"))
-
-data  %>%
-  ggplot(aes(x = as.factor(trait), y = value, fill = type)) +
-  geom_boxplot() +
-  ylim(0, 120) +
-  scale_fill_gdocs() +
-  theme_bw() +
-  theme(text = element_text(size = 20, face = "bold")) +
-  labs(x = "Traits",
-       y = "Value",
-       fill = "Type")
-```
-
-## Genetic map
-
-Primeiro vamos definir nossos SNPs de interesse para as variáveis. Essas informações foram pré-definidas e podem ser encontrados no arquivo `control_genetic`![](data/simulated_data/control_genetic.txt). Vamos carregar o arquivo `snpsOfInterest.RData`"[](analysis/snpsOfInterest.RData) que comtemas infomações dos snps considerados QTLs por variavel. 
-
-```{r}
-load("data/snpsOfInterest.RData")
-```
-
-Agora vamos definir os nomes das colunas para nosso `snpsOfInterest` e criar um objeto `locus` com as informações de ininício e témino de cada grupo de ligação. 
-
-```{r}
-locus <-
-  data.frame(
-    c(
-      1,
-      401,
-      402,
-      802,
-      803,
-      1203,
-      1204,
-      1604,
-      1605,
-      2005,
-      2006,
-      2406,
-      2407,
-      2807,
-      2808,
-      3208,
-      3209,
-      3609,
-      3610,
-      4010
-    )
-  )
-
-colnames(locus) <- c("marker")
-```
-
-Para facilitar a visualização criei um gráfico  genético das características `map_plot`. Para isso criei o  `map` com o número de marcadores e tamanho de cada grupo de liagação. 
-
-```{r}
-map <-
-  data.frame(rbind(
-    cbind(seq(1, 401, 1), rep("LG 1", 401), seq(0, 200, 0.5)),
-    cbind(seq(402, 802, 1), rep("LG 2", 401), seq(0, 200, 0.5)),
-    cbind(seq(803, 1203, 1), rep("LG 3", 401), seq(0, 200, 0.5)),
-    cbind(seq(1204, 1604, 1), rep("LG 4", 401), seq(0, 200, 0.5)),
-    cbind(seq(1605, 2005, 1), rep("LG 5", 401), seq(0, 200, 0.5)),
-    cbind(seq(2006, 2406, 1), rep("LG 6", 401), seq(0, 200, 0.5)),
-    cbind(seq(2407, 2807, 1), rep("LG 7", 401), seq(0, 200, 0.5)),
-    cbind(seq(2808, 3208, 1), rep("LG 8", 401), seq(0, 200, 0.5)),
-    cbind(seq(3209, 3609, 1), rep("LG 9", 401), seq(0, 200, 0.5)),
-    cbind(seq(3610, 4010, 1), rep("LG 10", 401), seq(0, 200, 0.5))
-  ))
-
-colnames(map) <- c("marker", "LG", "Size")
-
-map <- map %>%
-  mutate(
-    marker = as.numeric(marker),
-    Size = as.numeric(Size),
-    LG = factor(
-      LG,
-      levels = c(
-        "LG 1",
-        "LG 2",
-        "LG 3",
-        "LG 4",
-        "LG 5",
-        "LG 6",
-        "LG 7",
-        "LG 8",
-        "LG 9",
-        "LG 10"
-      )
-    )
-  )
-```
-
-Para dividir a figura e mostrar todos os maps genômicos das características, dividi o `snpsOfInterest` e o `map` para cada característica e inclui os SNPs de interesse no `map` para cada característica.
-
-```{r}
-snpsOfInterest1 <- snpsOfInterest %>%
-  filter(variable == 1)
-
-snpsOfInterest2 <- snpsOfInterest %>%
-  filter(variable == 2)
-
-snpsOfInterest3 <- snpsOfInterest %>%
-  filter(variable == 3)
-
-snpsOfInterest4 <- snpsOfInterest %>%
-  filter(variable == 4)
-
-snpsOfInterest5 <- snpsOfInterest %>%
-  filter(variable == 5)
-
-map1 <- map %>%
-  mutate(
-    is_highlight = ifelse(marker %in% snpsOfInterest1$marker, "yes", "no"),
-    is_locus = ifelse(marker %in% locus$marker, "yes", "no")
-  )
-
-map2 <- map %>%
-  mutate(
-    is_highlight = ifelse(marker %in% snpsOfInterest2$marker, "yes", "no"),
-    is_locus = ifelse(marker %in% locus$marker, "yes", "no")
-  )
-
-map3 <- map %>%
-  mutate(
-    is_highlight = ifelse(marker %in% snpsOfInterest3$marker, "yes", "no"),
-    is_locus = ifelse(marker %in% locus$marker, "yes", "no")
-  )
-
-map4 <- map %>%
-  mutate(
-    is_highlight = ifelse(marker %in% snpsOfInterest4$marker, "yes", "no"),
-    is_locus = ifelse(marker %in% locus$marker, "yes", "no")
-  )
-
-map5 <- map %>%
-  mutate(
-    is_highlight = ifelse(marker %in% snpsOfInterest5$marker, "yes", "no"),
-    is_locus = ifelse(marker %in% locus$marker, "yes", "no")
-  )
-```
-
-Agora cirei o gráfico de cada característica e depois agrupei eles em apenas uma imagem `maps`.
-
-```{r}
-map_plot1 <- ggplot(map1, aes(x = LG, y = Size)) +
-  geom_segment(aes(
-    yend = 200,
-    y = 0,
-    x = LG,
-    xend = LG
-  ),
-  color = "skyblue",
-  size = 1) +
-  geom_point(
-    data = subset(map1, is_locus == "yes"),
-    color = "skyblue",
-    size = 0.5
-  ) +
-  geom_point(
-    data = subset(map1, is_highlight == "yes"),
-    color = "Orange",
-    size = 0.5
-  ) +
-  geom_text_repel(
-    data = subset(map1, is_highlight == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  geom_text_repel(
-    data = subset(map1, is_locus == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  scale_x_discrete(expand = expansion(mult = c(0.15, 0.05))) +
-  scale_y_continuous(expand = expansion(mult = c(0.03, 0.05))) +
-  theme_void() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 4),
-    axis.ticks = element_blank()
-  ) +
-  labs(y = "", x = "")
-
-map_plot2 <- ggplot(map2, aes(x = LG, y = Size)) +
-  geom_segment(aes(
-    yend = 200,
-    y = 0,
-    x = LG,
-    xend = LG
-  ),
-  color = "skyblue",
-  size = 1) +
-  geom_point(
-    data = subset(map2, is_locus == "yes"),
-    color = "skyblue",
-    size = 0.5
-  ) +
-  geom_point(
-    data = subset(map2, is_highlight == "yes"),
-    color = "Orange",
-    size = 0.5
-  ) +
-  geom_text_repel(
-    data = subset(map2, is_highlight == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  geom_text_repel(
-    data = subset(map2, is_locus == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  scale_x_discrete(expand = expansion(mult = c(0.15, 0.05))) +
-  scale_y_continuous(expand = expansion(mult = c(0.03, 0.05))) +
-  theme_void() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 4),
-    axis.ticks = element_blank()
-  ) +
-  labs(y = "", x = "")
-
-map_plot3 <- ggplot(map3, aes(x = LG, y = Size)) +
-  geom_segment(aes(
-    yend = 200,
-    y = 0,
-    x = LG,
-    xend = LG
-  ),
-  color = "skyblue",
-  size = 1) +
-  geom_point(
-    data = subset(map3, is_locus == "yes"),
-    color = "skyblue",
-    size = 0.5
-  ) +
-  geom_point(
-    data = subset(map3, is_highlight == "yes"),
-    color = "Orange",
-    size = 0.5
-  ) +
-  geom_text_repel(
-    data = subset(map3, is_highlight == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  geom_text_repel(
-    data = subset(map3, is_locus == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  scale_x_discrete(expand = expansion(mult = c(0.15, 0.05))) +
-  scale_y_continuous(expand = expansion(mult = c(0.03, 0.05))) +
-  theme_void() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 4),
-    axis.ticks = element_blank()
-  ) +
-  labs(y = "", x = "")
-
-map_plot4 <- ggplot(map4, aes(x = LG, y = Size)) +
-  geom_segment(aes(
-    yend = 200,
-    y = 0,
-    x = LG,
-    xend = LG
-  ),
-  color = "skyblue",
-  size = 1) +
-  geom_point(
-    data = subset(map4, is_locus == "yes"),
-    color = "skyblue",
-    size = 0.5
-  ) +
-  geom_point(
-    data = subset(map4, is_highlight == "yes"),
-    color = "Orange",
-    size = 0.5
-  ) +
-  geom_text_repel(
-    data = subset(map4, is_highlight == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  geom_text_repel(
-    data = subset(map4, is_locus == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  scale_x_discrete(expand = expansion(mult = c(0.15, 0.05))) +
-  scale_y_continuous(expand = expansion(mult = c(0.03, 0.05))) +
-  theme_void() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 4),
-    axis.ticks = element_blank()
-  ) +
-  labs(y = "", x = "")
-
-map_plot5 <- ggplot(map5, aes(x = LG, y = Size)) +
-  geom_segment(aes(
-    yend = 200,
-    y = 0,
-    x = LG,
-    xend = LG
-  ),
-  color = "skyblue",
-  size = 1) +
-  geom_point(
-    data = subset(map5, is_locus == "yes"),
-    color = "skyblue",
-    size = 0.5
-  ) +
-  geom_point(
-    data = subset(map5, is_highlight == "yes"),
-    color = "Orange",
-    size = 0.5
-  ) +
-  geom_text_repel(
-    data = subset(map5, is_highlight == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  geom_text_repel(
-    data = subset(map5, is_locus == "yes"),
-    aes(label = marker),
-    size = 1.5,
-    max.overlaps = Inf,
-    min.segment.length = 0,
-    force   = 0,
-    nudge_x      = -0.55,
-    nudge_y      = -1.5,
-    direction    = "x",
-    hjust        = 0.5,
-    segment.curvature = -1e-20,
-    segment.angle     = 45,
-    segment.size = 0.1
-  ) +
-  scale_x_discrete(expand = expansion(mult = c(0.15, 0.05))) +
-  scale_y_continuous(expand = expansion(mult = c(0.03, 0.05))) +
-  theme_void() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 4),
-    axis.ticks = element_blank()
-  ) +
-  labs(y = "", x = "")
-
-maps <- ggdraw() +
-  draw_plot(
-    map_plot1,
-    x = 0.05,
-    y = .5,
-    width = .3,
-    height = .5
-  ) +
-  draw_plot(
-    map_plot2,
-    x = .4,
-    y = .5,
-    width = .3,
-    height = .5
-  ) +
-  draw_plot(
-    map_plot3,
-    x = .75,
-    y = .5,
-    width = .3,
-    height = .5
-  ) +
-  draw_plot(
-    map_plot4,
-    x = 0.25,
-    y = 0,
-    width = 0.3,
-    height = 0.5
-  ) +
-  draw_plot(
-    map_plot5,
-    x = 0.65,
-    y = 0,
-    width = 0.3,
-    height = 0.5
-  ) +
-  draw_plot_label(
-    label = c("A", "B", "C", "D", "E"),
-    size = 15,
-    x = c(0, 0.35, 0.7, 0.2, 0.6),
-    y = c(1, 1, 1, 0.5, 0.5)
-  )
-
-print(maps)
-```
-
 
 # Data
 
@@ -548,427 +19,530 @@ print(maps)
 
 The traits importance data was obtained by script in [Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis](https://wevertongomescosta.github.io/Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis/)
 
+# Packages
 ```{r}
-imp <- list.files(path = "data/imp/",
-                  pattern = "imp.",
-                  full.names = TRUE) %>%
-  map_df(~ get(load(file = .x)))
+library(metan)
+library(tidyverse)
+library(ggrepel)
+library(ggnewscale)
+library(ggthemes)
+library(gridExtra)
 ```
 
-##### Normalizando a importa?cia dos marcadores para cada variavel de cada metodo #######
-
-Pra que as metodologias possam ser comparadas nós normalizamos os dados na escala de 0 a 100.
-
+# Carregando os dados
 ```{r}
-for (j in levels(imp$method)) {
-  for (i in 1:16) {
-    x <- imp %>%
-      filter (method == j & variable == i)
-    
-    x <- resca(x, Overall, new_min = 0, new_max = 100)
-    
-    if (i == 1) {
-      x1 <- x
-    } else {
-      x1 <- x1 %>% rbind(x)
-    }
-  }
-  
-  if (j == levels(imp$method)[1]) {
-    x2 <- x1
-  } else {
-    x2 <- x2 %>% rbind(x1)
-  }
-  
-}
-imp <- x2
-
-rm(x,x1,x2,i,j)
-
+load("input/imp.tot.RData")
+head(imp.tot)
+load("input/snpsOfInterest.RData")
+head(snpsOfInterest)
+load("input/results_gwas.rda")
+head(results_gwas)
 ```
 
-##### Obtendo a média de cada marcador entre os folds
+# Preparando os dados de importância
 
 ```{r}
-imp <- imp %>%
+imp.tot <- imp.tot %>%
+  mutate(
+    variable = as.numeric(variable),
+    method = as.factor(method),
+    marker = as.numeric(str_replace(marker, "V", ""))
+  ) %>%
   group_by(variable, method, marker) %>%
-  summarise(Overall = mean(Overall))
+  summarise(Overall = mean(Overall), .groups = "drop")
 ```
 
-###### Criando uma coluna referente aos grupos de liga??o #####
-
+# Preparando os resultados do GWAS
 
 ```{r}
-imp <- imp %>%
-  mutate(marker = as.numeric(marker),
+# Definindo o limiar de significância
+alpha <- 0.05
+n.markers <- 4010
+threshold <- alpha / n.markers
+
+# Preparando os resultados do GWAS
+results_gwas <- results_gwas %>%
+  rename(marker = SNP, CHR = Chr) %>%
+  mutate(
+    variable = as.numeric(str_replace(variable, "V", "")),
+    method = as.factor(method),
+    CHR = as.numeric(CHR),
+    marker = as.numeric(marker),
+    Overall = -log10(P.value)
+  )
+
+
+results_gwas_sig <- results_gwas %>%
+  filter(P.value < threshold) %>%
+  mutate(sig = paste(variable, marker, sep = "_")) %>%
+  droplevels() %>%
+  select(variable, method, marker, CHR, Overall, sig)
+```
+
+# Normalizando a importância dos marcadores para cada variável e método
+
+```{r}
+methods <- unique(imp.tot$method)
+variables <- unique(imp.tot$variable)
+
+normalized_imp <- imp.tot %>%
+  group_by(method, variable) %>%
+  mutate(Overall_res = scales::rescale(Overall, to = c(0, 10), finite = F)) %>%
+  ungroup()
+```
+
+
+# Primeiro, atribuímos 'region_markers' dentro de cada grupo de 'variable'
+
+```{r}
+reg1 <- snpsOfInterest %>%
+  group_by(variable) %>%
+  mutate(region_markers = row_number()) %>%
+  ungroup()
+
+# Agora, criamos o data frame 'region' com os marcadores ao redor de cada SNP de interesse
+distance <- 5
+
+
+region <- reg1 %>%
+  rowwise() %>%
+  mutate(marker = list(seq(marker - distance, marker + distance))) %>%
+  ungroup() %>%
+  unnest(cols = marker) %>%
+  filter(variable %in% c(1:5, 9:13)) %>%
+  droplevels()
+```
+
+# Contando o número de genes em cada região
+
+```{r}
+ngenes_region <- region %>%
+  group_by(variable) %>%
+  summarise(ngenes_region = n(), .groups = "drop") %>%
+  mutate(variable = factor(variable, labels = c(1:10)))
+```
+
+# Calculando a importância média dos marcadores
+
+```{r}
+effects_markers <- normalized_imp %>%
+  group_by(variable, method) %>%
+  summarise(effects_markers = mean(Overall_res), .groups = "drop")
+```
+
+# Associando os marcadores às regiões do QTL
+
+```{r}
+plot_data <- normalized_imp %>%
+  mutate(
     CHR = case_when(
       marker <= 401 ~ 1,
-      marker > 401 & marker <= 802 ~ 2,
-      marker > 802 & marker <= 1203 ~ 3,
-      marker > 1203 & marker <= 1604 ~ 4,
-      marker > 1604 & marker <= 2005 ~ 5,
-      marker > 2005 & marker <= 2406 ~ 6,
-      marker > 2406 & marker <= 2807 ~ 7,
-      marker > 2807 & marker <= 3208 ~ 8,
-      marker > 3208 & marker <= 3609 ~ 9,
-      marker > 3609 ~ 10
+      marker <= 802 ~ 2,
+      marker <= 1203 ~ 3,
+      marker <= 1604 ~ 4,
+      marker <= 2005 ~ 5,
+      marker <= 2406 ~ 6,
+      marker <= 2807 ~ 7,
+      marker <= 3208 ~ 8,
+      marker <= 3609 ~ 9,
+      TRUE ~ 10
+    )
+  ) %>%
+  full_join(results_gwas) %>%
+  full_join(effects_markers) %>%
+  full_join(region)
+
+plot_data <- plot_data %>%
+  mutate(
+    sig = paste(variable, marker, sep = "_"),
+    is_highlight = if_else(!is.na(region_markers), "yes", "no"),
+    is_annotate = case_when(
+      Overall_res > effects_markers & method != "GLM" ~ "yes",
+      method == "GLM" & sig %in% results_gwas_sig$sig ~ "yes",
+      TRUE ~ "no",
     )
   )
 ```
 
-
-
-# Criando a coluna representando a região do QTL
-
+# Criando variáveis adicionais
 
 ```{r}
-
-for(i in 1:16) {
-  reg <- snpsOfInterest %>%
-    filter(variable == i)
-  for (j in 1:nrow(reg)) {
-    reg$region_markers[j] <- j
-  }
-  if (i == 1) {
-    reg1 <- reg
-  }
-  if (i != 1) {
-    reg1 <- rbind(reg1, reg)
-  }
-}
-
-
-for (i in 1:nrow(snpsOfInterest)) {
-  marker <- c(
-    seq.int(snpsOfInterest$marker[i] - 4, snpsOfInterest$marker[i]),
-    seq.int(snpsOfInterest$marker[i] + 1, snpsOfInterest$marker[i] + 4)
+plot_data <- plot_data %>%
+  mutate(
+    herd = factor(if_else(variable < 9, "50%", "80%")),
+    ngenes = factor(
+      case_when(
+        variable %in% c(1, 9) ~ 8,
+        variable %in% c(2, 10) ~ 40,
+        variable %in% c(3, 11) ~ 80,
+        variable %in% c(4, 12) ~ 120,
+        variable %in% c(5, 13) ~ 240,
+        variable %in% c(6, 14) ~ 480,
+        variable %in% c(7, 15) ~ 88,
+        variable %in% c(8, 16) ~ 160
+      )
+    ),
+    created = factor(if_else(
+      ngenes %in% c(88, 160), "Simulated modified", "Simulated"
+    )),
+    is_high_anno = case_when(
+      is_highlight == "yes" & is_annotate == "yes" ~ 1,
+      is_highlight == "yes" & is_annotate == "no" ~ 2,
+      is_highlight == "no" & is_annotate == "yes" ~ 3,
+      TRUE ~ 4
+    ),
+    variable = factor(variable)
   )
-  variable <- snpsOfInterest$variable[i]
-  region_markers <- reg1$region_markers[i]
-  if (i == 1) {
-    region <- as.data.frame(cbind(variable, marker, region_markers))
-  } else {
-    region1 <- as.data.frame(cbind(variable, marker, region_markers))
-    region <- rbind(region, region1)
-  }
-}
+
+
+levels(plot_data$method) <-  c("BAG",
+                               "BO",
+                               "DT",
+                               "G-BLUP",
+                               "MARS 3",
+                               "MARS 1",
+                               "MARS 2",
+                               "MLP",
+                               "RBF",
+                               "RF",
+                               "GLM")
+
+plot_data <- plot_data %>%
+  mutate(method =  fct_relevel(method, sort))
 ```
 
-##### Criando as colunas de highlight e annotate dos marcadores de interesse e mais importantes ####
+# Filtrando apenas as variáveis simuladas
 
 ```{r}
-for (j in levels(imp$variable)) {
-  snpsOfInterest1 = region %>%
-    filter(variable == j)
-  imp1 = imp %>%
-    filter(variable == j)
-  imp1 <- imp1 %>%
-    mutate(is_highlight = ifelse(marker %in% snpsOfInterest1$marker, "yes", "no"))
-  if (j == 1) {
-    imp2 = imp1
-  } else {
-    imp2 = rbind(imp2, imp1)
-  }
-}
+plot_data <- plot_data %>%
+  filter(created == "Simulated" & ngenes != 480) %>%
+  #filter(!(method %in% c("RBF", "MLP", "G-BLUP"))) %>%
+  droplevels()
 
-imp <- imp2
-
-imp <- imp %>%
-  mutate(is_annotate = ifelse(Overall > 12.5, "yes", "no"))
+levels(plot_data$variable) <-
+  c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 ```
 
+# Calculando o índice de coincidência
+
+```{r}
+ver <- plot_data %>%
+  filter(is_annotate == "yes") %>%
+  group_by(variable, method, CHR, region_markers) %>%
+  summarise(n = n(), .groups = "drop")
+```
+
+# Separando acertos e erros
+
+```{r}
+certo <- ver %>%
+  filter(region_markers != "NA") %>%
+  group_by(variable, method) %>%
+  reframe(n = n)
+
+acerto <- certo %>%
+  count(variable, method, name = "acerto")
+
+errado <- ver %>%
+  filter(is.na(region_markers)) %>%
+  group_by(variable, method, CHR, region_markers) %>%
+  reframe("erro" = n)
+
+erro <- errado %>%
+  group_by(variable, method) %>%
+  summarise(erro = sum(erro), .groups = "drop")
+```
+
+# Unindo acertos e erros e calculando os índices
+
+```{r}
+coinc <- full_join(acerto, erro) %>%
+  full_join(ngenes_region) %>%
+  mutate(
+    acerto = replace_na(acerto, 0),
+    erro = replace_na(erro, 0),
+    ngenes = case_when(
+      variable %in% c("1", "6") ~ 8,
+      variable %in% c("2", "7") ~ 40,
+      variable %in% c("3", "8") ~ 80,
+      variable %in% c("4", "9") ~ 120,
+      variable %in% c("5", "10") ~ 240
+    ),
+    herd = if_else(as.numeric(variable) < 6, "h² = 0.50", "h² = 0.80"),
+    # Poder de Decisão (PD) = Sensibilidade
+    PD = round((acerto / ngenes) * 100, 2),
+    # Falso Positivo (FP)
+    FP = round((erro / (
+      n.markers - ngenes_region
+    )) * 100, 2),
+    # Precisão
+    Precision = round(acerto / (acerto + erro) * 100, 2),
+    # Adicionando os novos índices:
+    Specificity = round((((n.markers - ngenes_region) - erro
+    ) / (
+      n.markers - ngenes_region
+    )) * 100, 2),
+    # Média harmônica entre precisão e Poder de Decisão ,
+    `F1 Score` = round(2 * (Precision * PD) / (Precision + PD), 2),
+  ) %>%
+  filter(!(method %in% c("RBF", "MLP", "G-BLUP"))) %>%
+  droplevels()
+
+acerto_erro <- coinc %>%
+  select(variable, method, acerto, erro)
+
+coinc %>%
+  select(variable, method, PD) %>%
+  pivot_wider(names_from = variable, values_from = PD)
+
+
+writexl::write_xlsx(acerto_erro, "output/acerto_erro.xlsx")
+```
+
+# Criando o gráfico
+
+## PD, Precision
+```{r}
+coinc %>%
+  select(method, ngenes, herd, PD, Precision) %>%
+  pivot_longer(cols = 4:5) %>%
+  mutate(method = factor(method, levels = rev(sort(unique(
+    method
+  ))))) %>%
+  ggplot(aes(
+    x = factor(ngenes),
+    y = method,
+    fill = value
+  )) +
+  
+  # Adicionando os tiles (blocos da matriz)
+  geom_tile(color = "black") +
+  
+  # Ajustando a escala de preenchimento
+  scale_fill_gradient2(
+    low = "white",
+    mid = "yellow",
+    high = "red",
+    midpoint = 50,
+    # 100 / 2 simplifica para 50
+    limits = c(0, 100),
+    space = "Lab",
+    name = "Value"
+  ) +
+  
+  # Facetando por 'herd' (herdabilidade)
+  facet_wrap(name ~ herd, nrow = 1) +
+  
+  # Aplicando tema minimalista com tamanho de texto base
+  theme_bw() +
+  
+  # Ajustando elementos do tema
+  theme(
+    axis.text.x = element_text(vjust = 1, hjust = 0.5),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "top",
+    legend.direction = "horizontal",
+    #    legend.title = element_text(size = 12),
+    #    legend.text = element_text(size = 10)
+  ) +
+  
+  # Fixando a proporção dos eixos
+  coord_fixed() +
+  
+  # Adicionando os valores de PD como texto nos tiles
+  geom_text(aes(label = value), color = "black") +
+  
+  # Ajustando o título do eixo X
+  labs(x = "Number of Genes")
+```
+
+## FP, Specificity
+
+```{r}
+coinc %>%
+  select(method, ngenes, herd, FP, Specificity) %>%
+  pivot_longer(cols = 4:5) %>%
+  mutate(method = factor(method, levels = rev(sort(unique(
+    method
+  ))))) %>%
+  ggplot(aes(
+    x = factor(ngenes),
+    y = method,
+    fill = value
+  )) +
+  
+  # Adicionando os tiles (blocos da matriz)
+  geom_tile(color = "black") +
+  
+  # Ajustando a escala de preenchimento
+  scale_fill_gradient2(
+    low = "white",
+    mid = "yellow",
+    high = "red",
+    midpoint = 50,
+    # 100 / 2 simplifica para 50
+    limits = c(0, 100),
+    space = "Lab",
+    name = "Value"
+  ) +
+  
+  # Facetando por 'herd' (herdabilidade)
+  facet_wrap(name ~ herd, nrow = 1) +
+  
+  # Aplicando tema minimalista com tamanho de texto base
+  theme_bw() +
+  
+  # Ajustando elementos do tema
+  theme(
+    axis.text.x = element_text(vjust = 1, hjust = 0.5),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "top",
+    legend.direction = "horizontal",
+    #    legend.title = element_text(size = 12),
+    #    legend.text = element_text(size = 10)
+  ) +
+  
+  # Fixando a proporção dos eixos
+  coord_fixed() +
+  
+  # Adicionando os valores de PD como texto nos tiles
+  geom_text(aes(label = value), color = "black") +
+  
+  # Ajustando o título do eixo X
+  labs(x = "Number of Genes")
+```
+
+## F1 Score
+
+```{r}
+coinc %>%
+  select(method, ngenes, herd, `F1 Score`) %>%
+  pivot_longer(cols = 4) %>%
+  mutate(method = factor(method, levels = rev(sort(unique(
+    method
+  ))))) %>%
+  ggplot(aes(
+    x = factor(ngenes),
+    y = method,
+    fill = value
+  )) +
+  
+  # Adicionando os tiles (blocos da matriz)
+  geom_tile(color = "black") +
+  
+  # Ajustando a escala de preenchimento
+  scale_fill_gradient2(
+    low = "white",
+    mid = "yellow",
+    high = "red",
+    midpoint = 50,
+    # 100 / 2 simplifica para 50
+    limits = c(0, 100),
+    space = "Lab",
+    name = "Value"
+  ) +
+  
+  # Facetando por 'herd' (herdabilidade)
+  facet_wrap(name ~ herd, nrow = 1) +
+  
+  # Aplicando tema minimalista com tamanho de texto base
+  theme_bw() +
+  
+  # Ajustando elementos do tema
+  theme(
+    axis.text.x = element_text(vjust = 1, hjust = 0.5),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "right",
+    legend.direction = "vertical",
+    #    legend.title = element_text(size = 12),
+    #    legend.text = element_text(size = 10)
+  ) +
+  
+  # Fixando a proporção dos eixos
+  coord_fixed() +
+  
+  # Adicionando os valores de PD como texto nos tiles
+  geom_text(aes(label = value), color = "black") +
+  
+  # Ajustando o título do eixo X
+  labs(x = "Number of Genes")
+```
+
+# Manhattan plot
+
+```{r}
 ###### Definindo as posi??es dos grupos de liga??o no plot
-
-```{r}
-axisdf <- imp %>% group_by(CHR) %>% summarize(center = (max(marker) + min(marker)) /2)
+axisdf = plot_data %>%
+  group_by(CHR) %>%
+  summarize(center = (max(marker) + min(marker)) / 2)
 ```
 
-####### Gr?ficos
 
 ```{r}
-for (i in levels(imp$method)) {
-  dataplot <- imp %>%
-    filter(method == i) %>% 
-    droplevels()
-
-  #Show all points
-  dataplot <- dataplot %>%
-    ggplot(aes(marker, Overall)) +
-    facet_wrap( ~ variable, ncol = 3) +
-    geom_point(aes(color = as.factor(CHR)), alpha = 0.8, size = 1.3) +
-    scale_color_manual(values = rep(c("grey", "skyblue"), 22)) +
-
-    #custom X axis:
+for (i in 1:10) {
+  plotgwasall <- plot_data %>%
+    filter(variable == i)
+  
+  region <- plotgwasall %>%
+    filter(variable == i, region_markers > 0) %>%
+    group_by(region_markers) %>%
+    summarise(marker_min = min(marker),
+              marker_max = max(marker))
+  
+  p <- ggplot() +
+    geom_point(
+      data = plotgwasall,
+      aes(marker, Overall_res, color = as.factor(CHR)),
+      alpha = 0.05,
+      size = 1
+    ) +
     scale_x_continuous(label = axisdf$CHR, breaks = axisdf$center) +
-    scale_y_continuous(expand = c(0.01, 0.05)) + #remove space between plot area and x axis
-    geom_hline(yintercept = 50,
+    #scale_y_continuous(expand = c(0.01, 0.05), breaks = c(0, 100)) + #remove space between plot area and x axis
+    geom_hline(yintercept = 1.25,
                linetype = "dashed",
-               color = "red") +
-
+               color = "black") +
     # Add highlighted points
+    geom_rect(
+      data = region,
+      aes(xmin = marker_min, xmax = marker_max),
+      ymin = Inf,
+      ymax = Inf,
+      alpha = 0.25,
+      fill = "orange"
+    ) +
+    facet_wrap(
+      method ~ .,
+      ncol = 1,
+      scales = "free_y" ,
+      strip.position = "right"
+    ) +
+    theme_hc() +
+    scale_color_gdocs() +
+    new_scale_color() +
     geom_point(
-      data = subset(dataplot, is_annotate == "yes"),
-      color = "Orange",
-      size = 2,
-      box.padding = 0.5
+      data = subset(plotgwasall, is_high_anno != 4),
+      aes(marker, Overall_res, color = as.factor(is_high_anno)),
+      size = 2
     ) +
-    geom_point(
-      data = subset(dataplot, is_highlight == "yes"),
-      color = "seagreen3",
-      size = 2,
-      box.padding = 0.5
-    ) +
-
-    # Add label using ggrepel to avoid overlapping
-    geom_label_repel(
-      data = subset(dataplot, is_annotate == "yes"),
-      aes(label = marker),
-      size = 2,
-      color = "Orange",
-      box.padding = 0.5
-    ) +
-    geom_label_repel(
-      data = subset(dataplot, is_highlight == "yes"),
-      aes(label = marker),
-      size = 2,
-      color = "seagreen3",
-      box.padding = 0.5
-    ) +
-
-    #Custom the theme:
-    theme_bw() +
+    scale_color_manual(values = c("seagreen3", "orange", "red")) +
+    xlab("Linkage Group") + ylab("Importance (%)") +
     theme(
-      text = element_text(size = 30),
       legend.position = "none",
+      text = element_text(size = 12),
       panel.border = element_blank(),
       panel.grid.major.x = element_blank(),
       panel.grid.minor.x = element_blank(),
-      plot.title = element_text(hjust = 0.5)
-    ) +
-    labs(x = "Grupos de Liga??o",
-         y = "Import?ncia")
-  print(dataplot)
+      panel.spacing.y = unit(1, "lines"),
+      axis.ticks.x = element_blank()
+    )
   
-  nome <- paste("output/GWAS", i, ".tiff", sep = "")
-  ggsave(
-    nome,
-    plot = dataplot,
-    width = 24,
-    height = 16,
-    dpi = 300
-  )
+  print("Trait:", i)
+  print(p)
 }
 ```
-
-# Indice de coincidência
-
-```{r}
-ver <- imp %>%
-  filter(is_annotate == "yes")%>%
-  group_by(variable, method, CHR, region_markers)%>%
-  summarise(n = n())  %>%
-  ungroup()
-
-levels(ver$method)
-
-certo<- ver %>%
-  filter(region_markers != "NA") %>%
-  group_by(variable, method) %>%
-  summarise(n = n)%>%
-  ungroup()
-
-errado<- ver %>%
-  filter(is.na(region_markers)) %>%
-  group_by(variable, method, CHR, region_markers) %>%
-  summarise("erro" = n)%>%
-  ungroup()
-
-acerto<-certo%>%
-  count(variable, method, name = "acerto")%>%
-  ungroup()
-
-erro<-errado%>%
-  group_by(variable, method) %>%
-  summarise(erro = sum(erro))
-  
-coinc <- acerto %>%
-  full_join(erro)
-
-coinc <- coinc %>%
-  mutate(ngenes = as.integer(
-    case_when(
-      variable == 1 | variable == 6 ~ 8,
-      variable == 2 | variable == 7 ~ 40,
-      variable == 3 | variable == 8 ~ 80,
-      variable == 4 | variable == 9 ~ 120,
-      variable == 5 | variable == 10 ~ 240)
-  ),
-  porc_acerto = round((acerto/ngenes) * 100, 2),
-         porc_erro = round((erro/ngenes) * 100, 2),
-  porc_erro=replace(porc_erro, is.na(porc_erro), 0))
-
-coinc <- coinc %>%
-  mutate(erro = replace(erro, is.na(erro), 0),
-         indice = round(acerto/(acerto+erro)*100,2),
-         herd = as.factor(case_when(as.numeric(variable) < 6 ~ "h² = 0.50",
-                          as.numeric(variable) > 5 ~ "h² = 0.80")))
-
-library(writexl)
-write_xlsx(coinc, "tabela.xlsx")
-
-coinc2<-coinc %>%
-  filter(method != "G-BLUP" & method != "MLP" & method != "RBF")
-
-coinc2%>%
-  ggplot(aes(as.factor(ngenes), method, fill = porc_acerto)) +
-  geom_tile(color = "white") +
-  scale_fill_gradient2(
-    low = "white",
-    high = "red",
-    mid = "yellow",
-    midpoint = (max(coinc2$porc_acerto) / 2),
-    limit = c(0, max(coinc2$porc_acerto)),
-    space = "Lab",
-    name = "Índice \nde acerto"
-  ) +
-  facet_wrap(vars(herd),strip.position = "top")+
-  theme_minimal() + # minimal theme
-  theme(axis.text.x = element_text(
-    angle = 45,
-    vjust = 1,
-    hjust = 1
-  ),
-  text = element_text(size = 20)) +
-  coord_fixed() +
-  geom_text(aes(as.factor(ngenes), method, label = porc_acerto),
-            color = "black",
-            size = 5) +
-  theme(
-    axis.title.y = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.border = element_blank(),
-    panel.background = element_blank(),
-    axis.ticks = element_blank(),
-    #legend.justification = c(1, 0),
-    legend.position = "top",
-    legend.direction = "horizontal",
-    legend.title = element_text(size=12),
-    legend.text = element_text(size=10)
-  ) +
-  labs(x = "Número de genes")+
-  guides(fill = guide_colorbar(
-    barwidth = 7,
-    barheight = 1,
-    title.hjust = 0.5
-  ))
-
-ggsave(
-  "percentagem_acerto.tiff",
-  width = 12,
-  height = 8,
-  dpi = 300
-)
-
-coinc2%>%
-  ggplot(aes(as.factor(ngenes), method, fill = porc_erro)) +
-  geom_tile(color = "white") +
-  scale_fill_gradient2(
-    low = "white",
-    high = "red",
-    mid = "yellow",
-    midpoint = (max(coinc2$porc_erro) / 2),
-    limit = c(0, max(coinc2$porc_erro)),
-    space = "Lab",
-    name = "Índice \nde erro"
-  ) +
-  facet_wrap(vars(herd),strip.position = "top")+
-  theme_minimal() + # minimal theme
-  theme(axis.text.x = element_text(
-    angle = 45,
-    vjust = 1,
-    hjust = 1
-  ),
-  text = element_text(size = 20)) +
-  coord_fixed() +
-  geom_text(aes(as.factor(ngenes), method, label = porc_erro),
-            color = "black",
-            size = 5) +
-  theme(
-    axis.title.y = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.border = element_blank(),
-    panel.background = element_blank(),
-    axis.ticks = element_blank(),
-    #legend.justification = c(1, 0),
-    legend.position = "top",
-    legend.direction = "horizontal",
-    legend.title = element_text(size=12),
-    legend.text = element_text(size=10)
-  ) +
-  labs(x = "Número de genes")+
-  guides(fill = guide_colorbar(
-    barwidth = 7,
-    barheight = 1,
-    title.hjust = 0.5
-  ))
-
-ggsave(
-  "percentagem_erro.tiff",
-  width = 12,
-  height = 8,
-  dpi = 300
-)
-
-coinc2 %>%
-ggplot(aes(as.factor(ngenes), method, fill = indice)) +
-  geom_tile(color = "white") +
-  scale_fill_gradient2(
-    low = "white",
-    high = "red",
-    mid = "yellow",
-    midpoint = (max(coinc2$indice) / 2),
-    limit = c(0, max(coinc2$indice)),
-    space = "Lab",
-    name = "Índice \nRelativo"
-  ) +
-  facet_wrap(vars(herd),strip.position = "top")+
-  theme_minimal() + # minimal theme
-  theme(axis.text.x = element_text(
-    angle = 45,
-    vjust = 1,
-    hjust = 1
-  ),
-  text = element_text(size = 20)) +
-  coord_fixed() +
-  geom_text(aes(as.factor(ngenes), method, label = indice),
-            color = "black",
-            size = 5) +
-  theme(
-    axis.title.y = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.border = element_blank(),
-    panel.background = element_blank(),
-    axis.ticks = element_blank(),
-    #legend.justification = c(1, 0),
-    legend.position = "top",
-    legend.direction = "horizontal",
-    legend.title = element_text(size=12),
-    legend.text = element_text(size=10)
-  ) +
-  labs(x = "Número de genes")+
-  guides(fill = guide_colorbar(
-    barwidth = 7,
-    barheight = 1,
-    title.hjust = 0.5
-  ))
-
-ggsave(
-  "indice_relativo.tiff",
-  width = 12,
-  height = 8,
-  dpi = 300
-)
-
-
-```
-

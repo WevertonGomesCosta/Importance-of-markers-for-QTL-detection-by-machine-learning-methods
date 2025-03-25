@@ -28,14 +28,14 @@ library(dplyr)
 # Load genotype data
 
 ```{r}
-CPgeno <- read.table("input/GEN.txt")
+CPgeno <- read.table("data/GEN.txt")
 head(CPgeno[, 1:5])
 ```
 
 # Load and prepare map data
 
 ```{r}
-mapCP <- readRDS("input/map.rds") %>%
+mapCP <- readRDS("data/map.rds") %>%
   mutate(
     Locus = paste0("V", 1:n()),
     Position = as.numeric(Tamanho),
@@ -101,4 +101,65 @@ load("output/mod.rda")
 save(mod, file = "output/mod.rda")
 ```
 
+# Predict r² values for a sequence of distances
+```{r}
 
+d_seq <- seq(0, max(dados$d), 0.1)
+pred <- predict(mod, d_seq)
+data_pred <- data.frame(d = d_seq, pred = pred)
+```
+
+# Find the distance where r² is approximately 0.2
+```{r}
+target_r2 <- 0.87
+closest_index <- which.min(abs(pred - target_r2))
+closest_d <- d_seq[closest_index]
+closest_d
+```
+
+# Plot the LD decay curve
+```{r}
+library(ggrepel)
+
+# Create the plot with additional adjustments
+color_palette <- colorRampPalette(c('black', 'gray50'))
+p <- ggplot(dados, aes(x = d, y = r2, colour = GL)) +
+  geom_point(pch = 21, show.legend = FALSE) +
+  geom_line(
+    data = data_pred,
+    aes(x = d, y = pred),
+    colour = 'red',
+    linewidth = 1
+  ) +
+  geom_hline(yintercept = target_r2,
+             linetype = "dashed",
+             color = "blue") +
+  geom_vline(xintercept = closest_d,
+             linetype = "dashed",
+             color = "green") +
+  geom_point(
+    aes(x = closest_d, y = target_r2),
+    data = NULL,
+    color = "gold",
+    size = 3
+  ) +
+  scale_color_manual(values = color_palette(length(unique(dados$GL)))) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1)) +
+  scale_x_continuous(breaks = seq(0, max(dados$d), by = 10)) +
+  labs(x = "Distance (d)", y = expression(r^2)) +
+  theme_classic() +
+  theme(text = element_text(size = 20))
+
+p +
+  geom_text(
+    aes(
+      x = closest_d + 15,
+      y = target_r2,
+      label = paste("d =", round(closest_d, 2), "cM")
+    ),
+    data = NULL,
+    nudge_y = 0.02,
+    color = "black",
+    fontface = "bold"
+  )
+```

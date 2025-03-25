@@ -1,0 +1,104 @@
+---
+title: "ld decay"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
+output:
+  workflowr::wflow_html:
+    toc: TRUE
+  highlight: github
+editor_options:
+  chunk_output_type: console
+github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load necessary libraries
+
+```{r}
+library(sommer)
+library(ggplot2)
+library(dplyr)
+```
+
+# Load genotype data
+
+```{r}
+CPgeno <- read.table("input/GEN.txt")
+head(CPgeno[, 1:5])
+```
+
+# Load and prepare map data
+
+```{r}
+mapCP <- readRDS("input/map.rds") %>%
+  mutate(
+    Locus = paste0("V", 1:n()),
+    Position = as.numeric(Tamanho),
+    LG = as.integer(GL)
+  ) %>%
+  dplyr::select(Locus, Position, LG)
+
+str(mapCP)
+summary(mapCP)
+```
+
+# Run LD decay analysis for each linkage group
+
+# Step 1: Obtain a sorted list of unique linkage groups from the map data
+
+```{r}
+unique_LGs <- sort(unique(mapCP$LG))
+```
+
+# Step 2: Apply a function to each linkage group using lapply
+```{r}
+res <- lapply(unique_LGs, function(lg) {
+  # Step 2a: For the current linkage group 'lg', extract the corresponding marker names
+  markers <- mapCP %>%
+    filter(LG == lg) %>%  # Filter the map data to include only rows where LG equals the current linkage group
+    pull(Locus)           # Extract the 'Locus' column, which contains marker names
+  
+  # Step 2b: Perform Linkage Disequilibrium (LD) decay analysis on the genotype data for these markers
+  LDDecay <- LD.decay(CPgeno[, markers], # Subset the genotype matrix to include only the columns for the current markers
+                      mapCP %>% filter(LG == lg))  # Subset the map data to include only the current linkage group
+  
+  # Step 2c: Filter the LD results to include only significant marker pairs after Bonferroni correction
+  A <- LDDecay$all.LG %>%  # Access the LD results for all marker pairs
+    filter(p < 0.05 / choose(length(markers), 2))  # Apply Bonferroni correction to adjust the p-value threshold
+  
+  # Step 2d: Check if there are any significant marker pairs
+  if (nrow(A) > 0) {
+    # If significant pairs exist, create a data frame including the linkage group identifier
+    data.frame(GL = paste0("lg", lg), # Add a column 'GL' with the linkage group name (e.g., 'lg1', 'lg2', etc.)
+               A)                       # Include the filtered LD decay results
+  } else {
+    # If no significant pairs are found, return NULL for this linkage group
+    NULL
+  }
+})
+```
+
+
+
+# Combine results and remove NULLs
+```{r}
+res <- res[!sapply(res, is.null)]
+dados <- do.call(rbind, res)
+dados$GL <- as.factor(dados$GL)
+```
+
+
+
+# Fit the loess model
+```{r}
+mod <- loess(r2 ~ d, data = dados)
+load("output/mod.rda")
+save(mod, file = "output/mod.rda")
+```
+
+

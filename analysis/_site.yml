@@ -1,17 +1,26 @@
-name: "https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods"
+name: "Importance-of-markers-for-QTL-detection-by-machine-learning-methods"
 output_dir: ../docs
 navbar:
-  title: "https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods"
+  title: "Importance of markers for QTL detection by machine learning methods"
   left:
   - text: Home
     href: index.html
+  - text: Map Genetic
+    href: map.html
+  - text: Importance markers
+    href: Importance-markers.html
   - text: About
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
+
 output:
   workflowr::wflow_html:
-    toc: yes
-    toc_float: yes
-    theme: cosmo
-    highlight: textmate
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: haddock

@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Costa, W. G." />
+
+<meta name="date" content="2025-03-25" />
+
+<title>Importance of markers for QTL detection by machine learning methods</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Importance of markers for QTL detection by machine learning methods</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="map.html">Map Genetic</a>
+</li>
+<li>
+  <a href="Importance-markers.html">Importance markers</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Importance of markers for QTL detection by
+machine learning methods</h1>
+<h4 class="author">Costa, W. G.</h4>
+<h4 class="date">2025-03-25</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-03-25
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>Importance-of-markers-for-QTL-detection-by-machine-learning-methods/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221222code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221222)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221222code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221222)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree450b544ee4118e65f87c6af05e8370f0aa54cfb4targetblank450b544a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/450b544ee4118e65f87c6af05e8370f0aa54cfb4" target="_blank">450b544</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree450b544ee4118e65f87c6af05e8370f0aa54cfb4targetblank450b544a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/450b544ee4118e65f87c6af05e8370f0aa54cfb4" target="_blank">450b544</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  data/imp/
+    Untracked:  data/simulated_data/
+    Untracked:  data/snpsOfInterest.RData
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+    Deleted:    data/res.imp.ad.RData
+    Deleted:    data/res.imp.ad.xlsx
+    Deleted:    data/res.imp.bag.RData
+    Deleted:    data/res.imp.bag.xlsx
+    Deleted:    data/res.imp.boost.RData
+    Deleted:    data/res.imp.boost.xlsx
+    Deleted:    data/res.imp.gblup.RData
+    Deleted:    data/res.imp.gblup.xlsx
+    Deleted:    data/res.imp.mars.update1.RData
+    Deleted:    data/res.imp.mars.update2.RData
+    Deleted:    data/res.imp.mars.update3.RData
+    Deleted:    data/res.imp.mlp.RData
+    Deleted:    data/res.imp.rbf.RData
+    Deleted:    data/res.imp.rf.RData
+    Deleted:    data/res.imp.rf.xlsx
+
+Staged changes:
+    New:        data/GEN_T/genome_t1.txt
+    New:        data/GEN_T/genome_t2.txt
+    New:        data/GEN_T/genome_t3.txt
+    New:        data/GEN_T/genome_t4.txt
+    New:        data/GEN_T/genome_t5.txt
+    New:        data/GEN_V/genome_v1.txt
+    New:        data/GEN_V/genome_v2.txt
+    New:        data/GEN_V/genome_v3.txt
+    New:        data/GEN_V/genome_v4.txt
+    New:        data/GEN_V/genome_v5.txt
+    New:        data/PHEN_T/phenotype_t1.txt
+    New:        data/PHEN_T/phenotype_t2.txt
+    New:        data/PHEN_T/phenotype_t3.txt
+    New:        data/PHEN_T/phenotype_t4.txt
+    New:        data/PHEN_T/phenotype_t5.txt
+    New:        data/PHEN_V/phenotype_v1.txt
+    New:        data/PHEN_V/phenotype_v2.txt
+    New:        data/PHEN_V/phenotype_v3.txt
+    New:        data/PHEN_V/phenotype_v4.txt
+    New:        data/PHEN_V/phenotype_v5.txt
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
+(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/blob/081eb1829ea1f58586a13863cd1c608b5e1a6042/analysis/index.Rmd" target="_blank">081eb18</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2022-12-22
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="detecção-de-qtls-através-de-métodos-de-machine-learning"
+class="section level1">
+<h1>Detecção de QTLs através de Métodos de Machine Learning</h1>
+<div class="float">
+<img src="https://example.com/images/gwas_ml_framework.png"
+alt="GWAS ML Framework" />
+<div class="figcaption">GWAS ML Framework</div>
+</div>
+<p>Bem-vindo ao repositório oficial do projeto de pesquisa sobre
+identificação de marcadores moleculares para detecção de QTLs utilizando
+métodos de aprendizado de máquina.</p>
+<div id="objetivos-principais" class="section level2">
+<h2>Objetivos Principais</h2>
+<ol style="list-style-type: decimal">
+<li>Desenvolver pipeline computacional para análise GWAS com ML</li>
+<li>Comparar desempenho de algoritmos na detecção de QTLs</li>
+<li>Propor métricas de importância de marcadores genômicos</li>
+<li>Criar ferramentas interativas de visualização genética</li>
+</ol>
+</div>
+<div id="recursos-chave" class="section level2">
+<h2>Recursos Chave</h2>
+<ul>
+<li><strong>Análises Reprodutíveis</strong>: Fluxo completo de dados
+genômicos</li>
+<li><strong>Comparativo de Algoritmos</strong>: Random Forest, XGBoost,
+SVM</li>
+<li><strong>Mapas Genéticos Interativos</strong>: Visualização de
+ligação cromossômica</li>
+<li><strong>Benchmarking</strong>: Comparação com métodos estatísticos
+tradicionais</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="qtl-detection-through-machine-learning-methods"
+class="section level1">
+<h1>QTL Detection Through Machine Learning Methods</h1>
+<div class="float">
+<img src="https://example.com/images/gwas_ml_framework.png"
+alt="GWAS ML Framework" />
+<div class="figcaption">GWAS ML Framework</div>
+</div>
+<p>Welcome to the official repository for the research project on
+molecular marker identification for QTL detection using machine learning
+methods.</p>
+<div id="main-objectives" class="section level2">
+<h2>Main Objectives</h2>
+<ol style="list-style-type: decimal">
+<li>Develop computational pipeline for GWAS analysis with ML</li>
+<li>Compare algorithm performance in QTL detection</li>
+<li>Propose genomic marker importance metrics</li>
+<li>Create interactive genetic visualization tools</li>
+</ol>
+</div>
+<div id="key-features" class="section level2">
+<h2>Key Features</h2>
+<ul>
+<li><strong>Reproducible Analyses</strong>: Complete genomic data
+workflow</li>
+<li><strong>Algorithm Comparison</strong>: Random Forest, XGBoost,
+SVM</li>
+<li><strong>Interactive Genetic Maps</strong>: Chromosomal linkage
+visualization</li>
+<li><strong>Benchmarking</strong>: Comparison with traditional
+statistical methods</li>
+</ul>
+<hr />
+</div>
+<div id="navegação-rápida-quick-navigation" class="section level2">
+<h2>Navegação Rápida / Quick Navigation</h2>
+<ul>
+<li>:world_map: <a href="map.html">Mapa Genético</a> - Visualização de
+ligação cromossômica</li>
+<li>:bar_chart: <a href="Importance-markers.html">Importância de
+Marcadores</a> - Análise comparativa de algoritmos</li>
+<li>:page_facing_up: <a href="about.html">Sobre</a> - Detalhes
+metodológicos e institucionais</li>
+<li>:balance_scale: <a href="license.html">Licença</a> - Termos de uso e
+distribuição</li>
+</ul>
+<hr />
+</div>
+<div id="sobre-o-licae" class="section level2">
+<h2>Sobre o LICAE</h2>
+<p>Este projeto foi desenvolvido no âmbito das pesquisas do <a
+href="https://www.licae.ufv.br/">Laboratório de Inteligência
+Computacional e Aprendizado Estatístico (LICAE)</a> da Universidade
+Federal de Viçosa (UFV), especializado em aplicações avançadas de
+inteligência computacional em problemas genômicos complexos.</p>
+</div>
+<div id="recursos-disponíveis" class="section level2">
+<h2>Recursos Disponíveis</h2>
+<p>Este repositório contém: 1. <strong>Código de Análise</strong>:
+Implementações completas dos algoritmos de ML 2. <strong>Fluxo de
+Trabalho Reprodutível</strong>: Pipeline completo de análise de dados
+genômicos 3. <strong>Dados Sintéticos</strong>: Conjuntos de dados para
+teste e validação 4. <strong>Visualizações Interativas</strong>:
+Gráficos e análises exploratórias dos resultados</p>
+<hr />
+</div>
+<div id="about-licae" class="section level2">
+<h2>About LICAE</h2>
+<p>This project was developed as part of the research activities at the
+<a href="https://www.licae.ufv.br/">Computational Intelligence and
+Statistical Learning Laboratory (LICAE)</a> of the Federal University of
+Viçosa (UFV), specialized in advanced applications of computational
+intelligence to complex genomic problems.</p>
+</div>
+<div id="available-resources" class="section level2">
+<h2>Available Resources</h2>
+<p>This repository contains: 1. <strong>Analysis Code</strong>: Complete
+implementations of ML algorithms 2. <strong>Reproducible
+Workflow</strong>: Complete genomic data analysis pipeline 3.
+<strong>Synthetic Datasets</strong>: Test and validation datasets 4.
+<strong>Interactive Visualizations</strong>: Exploratory analysis plots
+and results</p>
+<hr />
+</div>
+<div id="como-utilizar" class="section level2">
+<h2>Como Utilizar</h2>
+<ol style="list-style-type: decimal">
+<li>Clone o repositório:
+<code>git clone https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git</code></li>
+<li>Instale as dependências: <code>renv::restore()</code></li>
+<li>Execute o pipeline principal:
+<code>Rscript scripts/analise_principal.R</code></li>
+</ol>
+</div>
+<div id="how-to-use" class="section level2">
+<h2>How to Use</h2>
+<ol style="list-style-type: decimal">
+<li>Clone repository:
+<code>git clone https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git</code></li>
+<li>Install dependencies: <code>renv::restore()</code></li>
+<li>Run main pipeline: <code>Rscript scripts/main_analysis.R</code></li>
+</ol>
+<hr />
+</div>
+<div id="contribuição" class="section level2">
+<h2>Contribuição</h2>
+<p>Contribuições são bem-vindas mediante: - Abertura de issues para
+discussão de melhorias - Submissão de pull requests para correções
+críticas - Sugestões de extensões metodológicas</p>
+</div>
+<div id="contribution" class="section level2">
+<h2>Contribution</h2>
+<p>Contributions are welcome through: - Issue opening for improvement
+discussions - Pull request submission for critical fixes - Suggestions
+for methodological extensions</p>
+<hr />
+</div>
+<div id="licença" class="section level2">
+<h2>Licença</h2>
+<p>Este trabalho está licenciado sob <a href="license.html">CC BY-NC-SA
+4.0</a>. Para uso comercial ou modificações significativas, por favor
+contate os autores.</p>
+</div>
+<div id="license" class="section level2">
+<h2>License</h2>
+<p>This work is licensed under <a href="license.html">CC BY-NC-SA
+4.0</a>. For commercial use or significant modifications, please contact
+the authors.</p>
+<hr />
+</div>
+<div id="contato" class="section level2">
+<h2>Contato</h2>
+<p><strong>Coordenador do Projeto</strong>:<br />
+Weverton Gomes da Costa<br />
+Pós-Doutorando - Departamento de Estatística - UFV<br />
+<a href="mailto:weverton.costa@ufv.br">weverton.costa@ufv.br</a></p>
+<p><strong>Laboratório LICAE</strong>:<br />
+<a href="mailto:licae@ufv.br">licae@ufv.br</a> | <a
+href="https://www.licae.ufv.br/">https://www.licae.ufv.br/</a></p>
+</div>
+<div id="contact" class="section level2">
+<h2>Contact</h2>
+<p><strong>Project Coordinator</strong>:<br />
+Weverton Gomes da Costa<br />
+Post-Doctoral Researcher - Statistics Department - UFV<br />
+<a href="mailto:weverton.costa@ufv.br">weverton.costa@ufv.br</a></p>
+<p><strong>LICAE Laboratory</strong>:<br />
+<a href="mailto:licae@ufv.br">licae@ufv.br</a> | <a
+href="https://www.licae.ufv.br/">https://www.licae.ufv.br/</a></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.4.3 (2025-02-28 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26100)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=Portuguese_Brazil.utf8  LC_CTYPE=Portuguese_Brazil.utf8   
+[3] LC_MONETARY=Portuguese_Brazil.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Portuguese_Brazil.utf8    
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] vctrs_0.6.5       cli_3.6.4         knitr_1.49        rlang_1.1.5      
+ [5] xfun_0.51         stringi_1.8.4     promises_1.3.2    jsonlite_1.9.1   
+ [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.35.0     
+[13] htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9        rmarkdown_2.29   
+[17] evaluate_1.0.3    jquerylib_0.1.4   tibble_3.2.1      fastmap_1.2.0    
+[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
+[25] compiler_4.4.3    fs_1.6.5          Rcpp_1.0.14       pkgconfig_2.0.3  
+[29] rstudioapi_0.17.1 later_1.4.1       digest_0.6.37     R6_2.6.1         
+[33] pillar_1.10.1     magrittr_2.0.3    bslib_0.9.0       tools_4.4.3      
+[37] cachem_1.1.0     </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

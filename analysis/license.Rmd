@@ -1,21 +1,79 @@
 ---
 title: "License"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
 output:
   workflowr::wflow_html:
-    toc: false
+    toc: FALSE
+  highlight: github
 editor_options:
   chunk_output_type: console
+github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-What license are you using for your code? See [choosealicense.com][choose] for
-help deciding. It's a convention to save a file `LICENSE` in the root of your
-Git repo that contains the license text.
+**Publicação Associada/Associated Publication**  
+Este material é parte integrante do artigo científico:  
+*Machine Learning in Genome-Wide Association Studies for Complex Traits*  
+**Autores**: Weverton Gomes da Costa et al.  
+**Journal**: *Comput Struct Biotechnol J*. 2022;20:5490-5499  
+**DOI**: [10.1016/j.csbj.2022.09.029](https://doi.org/10.1016/j.csbj.2022.09.029)  
+**PMID**: 36249559 | **PMCID**: PMC9547190
 
-What license are you using for the written content on your site? It is
-traditional to choose a [Creative Commons][cc] license for this type of content.
+---
 
-[choose]: https://choosealicense.com/
-[cc]: https://creativecommons.org/choose/
+# Licença Creative Commons
 
-How should others cite your work? It's a convention to save a file `CITATION`
-in the root of your Git repo that contains the citation information.
+## Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional (CC BY-NC-SA 4.0)
+
+Você é livre para:
+
+- **Compartilhar** - copiar e redistribuir o material em qualquer suporte ou formato
+- **Adaptar** - remixar, transformar e criar a partir do material
+
+Sob os seguintes termos:
+
+- **Atribuição** - Você deve dar o crédito apropriado, prover um link para a licença e indicar se mudanças foram feitas. Você deve fazê-lo em qualquer circunstância razoável, mas de maneira alguma que sugira que o licenciante apoia você ou o seu uso.
+  
+- **Não Comercial** - Você não pode usar o material para fins comerciais.
+
+- **CompartilhaIgual** - Se você remixar, transformar ou criar a partir do material, tem de distribuir as suas contribuições sob a mesma licença que o original.
+
+**Licença completa**:  
+[https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt)
+
+---
+
+# Creative Commons License
+
+## Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+You are free to:
+
+- **Share** - copy and redistribute the material in any medium or format
+- **Adapt** - remix, transform, and build upon the material
+
+Under the following terms:
+
+- **Attribution** - You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+  
+- **NonCommercial** - You may not use the material for commercial purposes.
+
+- **ShareAlike** - If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+
+**Full License**:  
+[https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
+
+---
+
+## Autores/Principal Authors
+Weverton Gomes da Costa¹, Hélcio Duarte Pereira², Gabi Nunes Silva³, Aluizio Borém⁴, Cosme Damião Cruz⁵, Moyses Nascimento¹*  
+¹UFV, ²UNICAMP, ³UNIR, ⁴UFV, ⁵Idata/UFV  
+*Correspondência/Correspondence: [moysesnascim@ufv.br](mailto:moysesnascim@ufv.br)*
+
+## Instituições/Institutions
+- [Universidade Federal de Viçosa](https://www.ufv.br/)
+- [Universidade Estadual de Campinas](https://www.unicamp.br/)
+- [Universidade Federal de Rondônia](https://www.unir.br/)
+- [Instituto de Inteligência Artificial e Computacional](https://www.idata.ufv.br/)

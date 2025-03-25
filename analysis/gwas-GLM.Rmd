@@ -83,10 +83,9 @@ for (j in 1:10) {
 }
 ```
 
-# Plots
+# Ajustando os resultados
 
 ```{r}
-# Ajustando os resultados
 results_gwas <-
   list.files(path = "output/",
              pattern = "GAPIT.Association.GWAS_Results",

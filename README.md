@@ -1,5 +1,7 @@
 # Importância de Marcadores Moleculares na Detecção de QTLs por Métodos de Machine Learning
 
+*Este repositório foi desenvolvido para o artigo intitulado "Machine Learning in Genome-Wide Association Studies for Complex Traits", enviado para a revista Agronomy (EISSN 2073-4395, Published by MDPI).*
+
 ![ML in GWAS](https://example.com/images/ml_gwas.png)
 
 Bem-vindo ao repositório oficial do estudo sobre aplicação de machine learning em estudos de associação genômica ampla (GWAS) para caracteres complexos.
@@ -46,6 +48,8 @@ Este trabalho está licenciado sob [CC BY-NC-SA 4.0](https://creativecommons.org
 
 # Importance of Molecular Markers for QTL Detection Using Machine Learning Methods
 
+*This repository was developed for the article titled "Machine Learning in Genome-Wide Association Studies for Complex Traits", submitted to the journal Agronomy (EISSN 2073-4395, Published by MDPI).*
+
 ![ML in GWAS](https://example.com/images/ml_gwas.png)
 
 Welcome to the official repository for the study on machine learning applications in genome-wide association studies (GWAS) for complex traits.
@@ -80,7 +84,7 @@ Weverton Gomes da Costa¹, Hélcio Duarte Pereira², Gabi Nunes Silva³, Aluizio
 - Reproducible environment via `renv`
 
 ## Contribution
-Contributions welcome through:
+Contributions are welcome through:
 - Issue reporting via [GitHub](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/issues)
 - Pull request submission for critical fixes
 - Suggestions for new analytical methods

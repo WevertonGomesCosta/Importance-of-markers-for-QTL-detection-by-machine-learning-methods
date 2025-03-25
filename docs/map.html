@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Costa, W. G." />
+
+<meta name="date" content="2025-03-25" />
+
+<title>Mapa Genético</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Importance of markers for QTL detection by machine learning methods</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="map.html">Map Genetic</a>
+</li>
+<li>
+  <a href="Importance-markers.html">Importance markers</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Mapa Genético</h1>
+<h4 class="author">Costa, W. G.</h4>
+<h4 class="date">2025-03-25</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-03-25
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>Importance-of-markers-for-QTL-detection-by-machine-learning-methods/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221222code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221222)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221222code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221222)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree43b01f543c582b8ede46144eb87ec51f4c000da8targetblank43b01f5a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/43b01f543c582b8ede46144eb87ec51f4c000da8" target="_blank">43b01f5</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree43b01f543c582b8ede46144eb87ec51f4c000da8targetblank43b01f5a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/43b01f543c582b8ede46144eb87ec51f4c000da8" target="_blank">43b01f5</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/GWAS.Rmd
+    Untracked:  analysis/map.Rmd
+    Untracked:  analysis/snpsOfInterest.RData
+    Untracked:  data/GEN_T/
+    Untracked:  data/GEN_V/
+    Untracked:  data/PHEN_T/
+    Untracked:  data/PHEN_V/
+    Untracked:  data/imp/
+    Untracked:  data/simulated_data/
+    Untracked:  data/snpsOfInterest.RData
+    Untracked:  indice_relativo.tiff
+    Untracked:  percentagem_acerto.tiff
+    Untracked:  percentagem_erro.tiff
+
+Unstaged changes:
+    Modified:   Importance-of-markers-for-QTL-detection-by-machine-learning-methods.Rproj
+    Modified:   README.md
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/license.Rmd
+    Deleted:    data/res.imp.ad.RData
+    Deleted:    data/res.imp.ad.xlsx
+    Deleted:    data/res.imp.bag.RData
+    Deleted:    data/res.imp.bag.xlsx
+    Deleted:    data/res.imp.boost.RData
+    Deleted:    data/res.imp.boost.xlsx
+    Deleted:    data/res.imp.gblup.RData
+    Deleted:    data/res.imp.gblup.xlsx
+    Deleted:    data/res.imp.mars.update1.RData
+    Deleted:    data/res.imp.mars.update2.RData
+    Deleted:    data/res.imp.mars.update3.RData
+    Deleted:    data/res.imp.mlp.RData
+    Deleted:    data/res.imp.rbf.RData
+    Deleted:    data/res.imp.rf.RData
+    Deleted:    data/res.imp.rf.xlsx
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div
+id="importance-of-markers-for-qtl-detection-by-machine-learning-methods"
+class="section level2">
+<h2>Importance of markers for QTL detection by machine learning
+methods</h2>
+</div>
+<div id="creating-genetic-map-chart" class="section level1">
+<h1>Creating Genetic Map Chart</h1>
+<div id="libraries" class="section level2">
+<h2>Libraries</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(metan)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code></pre></div>
+</div>
+<div id="genetic-map" class="section level2">
+<h2>Genetic map</h2>
+<p>Primeiro vamos definir nossos SNPs de interesse para as variáveis.
+Essas informações foram pré-definidas e podem ser encontrados no arquivo
+<code>control_genetic</code><embed
+src="data/simulated_data/control_genetic.txt" />. Vamos carregar o
+arquivo <code>snpsOfInterest.RData</code>“<a
+href="analysis/snpsOfInterest.RData"></a> que comtemas infomações dos
+snps considerados QTLs por variavel.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/snpsOfInterest.RData&quot;</span>)</span></code></pre></div>
+<p>Agora vamos definir os nomes das colunas para nosso
+<code>snpsOfInterest</code> e criar um objeto <code>locus</code> com as
+informações de ininício e témino de cada grupo de ligação.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>locus <span class="ot">&lt;-</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>      <span class="dv">1</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>      <span class="dv">401</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>      <span class="dv">402</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>      <span class="dv">802</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>      <span class="dv">803</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>      <span class="dv">1203</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>      <span class="dv">1204</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>      <span class="dv">1604</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>      <span class="dv">1605</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>      <span class="dv">2005</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>      <span class="dv">2006</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>      <span class="dv">2406</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>      <span class="dv">2407</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>      <span class="dv">2807</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>      <span class="dv">2808</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>      <span class="dv">3208</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>      <span class="dv">3209</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>      <span class="dv">3609</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>      <span class="dv">3610</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>      <span class="dv">4010</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>    )</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>  )</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="fu">colnames</span>(locus) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;marker&quot;</span>)</span></code></pre></div>
+<p>Para facilitar a visualização criei um gráfico genético das
+características <code>map_plot</code>. Para isso criei o
+<code>map</code> com o número de marcadores e tamanho de cada grupo de
+liagação.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>map <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="fu">rbind</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">401</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 1&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">402</span>, <span class="dv">802</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 2&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">803</span>, <span class="dv">1203</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 3&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">1204</span>, <span class="dv">1604</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 4&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">1605</span>, <span class="dv">2005</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 5&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">2006</span>, <span class="dv">2406</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 6&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">2407</span>, <span class="dv">2807</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 7&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">2808</span>, <span class="dv">3208</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 8&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">3209</span>, <span class="dv">3609</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 9&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">3610</span>, <span class="dv">4010</span>, <span class="dv">1</span>), <span class="fu">rep</span>(<span class="st">&quot;LG 10&quot;</span>, <span class="dv">401</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.5</span>))</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  ))</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="fu">colnames</span>(map) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;marker&quot;</span>, <span class="st">&quot;LG&quot;</span>, <span class="st">&quot;Size&quot;</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>map <span class="ot">&lt;-</span> map <span class="sc">%&gt;%</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>    <span class="at">marker =</span> <span class="fu">as.numeric</span>(marker),</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>    <span class="at">Size =</span> <span class="fu">as.numeric</span>(Size),</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>    <span class="at">LG =</span> <span class="fu">factor</span>(</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>      LG,</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>        <span class="st">&quot;LG 1&quot;</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>        <span class="st">&quot;LG 2&quot;</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>        <span class="st">&quot;LG 3&quot;</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>        <span class="st">&quot;LG 4&quot;</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>        <span class="st">&quot;LG 5&quot;</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>        <span class="st">&quot;LG 6&quot;</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>        <span class="st">&quot;LG 7&quot;</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>        <span class="st">&quot;LG 8&quot;</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>        <span class="st">&quot;LG 9&quot;</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>        <span class="st">&quot;LG 10&quot;</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>      )</span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>    )</span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Para dividir a figura e mostrar todos os maps genômicos das
+características, dividi o <code>snpsOfInterest</code> e o
+<code>map</code> para cada característica e inclui os SNPs de interesse
+no <code>map</code> para cada característica.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>snpsOfInterest1 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>snpsOfInterest2 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>snpsOfInterest3 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="dv">3</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>snpsOfInterest4 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="dv">4</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>snpsOfInterest5 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="dv">5</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> map <span class="sc">%&gt;%</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>    <span class="at">is_highlight =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> snpsOfInterest1<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>    <span class="at">is_locus =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> locus<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  )</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> map <span class="sc">%&gt;%</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>    <span class="at">is_highlight =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> snpsOfInterest2<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>    <span class="at">is_locus =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> locus<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>  )</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>map3 <span class="ot">&lt;-</span> map <span class="sc">%&gt;%</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>    <span class="at">is_highlight =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> snpsOfInterest3<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>    <span class="at">is_locus =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> locus<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>  )</span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>map4 <span class="ot">&lt;-</span> map <span class="sc">%&gt;%</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a>    <span class="at">is_highlight =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> snpsOfInterest4<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>    <span class="at">is_locus =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> locus<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a>  )</span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a>map5 <span class="ot">&lt;-</span> map <span class="sc">%&gt;%</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>    <span class="at">is_highlight =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> snpsOfInterest5<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>    <span class="at">is_locus =</span> <span class="fu">ifelse</span>(marker <span class="sc">%in%</span> locus<span class="sc">$</span>marker, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Agora cirei o gráfico de cada característica e depois agrupei eles em
+apenas uma imagem <code>maps</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>map_plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(map1, <span class="fu">aes</span>(<span class="at">x =</span> LG, <span class="at">y =</span> Size)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">200</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">x =</span> LG,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">xend =</span> LG</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  ),</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map1, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map1, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map1, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map1, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>),</span>
+<span id="cb6-56"><a href="#cb6-56" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb6-57"><a href="#cb6-57" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-58"><a href="#cb6-58" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb6-59"><a href="#cb6-59" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" tabindex="-1"></a>map_plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(map2, <span class="fu">aes</span>(<span class="at">x =</span> LG, <span class="at">y =</span> Size)) <span class="sc">+</span></span>
+<span id="cb6-61"><a href="#cb6-61" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
+<span id="cb6-62"><a href="#cb6-62" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">200</span>,</span>
+<span id="cb6-63"><a href="#cb6-63" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-64"><a href="#cb6-64" tabindex="-1"></a>    <span class="at">x =</span> LG,</span>
+<span id="cb6-65"><a href="#cb6-65" tabindex="-1"></a>    <span class="at">xend =</span> LG</span>
+<span id="cb6-66"><a href="#cb6-66" tabindex="-1"></a>  ),</span>
+<span id="cb6-67"><a href="#cb6-67" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-68"><a href="#cb6-68" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-69"><a href="#cb6-69" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-70"><a href="#cb6-70" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map2, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-71"><a href="#cb6-71" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-72"><a href="#cb6-72" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-73"><a href="#cb6-73" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-74"><a href="#cb6-74" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-75"><a href="#cb6-75" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map2, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-76"><a href="#cb6-76" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>,</span>
+<span id="cb6-77"><a href="#cb6-77" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-78"><a href="#cb6-78" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-79"><a href="#cb6-79" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-80"><a href="#cb6-80" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map2, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-81"><a href="#cb6-81" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-82"><a href="#cb6-82" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-83"><a href="#cb6-83" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-84"><a href="#cb6-84" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-85"><a href="#cb6-85" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-86"><a href="#cb6-86" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-87"><a href="#cb6-87" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-88"><a href="#cb6-88" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-89"><a href="#cb6-89" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-90"><a href="#cb6-90" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-91"><a href="#cb6-91" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-92"><a href="#cb6-92" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-93"><a href="#cb6-93" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-94"><a href="#cb6-94" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-95"><a href="#cb6-95" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map2, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-96"><a href="#cb6-96" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-97"><a href="#cb6-97" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-98"><a href="#cb6-98" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-99"><a href="#cb6-99" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-100"><a href="#cb6-100" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-101"><a href="#cb6-101" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-102"><a href="#cb6-102" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-103"><a href="#cb6-103" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-104"><a href="#cb6-104" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-105"><a href="#cb6-105" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-106"><a href="#cb6-106" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-107"><a href="#cb6-107" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-108"><a href="#cb6-108" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-109"><a href="#cb6-109" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-110"><a href="#cb6-110" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-111"><a href="#cb6-111" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb6-112"><a href="#cb6-112" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-113"><a href="#cb6-113" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-114"><a href="#cb6-114" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>),</span>
+<span id="cb6-115"><a href="#cb6-115" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb6-116"><a href="#cb6-116" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-117"><a href="#cb6-117" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb6-118"><a href="#cb6-118" tabindex="-1"></a></span>
+<span id="cb6-119"><a href="#cb6-119" tabindex="-1"></a>map_plot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(map3, <span class="fu">aes</span>(<span class="at">x =</span> LG, <span class="at">y =</span> Size)) <span class="sc">+</span></span>
+<span id="cb6-120"><a href="#cb6-120" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
+<span id="cb6-121"><a href="#cb6-121" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">200</span>,</span>
+<span id="cb6-122"><a href="#cb6-122" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-123"><a href="#cb6-123" tabindex="-1"></a>    <span class="at">x =</span> LG,</span>
+<span id="cb6-124"><a href="#cb6-124" tabindex="-1"></a>    <span class="at">xend =</span> LG</span>
+<span id="cb6-125"><a href="#cb6-125" tabindex="-1"></a>  ),</span>
+<span id="cb6-126"><a href="#cb6-126" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-127"><a href="#cb6-127" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-128"><a href="#cb6-128" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-129"><a href="#cb6-129" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map3, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-130"><a href="#cb6-130" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-131"><a href="#cb6-131" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-132"><a href="#cb6-132" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-133"><a href="#cb6-133" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-134"><a href="#cb6-134" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map3, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-135"><a href="#cb6-135" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>,</span>
+<span id="cb6-136"><a href="#cb6-136" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-137"><a href="#cb6-137" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-138"><a href="#cb6-138" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-139"><a href="#cb6-139" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map3, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-140"><a href="#cb6-140" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-141"><a href="#cb6-141" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-142"><a href="#cb6-142" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-143"><a href="#cb6-143" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-144"><a href="#cb6-144" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-145"><a href="#cb6-145" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-146"><a href="#cb6-146" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-147"><a href="#cb6-147" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-148"><a href="#cb6-148" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-149"><a href="#cb6-149" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-150"><a href="#cb6-150" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-151"><a href="#cb6-151" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-152"><a href="#cb6-152" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-153"><a href="#cb6-153" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-154"><a href="#cb6-154" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map3, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-155"><a href="#cb6-155" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-156"><a href="#cb6-156" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-157"><a href="#cb6-157" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-158"><a href="#cb6-158" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-159"><a href="#cb6-159" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-160"><a href="#cb6-160" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-161"><a href="#cb6-161" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-162"><a href="#cb6-162" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-163"><a href="#cb6-163" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-164"><a href="#cb6-164" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-165"><a href="#cb6-165" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-166"><a href="#cb6-166" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-167"><a href="#cb6-167" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-168"><a href="#cb6-168" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-169"><a href="#cb6-169" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-170"><a href="#cb6-170" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb6-171"><a href="#cb6-171" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-172"><a href="#cb6-172" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-173"><a href="#cb6-173" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>),</span>
+<span id="cb6-174"><a href="#cb6-174" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb6-175"><a href="#cb6-175" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-176"><a href="#cb6-176" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb6-177"><a href="#cb6-177" tabindex="-1"></a></span>
+<span id="cb6-178"><a href="#cb6-178" tabindex="-1"></a>map_plot4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(map4, <span class="fu">aes</span>(<span class="at">x =</span> LG, <span class="at">y =</span> Size)) <span class="sc">+</span></span>
+<span id="cb6-179"><a href="#cb6-179" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
+<span id="cb6-180"><a href="#cb6-180" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">200</span>,</span>
+<span id="cb6-181"><a href="#cb6-181" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-182"><a href="#cb6-182" tabindex="-1"></a>    <span class="at">x =</span> LG,</span>
+<span id="cb6-183"><a href="#cb6-183" tabindex="-1"></a>    <span class="at">xend =</span> LG</span>
+<span id="cb6-184"><a href="#cb6-184" tabindex="-1"></a>  ),</span>
+<span id="cb6-185"><a href="#cb6-185" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-186"><a href="#cb6-186" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-187"><a href="#cb6-187" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-188"><a href="#cb6-188" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map4, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-189"><a href="#cb6-189" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-190"><a href="#cb6-190" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-191"><a href="#cb6-191" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-192"><a href="#cb6-192" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-193"><a href="#cb6-193" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map4, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-194"><a href="#cb6-194" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>,</span>
+<span id="cb6-195"><a href="#cb6-195" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-196"><a href="#cb6-196" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-197"><a href="#cb6-197" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-198"><a href="#cb6-198" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map4, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-199"><a href="#cb6-199" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-200"><a href="#cb6-200" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-201"><a href="#cb6-201" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-202"><a href="#cb6-202" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-203"><a href="#cb6-203" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-204"><a href="#cb6-204" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-205"><a href="#cb6-205" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-206"><a href="#cb6-206" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-207"><a href="#cb6-207" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-208"><a href="#cb6-208" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-209"><a href="#cb6-209" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-210"><a href="#cb6-210" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-211"><a href="#cb6-211" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-212"><a href="#cb6-212" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-213"><a href="#cb6-213" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map4, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-214"><a href="#cb6-214" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-215"><a href="#cb6-215" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-216"><a href="#cb6-216" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-217"><a href="#cb6-217" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-218"><a href="#cb6-218" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-219"><a href="#cb6-219" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-220"><a href="#cb6-220" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-221"><a href="#cb6-221" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-222"><a href="#cb6-222" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-223"><a href="#cb6-223" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-224"><a href="#cb6-224" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-225"><a href="#cb6-225" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-226"><a href="#cb6-226" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-227"><a href="#cb6-227" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-228"><a href="#cb6-228" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-229"><a href="#cb6-229" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb6-230"><a href="#cb6-230" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-231"><a href="#cb6-231" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-232"><a href="#cb6-232" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>),</span>
+<span id="cb6-233"><a href="#cb6-233" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb6-234"><a href="#cb6-234" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-235"><a href="#cb6-235" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb6-236"><a href="#cb6-236" tabindex="-1"></a></span>
+<span id="cb6-237"><a href="#cb6-237" tabindex="-1"></a>map_plot5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(map5, <span class="fu">aes</span>(<span class="at">x =</span> LG, <span class="at">y =</span> Size)) <span class="sc">+</span></span>
+<span id="cb6-238"><a href="#cb6-238" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
+<span id="cb6-239"><a href="#cb6-239" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">200</span>,</span>
+<span id="cb6-240"><a href="#cb6-240" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-241"><a href="#cb6-241" tabindex="-1"></a>    <span class="at">x =</span> LG,</span>
+<span id="cb6-242"><a href="#cb6-242" tabindex="-1"></a>    <span class="at">xend =</span> LG</span>
+<span id="cb6-243"><a href="#cb6-243" tabindex="-1"></a>  ),</span>
+<span id="cb6-244"><a href="#cb6-244" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-245"><a href="#cb6-245" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-246"><a href="#cb6-246" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-247"><a href="#cb6-247" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map5, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-248"><a href="#cb6-248" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;skyblue&quot;</span>,</span>
+<span id="cb6-249"><a href="#cb6-249" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-250"><a href="#cb6-250" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-251"><a href="#cb6-251" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-252"><a href="#cb6-252" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map5, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-253"><a href="#cb6-253" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>,</span>
+<span id="cb6-254"><a href="#cb6-254" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb6-255"><a href="#cb6-255" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-256"><a href="#cb6-256" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-257"><a href="#cb6-257" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map5, is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-258"><a href="#cb6-258" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-259"><a href="#cb6-259" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-260"><a href="#cb6-260" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-261"><a href="#cb6-261" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-262"><a href="#cb6-262" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-263"><a href="#cb6-263" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-264"><a href="#cb6-264" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-265"><a href="#cb6-265" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-266"><a href="#cb6-266" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-267"><a href="#cb6-267" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-268"><a href="#cb6-268" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-269"><a href="#cb6-269" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-270"><a href="#cb6-270" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-271"><a href="#cb6-271" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb6-272"><a href="#cb6-272" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">subset</span>(map5, is_locus <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb6-273"><a href="#cb6-273" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> marker),</span>
+<span id="cb6-274"><a href="#cb6-274" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-275"><a href="#cb6-275" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-276"><a href="#cb6-276" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="dv">0</span>,</span>
+<span id="cb6-277"><a href="#cb6-277" tabindex="-1"></a>    <span class="at">force   =</span> <span class="dv">0</span>,</span>
+<span id="cb6-278"><a href="#cb6-278" tabindex="-1"></a>    <span class="at">nudge_x      =</span> <span class="sc">-</span><span class="fl">0.55</span>,</span>
+<span id="cb6-279"><a href="#cb6-279" tabindex="-1"></a>    <span class="at">nudge_y      =</span> <span class="sc">-</span><span class="fl">1.5</span>,</span>
+<span id="cb6-280"><a href="#cb6-280" tabindex="-1"></a>    <span class="at">direction    =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb6-281"><a href="#cb6-281" tabindex="-1"></a>    <span class="at">hjust        =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-282"><a href="#cb6-282" tabindex="-1"></a>    <span class="at">segment.curvature =</span> <span class="sc">-</span><span class="fl">1e-20</span>,</span>
+<span id="cb6-283"><a href="#cb6-283" tabindex="-1"></a>    <span class="at">segment.angle     =</span> <span class="dv">45</span>,</span>
+<span id="cb6-284"><a href="#cb6-284" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.1</span></span>
+<span id="cb6-285"><a href="#cb6-285" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-286"><a href="#cb6-286" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-287"><a href="#cb6-287" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb6-288"><a href="#cb6-288" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb6-289"><a href="#cb6-289" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-290"><a href="#cb6-290" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-291"><a href="#cb6-291" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>),</span>
+<span id="cb6-292"><a href="#cb6-292" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb6-293"><a href="#cb6-293" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-294"><a href="#cb6-294" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb6-295"><a href="#cb6-295" tabindex="-1"></a></span>
+<span id="cb6-296"><a href="#cb6-296" tabindex="-1"></a>maps <span class="ot">&lt;-</span> <span class="fu">ggdraw</span>() <span class="sc">+</span></span>
+<span id="cb6-297"><a href="#cb6-297" tabindex="-1"></a>  <span class="fu">draw_plot</span>(</span>
+<span id="cb6-298"><a href="#cb6-298" tabindex="-1"></a>    map_plot1,</span>
+<span id="cb6-299"><a href="#cb6-299" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.05</span>,</span>
+<span id="cb6-300"><a href="#cb6-300" tabindex="-1"></a>    <span class="at">y =</span> .<span class="dv">5</span>,</span>
+<span id="cb6-301"><a href="#cb6-301" tabindex="-1"></a>    <span class="at">width =</span> .<span class="dv">3</span>,</span>
+<span id="cb6-302"><a href="#cb6-302" tabindex="-1"></a>    <span class="at">height =</span> .<span class="dv">5</span></span>
+<span id="cb6-303"><a href="#cb6-303" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-304"><a href="#cb6-304" tabindex="-1"></a>  <span class="fu">draw_plot</span>(</span>
+<span id="cb6-305"><a href="#cb6-305" tabindex="-1"></a>    map_plot2,</span>
+<span id="cb6-306"><a href="#cb6-306" tabindex="-1"></a>    <span class="at">x =</span> .<span class="dv">4</span>,</span>
+<span id="cb6-307"><a href="#cb6-307" tabindex="-1"></a>    <span class="at">y =</span> .<span class="dv">5</span>,</span>
+<span id="cb6-308"><a href="#cb6-308" tabindex="-1"></a>    <span class="at">width =</span> .<span class="dv">3</span>,</span>
+<span id="cb6-309"><a href="#cb6-309" tabindex="-1"></a>    <span class="at">height =</span> .<span class="dv">5</span></span>
+<span id="cb6-310"><a href="#cb6-310" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-311"><a href="#cb6-311" tabindex="-1"></a>  <span class="fu">draw_plot</span>(</span>
+<span id="cb6-312"><a href="#cb6-312" tabindex="-1"></a>    map_plot3,</span>
+<span id="cb6-313"><a href="#cb6-313" tabindex="-1"></a>    <span class="at">x =</span> .<span class="dv">75</span>,</span>
+<span id="cb6-314"><a href="#cb6-314" tabindex="-1"></a>    <span class="at">y =</span> .<span class="dv">5</span>,</span>
+<span id="cb6-315"><a href="#cb6-315" tabindex="-1"></a>    <span class="at">width =</span> .<span class="dv">3</span>,</span>
+<span id="cb6-316"><a href="#cb6-316" tabindex="-1"></a>    <span class="at">height =</span> .<span class="dv">5</span></span>
+<span id="cb6-317"><a href="#cb6-317" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-318"><a href="#cb6-318" tabindex="-1"></a>  <span class="fu">draw_plot</span>(</span>
+<span id="cb6-319"><a href="#cb6-319" tabindex="-1"></a>    map_plot4,</span>
+<span id="cb6-320"><a href="#cb6-320" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.25</span>,</span>
+<span id="cb6-321"><a href="#cb6-321" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-322"><a href="#cb6-322" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.3</span>,</span>
+<span id="cb6-323"><a href="#cb6-323" tabindex="-1"></a>    <span class="at">height =</span> <span class="fl">0.5</span></span>
+<span id="cb6-324"><a href="#cb6-324" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-325"><a href="#cb6-325" tabindex="-1"></a>  <span class="fu">draw_plot</span>(</span>
+<span id="cb6-326"><a href="#cb6-326" tabindex="-1"></a>    map_plot5,</span>
+<span id="cb6-327"><a href="#cb6-327" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.65</span>,</span>
+<span id="cb6-328"><a href="#cb6-328" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb6-329"><a href="#cb6-329" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.3</span>,</span>
+<span id="cb6-330"><a href="#cb6-330" tabindex="-1"></a>    <span class="at">height =</span> <span class="fl">0.5</span></span>
+<span id="cb6-331"><a href="#cb6-331" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-332"><a href="#cb6-332" tabindex="-1"></a>  <span class="fu">draw_plot_label</span>(</span>
+<span id="cb6-333"><a href="#cb6-333" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>),</span>
+<span id="cb6-334"><a href="#cb6-334" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">15</span>,</span>
+<span id="cb6-335"><a href="#cb6-335" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.35</span>, <span class="fl">0.7</span>, <span class="fl">0.2</span>, <span class="fl">0.6</span>),</span>
+<span id="cb6-336"><a href="#cb6-336" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb6-337"><a href="#cb6-337" tabindex="-1"></a>  )</span>
+<span id="cb6-338"><a href="#cb6-338" tabindex="-1"></a></span>
+<span id="cb6-339"><a href="#cb6-339" tabindex="-1"></a><span class="fu">print</span>(maps)</span></code></pre></div>
+<p><img src="figure/map.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.4.3 (2025-02-28 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26100)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=Portuguese_Brazil.utf8  LC_CTYPE=Portuguese_Brazil.utf8   
+[3] LC_MONETARY=Portuguese_Brazil.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Portuguese_Brazil.utf8    
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] tidytext_0.4.2    cowplot_1.1.3     ggpubr_0.6.0      ggrepel_0.9.6    
+ [5] ggthemes_5.1.0    metan_1.19.0      data.table_1.17.0 lubridate_1.9.4  
+ [9] forcats_1.0.0     stringr_1.5.1     dplyr_1.1.4       purrr_1.0.4      
+[13] readr_2.1.5       tidyr_1.3.1       tibble_3.2.1      ggplot2_3.5.1    
+[17] tidyverse_2.0.0  
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.2.1    farver_2.1.2        fastmap_1.2.0      
+ [4] GGally_2.2.1        janeaustenr_1.0.0   tweenr_2.0.3       
+ [7] mathjaxr_1.6-0      promises_1.3.2      digest_0.6.37      
+[10] timechange_0.3.0    lifecycle_1.0.4     tokenizers_0.3.0   
+[13] magrittr_2.0.3      compiler_4.4.3      rlang_1.1.5        
+[16] sass_0.4.9          tools_4.4.3         yaml_2.3.10        
+[19] knitr_1.49          ggsignif_0.6.4      labeling_0.4.3     
+[22] plyr_1.8.9          RColorBrewer_1.1-3  abind_1.4-8        
+[25] workflowr_1.7.1     withr_3.0.2         numDeriv_2016.8-1.1
+[28] grid_4.4.3          polyclip_1.10-7     git2r_0.35.0       
+[31] colorspace_2.1-1    scales_1.3.0        MASS_7.3-64        
+[34] cli_3.6.4           rmarkdown_2.29      reformulas_0.4.0   
+[37] generics_0.1.3      rstudioapi_0.17.1   tzdb_0.4.0         
+[40] minqa_1.2.8         cachem_1.1.0        ggforce_0.4.2      
+[43] splines_4.4.3       vctrs_0.6.5         boot_1.3-31        
+[46] Matrix_1.7-2        jsonlite_1.9.1      carData_3.0-5      
+[49] car_3.1-3           hms_1.1.3           patchwork_1.3.0    
+[52] rstatix_0.7.2       Formula_1.2-5       jquerylib_0.1.4    
+[55] glue_1.8.0          nloptr_2.2.1        ggstats_0.9.0      
+[58] stringi_1.8.4       gtable_0.3.6        later_1.4.1        
+[61] lme4_1.1-36         lmerTest_3.1-3      munsell_0.5.1      
+[64] pillar_1.10.1       htmltools_0.5.8.1   R6_2.6.1           
+[67] Rdpack_2.6.3        rprojroot_2.0.4     evaluate_1.0.3     
+[70] lattice_0.22-6      SnowballC_0.7.1     rbibutils_2.3      
+[73] backports_1.5.0     broom_1.0.7         httpuv_1.6.15      
+[76] bslib_0.9.0         Rcpp_1.0.14         nlme_3.1-167       
+[79] xfun_0.51           fs_1.6.5            pkgconfig_2.0.3    </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

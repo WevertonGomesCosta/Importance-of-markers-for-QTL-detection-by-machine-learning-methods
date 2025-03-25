@@ -1,5 +1,5 @@
 ---
-title: "Importance of markers for QTL detection by machine learning methods"
+title: "Importance of Markers for QTL Detection by Machine Learning Methods"
 author: "Costa, W. G."
 date: "`r Sys.Date()`"
 site: workflowr::wflow_site
@@ -9,130 +9,138 @@ output:
     toc_float: true
     theme: flatly
     highlight: haddock
-url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
+url: "https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/"
 github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-# Detecção de QTLs através de Métodos de Machine Learning
+<!-- Este script foi desenvolvido para o artigo intitulado: "Machine Learning in Genome-Wide Association Studies for Complex Traits", enviado para a revista Agronomy (EISSN 2073-4395, Published by MDPI) -->
+
+# Português
+
+## Detecção de QTLs por Métodos de Machine Learning
 
 ![GWAS ML Framework](https://example.com/images/gwas_ml_framework.png)
 
-Bem-vindo ao repositório oficial do projeto de pesquisa sobre identificação de marcadores moleculares para detecção de QTLs utilizando métodos de aprendizado de máquina.
+Bem-vindo ao repositório oficial deste projeto de pesquisa, que visa aprimorar a identificação de marcadores moleculares para detecção de QTLs utilizando técnicas de machine learning. A seguir, você encontrará uma visão geral dos principais objetivos, recursos e instruções para utilização deste repositório.
 
-## Objetivos Principais
-1. Desenvolver pipeline computacional para análise GWAS com ML
-2. Comparar desempenho de algoritmos na detecção de QTLs
-3. Propor métricas de importância de marcadores genômicos
-4. Criar ferramentas interativas de visualização genética
+### Objetivos do Projeto
 
-## Recursos Chave
-- **Análises Reprodutíveis**: Fluxo completo de dados genômicos
-- **Comparativo de Algoritmos**: Random Forest, XGBoost, SVM
-- **Mapas Genéticos Interativos**: Visualização de ligação cromossômica
-- **Benchmarking**: Comparação com métodos estatísticos tradicionais
+- **Desenvolver um Pipeline Computacional:** Implementar um fluxo completo de análises GWAS com métodos de ML.
+- **Comparar Desempenho de Algoritmos:** Avaliar e comparar algoritmos (MLP, RBF, Decision Tree, Bagging, Random Forest, Boosting e MARS) na identificação de QTLs.
+- **Propor Métricas de Importância:** Estabelecer métricas que possibilitem avaliar a relevância dos marcadores genômicos.
+- **Visualizações Interativas:** Criar ferramentas que permitam a exploração e interpretação dos dados e dos resultados.
 
----
+### Navegação Rápida
 
-# QTL Detection Through Machine Learning Methods
-
-![GWAS ML Framework](https://example.com/images/gwas_ml_framework.png)
-
-Welcome to the official repository for the research project on molecular marker identification for QTL detection using machine learning methods.
-
-## Main Objectives
-1. Develop computational pipeline for GWAS analysis with ML
-2. Compare algorithm performance in QTL detection
-3. Propose genomic marker importance metrics
-4. Create interactive genetic visualization tools
-
-## Key Features
-- **Reproducible Analyses**: Complete genomic data workflow
-- **Algorithm Comparison**: Random Forest, XGBoost, SVM
-- **Interactive Genetic Maps**: Chromosomal linkage visualization
-- **Benchmarking**: Comparison with traditional statistical methods
-
----
-
-## Navegação Rápida / Quick Navigation
-- :world_map: [Mapa Genético](map.html) - Visualização de ligação cromossômica
-- :bar_chart: [Importância de Marcadores](Importance-markers.html) - Análise comparativa de algoritmos
+- :world_map: [Mapa Genético](map.html) - Visualização da ligação cromossômica
+- :bar_chart: [Importância de Marcadores](Importance-markers.html) - Análise comparativa dos algoritmos
 - :page_facing_up: [Sobre](about.html) - Detalhes metodológicos e institucionais
 - :balance_scale: [Licença](license.html) - Termos de uso e distribuição
 
----
+### Sobre o LICAE
 
-## Sobre o LICAE
-Este projeto foi desenvolvido no âmbito das pesquisas do [Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)](https://www.licae.ufv.br/) da Universidade Federal de Viçosa (UFV), especializado em aplicações avançadas de inteligência computacional em problemas genômicos complexos.
+Este projeto foi desenvolvido no âmbito do [Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)](https://www.licae.ufv.br/) da Universidade Federal de Viçosa (UFV), especializado em aplicações avançadas de inteligência computacional para desafios genômicos.
 
-## Recursos Disponíveis
-Este repositório contém:
-1. **Código de Análise**: Implementações completas dos algoritmos de ML
-2. **Fluxo de Trabalho Reprodutível**: Pipeline completo de análise de dados genômicos
-3. **Dados Sintéticos**: Conjuntos de dados para teste e validação
-4. **Visualizações Interativas**: Gráficos e análises exploratórias dos resultados
+### Recursos Disponíveis
 
----
+- **Código de Análise:** Implementações completas dos algoritmos de machine learning.
+- **Workflow Reprodutível:** Pipeline abrangente para análise de dados genômicos.
+- **Dados Sintéticos:** Conjuntos de dados para teste e validação.
+- **Visualizações Interativas:** Ferramentas para exploração dos resultados.
 
-## About LICAE
-This project was developed as part of the research activities at the [Computational Intelligence and Statistical Learning Laboratory (LICAE)](https://www.licae.ufv.br/) of the Federal University of Viçosa (UFV), specialized in advanced applications of computational intelligence to complex genomic problems.
+### Como Utilizar
 
-## Available Resources
-This repository contains:
-1. **Analysis Code**: Complete implementations of ML algorithms
-2. **Reproducible Workflow**: Complete genomic data analysis pipeline
-3. **Synthetic Datasets**: Test and validation datasets
-4. **Interactive Visualizations**: Exploratory analysis plots and results
+1. **Clonar o Repositório:**  
+   `git clone https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git`
+2. **Instalar Dependências:**  
+   `renv::restore()`
+3. **Executar o Pipeline Principal:**  
+   `Rscript scripts/main_analysis.R`
 
----
+### Contribuição
 
-## Como Utilizar
-1. Clone o repositório: `git clone https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git`
-2. Instale as dependências: `renv::restore()`
-3. Execute o pipeline principal: `Rscript scripts/analise_principal.R`
+Contribuições são bem-vindas!  
+- Abra *issues* para sugerir melhorias;  
+- Submeta *pull requests* com correções e novas ideias;  
+- Colabore com sugestões de extensões metodológicas.
 
-## How to Use
-1. Clone repository: `git clone https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git`
-2. Install dependencies: `renv::restore()`
-3. Run main pipeline: `Rscript scripts/main_analysis.R`
+### Licença
 
----
+Este trabalho está licenciado sob [CC BY-NC-SA 4.0](license.html).  
+Para uso comercial ou modificações significativas, entre em contato com os autores.
 
-## Contribuição
-Contribuições são bem-vindas mediante:
-- Abertura de issues para discussão de melhorias
-- Submissão de pull requests para correções críticas
-- Sugestões de extensões metodológicas
+### Contato
 
-## Contribution
-Contributions are welcome through:
-- Issue opening for improvement discussions
-- Pull request submission for critical fixes
-- Suggestions for methodological extensions
-
----
-
-## Licença
-Este trabalho está licenciado sob [CC BY-NC-SA 4.0](license.html). Para uso comercial ou modificações significativas, por favor contate os autores.
-
-## License
-This work is licensed under [CC BY-NC-SA 4.0](license.html). For commercial use or significant modifications, please contact the authors.
-
----
-
-## Contato
-**Coordenador do Projeto**:  
+**Coordenador do Projeto:**  
 Weverton Gomes da Costa  
 Pós-Doutorando - Departamento de Estatística - UFV  
 [weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)
 
-**Laboratório LICAE**:  
+**Laboratório LICAE:**  
 [licae@ufv.br](mailto:licae@ufv.br) | [https://www.licae.ufv.br/](https://www.licae.ufv.br/)
 
-## Contact
-**Project Coordinator**:  
+---
+
+# English
+
+## QTL Detection Through Machine Learning Methods
+
+![GWAS ML Framework](https://example.com/images/gwas_ml_framework.png)
+
+Welcome to the official repository for this research project, which aims to improve the identification of molecular markers for QTL detection using machine learning techniques. Below you will find an overview of the project's main objectives, key features, and instructions for using this repository.
+
+### Project Objectives
+
+- **Develop a Computational Pipeline:** Implement a comprehensive GWAS analysis workflow using ML methods.
+- **Compare Algorithm Performance:** Evaluate and compare algorithms (MLP, RBF, Decision Tree, Bagging, Random Forest, Boosting, and MARS) in detecting QTLs.
+- **Propose Marker Importance Metrics:** Establish metrics to assess the relevance of genomic markers.
+- **Interactive Visualizations:** Create tools for exploring and interpreting genomic data and results.
+
+### Quick Navigation
+
+- :world_map: [Genetic Map](map.html) - Chromosomal linkage visualization
+- :bar_chart: [Marker Importance](Importance-markers.html) - Comparative algorithm analysis
+- :page_facing_up: [About](about.html) - Methodological and institutional details
+- :balance_scale: [License](license.html) - Terms of use and distribution
+
+### About LICAE
+
+This project was developed at the [Computational Intelligence and Statistical Learning Laboratory (LICAE)](https://www.licae.ufv.br/) of the Federal University of Viçosa (UFV), specializing in advanced computational intelligence applications to complex genomic problems.
+
+### Available Resources
+
+- **Analysis Code:** Complete implementations of machine learning algorithms.
+- **Reproducible Workflow:** Comprehensive genomic data analysis pipeline.
+- **Synthetic Datasets:** Datasets for testing and validation.
+- **Interactive Visualizations:** Tools for exploratory data analysis and results interpretation.
+
+### How to Use
+
+1. **Clone the Repository:**  
+   `git clone https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git`
+2. **Install Dependencies:**  
+   `renv::restore()`
+3. **Run the Main Pipeline:**  
+   `Rscript scripts/main_analysis.R`
+
+### Contribution
+
+Contributions are welcome!  
+- Open issues to suggest improvements;  
+- Submit pull requests with fixes and new ideas;  
+- Share suggestions for methodological extensions.
+
+### License
+
+This work is licensed under [CC BY-NC-SA 4.0](license.html).  
+For commercial use or significant modifications, please contact the authors.
+
+### Contact
+
+**Project Coordinator:**  
 Weverton Gomes da Costa  
 Post-Doctoral Researcher - Statistics Department - UFV  
 [weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)
 
-**LICAE Laboratory**:  
+**LICAE Laboratory:**  
 [licae@ufv.br](mailto:licae@ufv.br) | [https://www.licae.ufv.br/](https://www.licae.ufv.br/)

@@ -12,7 +12,7 @@ navbar:
   - text: GWAS - GLM
     href: gwas-GLM.html
   - text: Importance markers
-    href: Importance-markers.html
+    href: GWAS.html
   - text: About
     href: about.html
   - text: License

@@ -7,6 +7,8 @@ navbar:
     href: index.html
   - text: Map Genetic
     href: map.html
+  - text: LD decay
+    href: ld_decay.html
   - text: Importance markers
     href: Importance-markers.html
   - text: About

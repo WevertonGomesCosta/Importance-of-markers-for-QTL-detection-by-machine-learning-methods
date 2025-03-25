@@ -1,0 +1,106 @@
+---
+title: "GWAS - GLM"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
+output:
+  workflowr::wflow_html:
+    toc: TRUE
+  highlight: github
+editor_options:
+  chunk_output_type: console
+github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Carregando pacotes
+
+```{r}
+library(GAPIT)
+library(tidyverse)
+```
+
+# Carregando dados
+
+```{r}
+pheno <- read.table("FEN.txt")[, c(1:5, 9:13)]
+geno <- read.table("GEN.txt") + 1
+GM <- readRDS("map.rds")
+GM$GL <- as.numeric(GM$GL)
+GM$marker <- as.character(GM$marker)
+```
+
+# Ajustando dados
+
+```{r}
+# Atualizando GD para garantir que a coluna ID seja a primeira
+GD <- geno
+GD$ID <- rownames(geno)
+GD <- GD[, c("ID", names(GD)[names(GD) != "ID"])]
+
+# Atualizando GM para garantir que a coluna marker seja a primeira
+#result <- result %>%
+#  mutate(herd = as.factor(ifelse(variable < 9, "50 %", "80 %")),
+#         ngenes = as.factor(case_when(
+#           variable == 1 | variable == 9 ~ 8,
+#          variable == 2 | variable == 10 ~ 40,
+#           variable == 3 | variable == 11 ~ 80,
+#           variable == 4 | variable == 12 ~ 120,
+#           variable == 5 | variable == 13 ~ 240,
+#           variable == 6 | variable == 14 ~ 480,
+#           variable == 7 | variable == 15 ~ 88,
+#           variable == 8 | variable == 16 ~ 160)),
+#         created = as.factor(ifelse(
+#           ngenes == 88, "Simulated modified",
+#           ifelse(ngenes == 160 , "Simulated modified","Simulated"))))
+```
+
+# Modelo 1: Modelo Linear Generalizado (GLM) - Q
+
+```{r}
+# Definindo os índices dos genótipos e fenótipos
+traits <- 1:ncol(pheno)
+
+# Ajuste da GWAS e coleta dos resultados
+for (j in 1:10) {
+  # Atualizando Y para garantir que a coluna ID seja a primeira
+  Y <- pheno[j]
+  Y$ID <- rownames(pheno)
+  Y <- Y[, c("ID", names(Y)[names(Y) != "ID"])]
+  
+  GAPIT(
+    Y = Y,
+    GD = GD,
+    GM = GM,
+    model = "GLM",
+    file.output = T
+  )
+  
+}
+```
+
+# Plots
+
+```{r}
+# Ajustando os resultados
+results_gwas <-
+  list.files(path = "output/",
+             pattern = "GAPIT.Association.GWAS_Results",
+             full.names = TRUE)
+
+
+results_gwas <- map(results_gwas, function(i) {
+  gwas <- read.csv(i, header = T, sep = ",")
+  gwas$variable <- str_split_i(i, "[.]", -2)
+  gwas$method <- "GLM"
+  gwas
+})
+
+results_gwas <- bind_rows(results_gwas)
+
+save(results_gwas, file = "input/results_gwas.rda")
+```

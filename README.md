@@ -1,31 +1,3 @@
----
-name: "Importance-of-markers-for-QTL-detection-by-machine-learning-methods"
-output_dir: ../docs
-navbar:
-  title: "Importance of markers for QTL detection by machine learning methods"
-  left:
-  - text: Home
-    href: index.html
-  - text: Map Genetic
-    href: map.html
-  - text: Importance markers
-    href: Importance-markers.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
-  right:
-  - icon: fa-github
-    text: Source code
-    href: https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
-output:
-  workflowr::wflow_html:
-    toc: true
-    toc_float: true
-    theme: flatly
-    highlight: haddock
----
-
 # Importância de Marcadores Moleculares na Detecção de QTLs por Métodos de Machine Learning
 
 ![ML in GWAS](https://example.com/images/ml_gwas.png)

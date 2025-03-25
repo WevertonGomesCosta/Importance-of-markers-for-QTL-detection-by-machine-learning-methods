@@ -1,10 +1,88 @@
 ---
 title: "About"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
 output:
   workflowr::wflow_html:
-    toc: false
+    toc: FALSE
+  highlight: github
 editor_options:
   chunk_output_type: console
+github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-Describe your project.
+# Sobre o Projeto
+
+Este projeto investiga métodos computacionais inovadores para identificação de QTLs (Quantitative Trait Loci) utilizando técnicas de machine learning em estudos de associação genômica ampla (GWAS). Nosso objetivo principal é desenvolver e validar abordagens que superem as limitações dos métodos estatísticos tradicionais na detecção de marcadores moleculares associados a características complexas.
+
+A pesquisa combina:
+- Algoritmos de aprendizado de máquina (Random Forest, SVM, XGBoost)
+- Análise de importância de marcadores genômicos
+- Desenvolvimento de mapas genéticos interativos
+- Fluxos de trabalho reprodutíveis para análise genômica
+
+O estudo foi desenvolvido em colaboração multidisciplinar entre especialistas em genética estatística, melhoramento vegetal e inteligência computacional do LICAE/UFV e instituições parceiras.
+
+---
+
+# About the Project
+
+This project investigates innovative computational methods for QTL (Quantitative Trait Loci) identification using machine learning techniques in genome-wide association studies (GWAS). Our main objective is to develop and validate approaches that overcome the limitations of traditional statistical methods in detecting molecular markers associated with complex traits.
+
+The research combines:
+- Machine learning algorithms (Random Forest, SVM, XGBoost)
+- Genomic marker importance analysis
+- Interactive genetic map development
+- Reproducible workflows for genomic analysis
+
+The study was developed through multidisciplinary collaboration between experts in statistical genetics, plant breeding, and computational intelligence from LICAE/UFV and partner institutions.
+
+---
+
+## Equipe de Pesquisa / Research Team
+
+**Weverton Gomes da Costa**  
+Pesquisador Pós-Doutoral  
+Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)  
+Departamento de Estatística - UFV  
+[weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)
+
+**Hélcio Duarte Pereira**  
+Pesquisador Associado  
+Centro de Biologia Molecular e Engenharia Genética (CBMEG/UNICAMP)  
+[hhelciopas-sos@yahoo.com.br](mailto:hhelciopas-sos@yahoo.com.br)
+
+**Gabi Nunes Silva**  
+Professora Adjunta  
+Universidade Federal de Rondônia  
+[gabi.silva@unir.br](mailto:gabi.silva@unir.br)
+
+**Aluizio Borém**  
+Professor Titular  
+Departamento de Agronomia - UFV  
+[borem@ufv.br](mailto:borem@ufv.br)
+
+**Cosme Damião Cruz**  
+Coordenador Científico  
+Instituto de Inteligência Artificial e Computacional (Idata) - UFV  
+[cdcruz@ufv.br](mailto:cdcruz@ufv.br)
+
+**Moyses Nascimento**  
+Professor Orientador (Correspondência)  
+LICAE/Departamento de Estatística - UFV  
+[moysesnascim@ufv.br](mailto:moysesnascim@ufv.br)
+
+---
+
+## Instituições Parceiras / Partner Institutions
+- [Universidade Federal de Viçosa (UFV)](https://www.ufv.br/)
+- [Universidade Estadual de Campinas (UNICAMP)](https://www.unicamp.br/)
+- [Universidade Federal de Rondônia (UNIR)](https://www.unir.br/)
+- [Instituto de Inteligência Artificial e Computacional (Idata)](https://www.idata.ufv.br/)
+
+---
+
+## Licença / License  
+Este trabalho está licenciado sob [CC BY-NC-SA 4.0](license.html). Para uso comercial ou colaborações, entre em contato com os autores.

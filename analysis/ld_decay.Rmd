@@ -93,11 +93,9 @@ dados$GL <- as.factor(dados$GL)
 ```
 
 
-
 # Fit the loess model
 ```{r}
 mod <- loess(r2 ~ d, data = dados)
-load("output/mod.rda")
 save(mod, file = "output/mod.rda")
 ```
 

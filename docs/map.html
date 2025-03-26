@@ -11,7 +11,7 @@
 
 <meta name="author" content="Costa, W. G." />
 
-<meta name="date" content="2025-03-25" />
+<meta name="date" content="2025-03-26" />
 
 <title>Mapa Genético</title>
 
@@ -348,7 +348,13 @@ $(document).ready(function () {
   <a href="map.html">Map Genetic</a>
 </li>
 <li>
-  <a href="Importance-markers.html">Importance markers</a>
+  <a href="ld_decay.html">LD decay</a>
+</li>
+<li>
+  <a href="gwas-GLM.html">GWAS - GLM</a>
+</li>
+<li>
+  <a href="GWAS.html">Importance markers</a>
 </li>
 <li>
   <a href="about.html">About</a>
@@ -376,7 +382,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Mapa Genético</h1>
 <h4 class="author">Costa, W. G.</h4>
-<h4 class="date">2025-03-25</h4>
+<h4 class="date">2025-03-26</h4>
 
 </div>
 
@@ -405,7 +411,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-25
+<strong>Last updated:</strong> 2025-03-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -444,10 +450,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -540,15 +546,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree43b01f543c582b8ede46144eb87ec51f4c000da8targetblank43b01f5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstreeafa31ca8fd1e2f4432e07bd0fd645ce5d535bc55targetblankafa31caa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/43b01f543c582b8ede46144eb87ec51f4c000da8" target="_blank">43b01f5</a>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/afa31ca8fd1e2f4432e07bd0fd645ce5d535bc55" target="_blank">afa31ca</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree43b01f543c582b8ede46144eb87ec51f4c000da8targetblank43b01f5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstreeafa31ca8fd1e2f4432e07bd0fd645ce5d535bc55targetblankafa31caa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -558,7 +564,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/43b01f543c582b8ede46144eb87ec51f4c000da8" target="_blank">43b01f5</a>.
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/afa31ca8fd1e2f4432e07bd0fd645ce5d535bc55" target="_blank">afa31ca</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,41 +582,13 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  analysis/GWAS.Rmd
-    Untracked:  analysis/map.Rmd
-    Untracked:  analysis/snpsOfInterest.RData
-    Untracked:  data/GEN_T/
-    Untracked:  data/GEN_V/
-    Untracked:  data/PHEN_T/
-    Untracked:  data/PHEN_V/
-    Untracked:  data/imp/
-    Untracked:  data/simulated_data/
     Untracked:  data/snpsOfInterest.RData
-    Untracked:  indice_relativo.tiff
-    Untracked:  percentagem_acerto.tiff
-    Untracked:  percentagem_erro.tiff
+    Untracked:  output/mod.rda
 
 Unstaged changes:
-    Modified:   Importance-of-markers-for-QTL-detection-by-machine-learning-methods.Rproj
-    Modified:   README.md
-    Modified:   analysis/_site.yml
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/license.Rmd
-    Deleted:    data/res.imp.ad.RData
-    Deleted:    data/res.imp.ad.xlsx
-    Deleted:    data/res.imp.bag.RData
-    Deleted:    data/res.imp.bag.xlsx
-    Deleted:    data/res.imp.boost.RData
-    Deleted:    data/res.imp.boost.xlsx
-    Deleted:    data/res.imp.gblup.RData
-    Deleted:    data/res.imp.gblup.xlsx
-    Deleted:    data/res.imp.mars.update1.RData
-    Deleted:    data/res.imp.mars.update2.RData
-    Deleted:    data/res.imp.mars.update3.RData
-    Deleted:    data/res.imp.mlp.RData
-    Deleted:    data/res.imp.rbf.RData
-    Deleted:    data/res.imp.rf.RData
-    Deleted:    data/res.imp.rf.xlsx
+    Modified:   analysis/ld_decay.Rmd
+    Modified:   analysis/map.Rmd
+    Deleted:    analysis/snpsOfInterest.RData
 
 </code></pre>
 <p>
@@ -626,9 +604,71 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/map.Rmd</code>) and HTML
+(<code>docs/map.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/1e8f0d3d0f84751454e9edba1e4051bd56acf4c9/docs/map.html" target="_blank">1e8f0d3</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-03-25
+</td>
+<td>
+add map.html
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/blob/450b544ee4118e65f87c6af05e8370f0aa54cfb4/analysis/map.Rmd" target="_blank">450b544</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-03-25
+</td>
+<td>
+add files GWAS.Rmd, map.Rmd and snpsofinterest. Rdata
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -656,11 +696,9 @@ methods</h2>
 <h2>Genetic map</h2>
 <p>Primeiro vamos definir nossos SNPs de interesse para as variáveis.
 Essas informações foram pré-definidas e podem ser encontrados no arquivo
-<code>control_genetic</code><embed
-src="data/simulated_data/control_genetic.txt" />. Vamos carregar o
-arquivo <code>snpsOfInterest.RData</code>“<a
-href="analysis/snpsOfInterest.RData"></a> que comtemas infomações dos
-snps considerados QTLs por variavel.</p>
+<code>control_genetic</code>. Vamos carregar o arquivo
+<code>snpsOfInterest.RData</code> que contém as infomações dos snps
+considerados QTLs por variavel.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/snpsOfInterest.RData&quot;</span>)</span></code></pre></div>
 <p>Agora vamos definir os nomes das colunas para nosso
 <code>snpsOfInterest</code> e criar um objeto <code>locus</code> com as
@@ -1122,6 +1160,43 @@ apenas uma imagem <code>maps</code>.</p>
 <span id="cb6-338"><a href="#cb6-338" tabindex="-1"></a></span>
 <span id="cb6-339"><a href="#cb6-339" tabindex="-1"></a><span class="fu">print</span>(maps)</span></code></pre></div>
 <p><img src="figure/map.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/blob/d820844c9783631fdf5a313b59ecc79c481abc4d/docs/figure/map.Rmd/unnamed-chunk-6-1.png" target="_blank">d820844</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-03-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1183,7 +1258,8 @@ loaded via a namespace (and not attached):
 [70] lattice_0.22-6      SnowballC_0.7.1     rbibutils_2.3      
 [73] backports_1.5.0     broom_1.0.7         httpuv_1.6.15      
 [76] bslib_0.9.0         Rcpp_1.0.14         nlme_3.1-167       
-[79] xfun_0.51           fs_1.6.5            pkgconfig_2.0.3    </code></pre>
+[79] whisker_0.4.1       xfun_0.51           fs_1.6.5           
+[82] pkgconfig_2.0.3    </code></pre>
 </div>
 </div>
 </div>

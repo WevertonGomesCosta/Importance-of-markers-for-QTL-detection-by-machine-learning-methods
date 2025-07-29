@@ -1,5 +1,5 @@
 ---
-title: "ld decay"
+title: "LD Decay Analysis"
 author: "Costa, W. G."
 date: "`r Sys.Date()`"
 site: workflowr::wflow_site
@@ -7,34 +7,46 @@ url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detectio
 output:
   workflowr::wflow_html:
     toc: TRUE
+    toc_float: TRUE
   highlight: github
 editor_options:
   chunk_output_type: console
 github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# LD Decay Analysis
+
+This document provides a detailed analysis of Linkage Disequilibrium (LD) decay across different linkage groups using genotype and map data. The analysis includes the following steps:
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = T, warning = F, message = F)
 ```
 
-# Load necessary libraries
-
-```{r}
+```{r libraries}
 library(sommer)
 library(ggplot2)
 library(dplyr)
+library(ggrepel)
 ```
 
-# Load genotype data
+## Data
 
-```{r}
+The analysis uses genotype data from a text file and map data from an RDS file. The genotype data contains marker information, while the map data provides the positions and linkage group identifiers for these markers.
+
+### Load genotype data
+
+The genotype data is loaded from a text file named "GEN.txt". The first few columns of the data are displayed to give an overview of the structure. 
+
+```{r load_genotype}
 CPgeno <- read.table("data/GEN.txt")
 head(CPgeno[, 1:5])
 ```
 
-# Load and prepare map data
+### Load and prepare map data
 
-```{r}
+The map data is loaded from an RDS file named "map.rds". The data is then transformed to create a new column for locus names, convert positions to numeric, and ensure linkage group identifiers are integers. The structure and summary of the map data are displayed.
+
+```{r load_map}
 mapCP <- readRDS("data/map.rds") %>%
   mutate(
     Locus = paste0("V", 1:n()),
@@ -47,16 +59,28 @@ str(mapCP)
 summary(mapCP)
 ```
 
-# Run LD decay analysis for each linkage group
+## LD Decay Analysis
 
-# Step 1: Obtain a sorted list of unique linkage groups from the map data
+This section performs the LD decay analysis for each linkage group in the genotype data. 
 
-```{r}
+### Run LD decay analysis for each linkage group
+
+The analysis is performed in several steps:
+
+Step 1: Obtain a sorted list of unique linkage groups from the map data. 
+
+```{r unique_LGs}
 unique_LGs <- sort(unique(mapCP$LG))
 ```
 
-# Step 2: Apply a function to each linkage group using lapply
-```{r}
+Step 2: Apply a function to each linkage group using lapply.
+
+Step 2a: For each linkage group, extract the corresponding marker names from the map data.
+Step 2b: Perform Linkage Disequilibrium (LD) decay analysis on the genotype data for these markers.
+Step 2c: Filter the LD results to include only significant marker pairs after Bonferroni correction.
+Step 2d: Check if there are any significant marker pairs. If so, create a data frame including the linkage group identifier and the filtered LD decay results; otherwise, return NULL for that linkage group.
+
+```{r ld_decay_analysis}
 res <- lapply(unique_LGs, function(lg) {
   # Step 2a: For the current linkage group 'lg', extract the corresponding marker names
   markers <- mapCP %>%
@@ -83,44 +107,65 @@ res <- lapply(unique_LGs, function(lg) {
 })
 ```
 
+### Combine results from all linkage groups
 
+The results from the LD decay analysis for all linkage groups are combined into a single data frame. The linkage group identifier is converted to a factor for further analysis.
 
-# Combine results and remove NULLs
-```{r}
+```{r combine_results}
+# Remove NULL entries from the list of results
 res <- res[!sapply(res, is.null)]
 dados <- do.call(rbind, res)
 dados$GL <- as.factor(dados$GL)
 ```
 
+### Fit the loess model
 
-# Fit the loess model
-```{r}
+The loess model is fitted to the LD decay data to smooth the relationship between distance and r² values. The model is saved for later use.
+
+```{r fit_loess, eval=FALSE}
+# Fit a loess model to the LD decay data
 mod <- loess(r2 ~ d, data = dados)
-save(mod, file = "output/mod.rda")
 ```
 
-# Predict r² values for a sequence of distances
-```{r}
+```{r include=FALSE}
+load("output/mod.rda")
+```
 
+### Predict r² values for a sequence of distances
+
+The model is used to predict r² values for a sequence of distances ranging from 0 to the maximum distance in the data. This allows for visualization of the LD decay curve.
+
+```{r predict_r2}
+# Create a sequence of distances from 0 to the maximum distance in the data
 d_seq <- seq(0, max(dados$d), 0.1)
 pred <- predict(mod, d_seq)
 data_pred <- data.frame(d = d_seq, pred = pred)
 ```
 
-# Find the distance where r² is approximately 0.2
-```{r}
+### Find the distance where r² is approximately 0.2
+
+To find the distance at which the predicted r² value is approximately 0.2, we identify the index of the closest predicted value to 0.2 and extract the corresponding distance.
+
+```{r find_distance}
+# Find the distance where the predicted r² is approximately 0.2
 target_r2 <- 0.87
 closest_index <- which.min(abs(pred - target_r2))
 closest_d <- d_seq[closest_index]
+
+# Display the closest distance and the target r² value
 closest_d
 ```
 
-# Plot the LD decay curve
-```{r}
-library(ggrepel)
+### Plot the LD decay curve
 
+Finally, the LD decay curve is plotted, showing the relationship between distance and r² values. The plot includes points for each linkage group, a red line for the predicted values, a blue dashed line for the target r² value, and a green dashed line for the closest distance.
+
+```{r plot_ld_decay, outwidth = "100%"}
 # Create the plot with additional adjustments
+# Define a color palette for the linkage groups
 color_palette <- colorRampPalette(c('black', 'gray50'))
+
+# Create the ggplot object with the LD decay data
 p <- ggplot(dados, aes(x = d, y = r2, colour = GL)) +
   geom_point(pch = 21, show.legend = FALSE) +
   geom_line(
@@ -148,6 +193,7 @@ p <- ggplot(dados, aes(x = d, y = r2, colour = GL)) +
   theme_classic() +
   theme(text = element_text(size = 20))
 
+# Add text annotation for the closest distance and target r² value
 p +
   geom_text(
     aes(
@@ -161,3 +207,10 @@ p +
     fontface = "bold"
   )
 ```
+
+```{r ave_plot, echo=FALSE, eval=FALSE, include=FALSE}
+# Save the plot to a file
+ggsave("output/ld_decay_plot.png", plot = last_plot(), width = 12, height = 8, dpi = 300)
+```
+
+

@@ -7,6 +7,7 @@ url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detectio
 output:
   workflowr::wflow_html:
     toc: TRUE
+    toc_float: TRUE
   highlight: github
 editor_options:
   chunk_output_type: console

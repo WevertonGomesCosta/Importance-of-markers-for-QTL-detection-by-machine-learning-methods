@@ -5,10 +5,8 @@ date: "`r Sys.Date()`"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
-    toc: true
-    toc_float: true
-    theme: flatly
-    highlight: haddock
+    toc: FALSE
+  highlight: github
 url: "https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/"
 github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---

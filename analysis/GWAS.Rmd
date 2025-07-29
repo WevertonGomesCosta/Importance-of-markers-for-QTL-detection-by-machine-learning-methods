@@ -13,14 +13,14 @@ editor_options:
 github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-# Data
+# Importance Markers for QTL Detection by Machine Learning Methods
 
-## Data importantion
+This document provides an overview of the analysis performed to assess the importance of markers for QTL detection using machine learning methods. The analysis includes data preparation, trait importance calculation, and visualization of results.
 
 The traits importance data was obtained by script in [Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis](https://wevertongomescosta.github.io/Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis/)
 
-# Packages
-```{r}
+
+```{r setup, essage=FALSE, warning=FALSE}
 library(metan)
 library(tidyverse)
 library(ggrepel)
@@ -29,17 +29,26 @@ library(ggthemes)
 library(gridExtra)
 ```
 
-# Carregando os dados
+## Data importantion 
+
+The results are stored in the `imp.tot` object. The `snpsOfInterest` object contains the SNPs of interest, and the `results_gwas` object contains the results of the GWAS analysis. 
+
 ```{r}
-load("input/imp.tot.RData")
+load("output/imp.tot.RData")
 head(imp.tot)
-load("input/snpsOfInterest.RData")
+load("data/snpsOfInterest.RData")
 head(snpsOfInterest)
-load("input/results_gwas.rda")
+load("output/results_gwas.rda")
 head(results_gwas)
 ```
 
-# Preparando os dados de importância
+## Preparando os dados
+
+Os dados de importância dos marcadores são organizados em um formato adequado para análise. A seguir, realizamos algumas transformações nos dados para facilitar a análise.
+
+### Preparando os dados de importância dos marcadores
+
+O objeto `imp.tot` contém a importância dos marcadores para cada variável e método. A seguir, realizamos algumas transformações nos dados para facilitar a análise. Como temos 10 variáveis, cada uma com 4010 marcadores, e 11 métodos, para cada repetição e cada fold, vamos obter uma média dos dados. 
 
 ```{r}
 imp.tot <- imp.tot %>%
@@ -52,7 +61,9 @@ imp.tot <- imp.tot %>%
   summarise(Overall = mean(Overall), .groups = "drop")
 ```
 
-# Preparando os resultados do GWAS
+### Preparando os resultados do GWAS
+
+Os dados do GWAS são filtrados para incluir apenas os marcadores significativos, e o limiar de significância é definido com base no número total de marcadores.
 
 ```{r}
 # Definindo o limiar de significância
@@ -71,7 +82,7 @@ results_gwas <- results_gwas %>%
     Overall = -log10(P.value)
   )
 
-
+# Filtrando os resultados significativos
 results_gwas_sig <- results_gwas %>%
   filter(P.value < threshold) %>%
   mutate(sig = paste(variable, marker, sep = "_")) %>%
@@ -79,7 +90,9 @@ results_gwas_sig <- results_gwas %>%
   select(variable, method, marker, CHR, Overall, sig)
 ```
 
-# Normalizando a importância dos marcadores para cada variável e método
+### Normalizando a importância dos marcadores para cada variável e método
+
+Normalizamos a importância dos marcadores para cada variável e método, escalando os valores de `Overall` para um intervalo de 0 a 10. Isso facilita a comparação entre diferentes métodos e variáveis.
 
 ```{r}
 methods <- unique(imp.tot$method)
@@ -91,11 +104,20 @@ normalized_imp <- imp.tot %>%
   ungroup()
 ```
 
+### Criando regiões ao redor dos SNPs de interesse
 
-# Primeiro, atribuímos 'region_markers' dentro de cada grupo de 'variable'
+Primeiro criamos dois data frames, `reg1` e `reg2`, que contêm os marcadores ao redor de cada SNP de interesse. Em seguida, unimos esses data frames para criar o data frame `region`, que contém as regiões ao redor dos SNPs de interesse.
 
 ```{r}
+# Criando os data frames 'reg1' e 'reg2' com os marcadores ao redor de cada SNP de interesse
 reg1 <- snpsOfInterest %>%
+  group_by(variable) %>%
+  mutate(region_markers = row_number()) %>%
+  ungroup()
+
+# Adicionando 8 à variável 'variable' para criar o segundo data frame
+reg2 <- snpsOfInterest %>%
+  mutate(variable = variable + 8) %>% 
   group_by(variable) %>%
   mutate(region_markers = row_number()) %>%
   ungroup()
@@ -103,8 +125,9 @@ reg1 <- snpsOfInterest %>%
 # Agora, criamos o data frame 'region' com os marcadores ao redor de cada SNP de interesse
 distance <- 5
 
-
+# Unindo os data frames 'reg1' e 'reg2' e criando as regiões ao redor dos SNPs de interesse
 region <- reg1 %>%
+  full_join(reg2) %>%
   rowwise() %>%
   mutate(marker = list(seq(marker - distance, marker + distance))) %>%
   ungroup() %>%
@@ -113,26 +136,41 @@ region <- reg1 %>%
   droplevels()
 ```
 
-# Contando o número de genes em cada região
+### Contando o número de genes em cada região
+
+Para cada região, contamos o número de genes presentes. Isso nos ajuda a entender a densidade de marcadores em cada região do QTL. 
 
 ```{r}
+# Contando o número de genes em cada região
 ngenes_region <- region %>%
   group_by(variable) %>%
   summarise(ngenes_region = n(), .groups = "drop") %>%
   mutate(variable = factor(variable, labels = c(1:10)))
 ```
 
-# Calculando a importância média dos marcadores
+### Calculando a importância média dos marcadores
+
+Os efeitos médios dos marcadores são calculados para cada variável e método, permitindo uma análise comparativa da importância dos marcadores entre diferentes métodos de machine learning e a atribuição de significância aos marcadores.
 
 ```{r}
+# Calculando a importância média dos marcadores para cada variável e método
 effects_markers <- normalized_imp %>%
   group_by(variable, method) %>%
   summarise(effects_markers = mean(Overall_res), .groups = "drop")
 ```
 
-# Associando os marcadores às regiões do QTL
+## Associando os marcadores às regiões do QTL
+
+Nesta seção, associamos os marcadores às regiões do QTL, utilizando os data frames `normalized_imp`, `results_gwas`, `effects_markers` e `region`. A seguir, criamos o data frame `plot_data`, que contém informações sobre os marcadores, suas importâncias, os resultados do GWAS e as regiões de interesse.
+
+### Criando o data frame `plot_data`
+
+O data frame `plot_data` é criado para associar os marcadores às regiões do QTL, incluindo informações sobre a importância dos marcadores, os resultados do GWAS e as regiões de interesse. Para isso , utilizamos a função `mutate` para adicionar uma coluna `CHR` que indica o cromossomo ao qual cada marcador pertence. Em seguida, unimos os data frames `normalized_imp`, `results_gwas`, `effects_markers` e `region` para criar o data frame final `plot_data`.
+
+Além disso, adicionamos informações sobre os marcadores e regiões, como se o marcador é destacado (`is_highlight`) ou anotado (`is_annotate`), e criamos variáveis adicionais para facilitar a análise. 
 
 ```{r}
+# Associando os marcadores às regiões do QTL
 plot_data <- normalized_imp %>%
   mutate(
     CHR = case_when(
@@ -152,6 +190,7 @@ plot_data <- normalized_imp %>%
   full_join(effects_markers) %>%
   full_join(region)
 
+# Adicionando informações sobre os marcadores e regiões
 plot_data <- plot_data %>%
   mutate(
     sig = paste(variable, marker, sep = "_"),
@@ -164,9 +203,12 @@ plot_data <- plot_data %>%
   )
 ```
 
-# Criando variáveis adicionais
+### Criando variáveis adicionais
+
+Para facilitar a análise, criamos variáveis adicionais no data frame `plot_data`, como `herd`, `ngenes`, `created`, e `is_high_anno`. Essas variáveis ajudam a categorizar os dados e a identificar as características dos métodos e das regiões analisadas. 
 
 ```{r}
+# Criando variáveis adicionais no data frame plot_data
 plot_data <- plot_data %>%
   mutate(
     herd = factor(if_else(variable < 9, "50%", "80%")),
@@ -194,7 +236,7 @@ plot_data <- plot_data %>%
     variable = factor(variable)
   )
 
-
+# Reordenando os métodos
 levels(plot_data$method) <-  c("BAG",
                                "BO",
                                "DT",
@@ -207,55 +249,76 @@ levels(plot_data$method) <-  c("BAG",
                                "RF",
                                "GLM")
 
+# Reordenando os métodos para facilitar a visualização
 plot_data <- plot_data %>%
   mutate(method =  fct_relevel(method, sort))
 ```
 
-# Filtrando apenas as variáveis simuladas
+### Filtrando apenas as variáveis simuladas
+
+Algumas variáveis foram criadas para simular diferentes cenários de herdabilidade e número de genes. Para a análise, vamos focar apenas nas variáveis simuladas, excluindo aquelas que não são relevantes para o nosso estudo.
 
 ```{r}
+# Filtrando apenas as variáveis simuladas
 plot_data <- plot_data %>%
   filter(created == "Simulated" & ngenes != 480) %>%
   #filter(!(method %in% c("RBF", "MLP", "G-BLUP"))) %>%
   droplevels()
 
+# Reordenando as variáveis para facilitar a visualização
 levels(plot_data$variable) <-
   c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 ```
 
-# Calculando o índice de coincidência
+## Análise de Coincidência
+
+Nesta seção, calculamos o índice de coincidência entre os marcadores anotados e os marcadores significativos do GWAS. A análise é feita para cada variável, método e região dos marcadores. 
+
+### Contando os marcadores anotados
+
+Primeiro, filtramos os dados para obter apenas os marcadores anotados e contamos quantos marcadores estão presentes em cada região.
 
 ```{r}
+# Contando os marcadores anotados
 ver <- plot_data %>%
   filter(is_annotate == "yes") %>%
   group_by(variable, method, CHR, region_markers) %>%
   summarise(n = n(), .groups = "drop")
 ```
 
-# Separando acertos e erros
+### Separando acertos e erros
+
+A seguir, separamos os acertos (marcadores anotados que estão presentes nas regiões) e os erros (marcadores anotados que não estão presentes nas regiões).
 
 ```{r}
+# Separando acertos e erros
 certo <- ver %>%
   filter(region_markers != "NA") %>%
   group_by(variable, method) %>%
   reframe(n = n)
 
+# Contando os acertos
 acerto <- certo %>%
   count(variable, method, name = "acerto")
 
+# Contando os erros
 errado <- ver %>%
   filter(is.na(region_markers)) %>%
   group_by(variable, method, CHR, region_markers) %>%
   reframe("erro" = n)
 
+# Agrupando os erros por variável e método
 erro <- errado %>%
   group_by(variable, method) %>%
   summarise(erro = sum(erro), .groups = "drop")
 ```
 
-# Unindo acertos e erros e calculando os índices
+### Unindo acertos e erros e calculando os índices
+
+O data frame `coinc` é criado unindo os acertos e erros, e adicionando informações sobre o número de genes em cada região. Em seguida, calculamos os índices de Poder de Decisão (PD), Falso Positivo (FP), Precisão, Especificidade e F1 Score para cada variável e método.
 
 ```{r}
+# Unindo acertos e erros e calculando os índices
 coinc <- full_join(acerto, erro) %>%
   full_join(ngenes_region) %>%
   mutate(
@@ -288,36 +351,42 @@ coinc <- full_join(acerto, erro) %>%
   filter(!(method %in% c("RBF", "MLP", "G-BLUP"))) %>%
   droplevels()
 
+# Selecionando as colunas relevantes para o resultado final
 acerto_erro <- coinc %>%
   select(variable, method, acerto, erro)
 
+# Calculando a média de acertos e erros por variável e método
 coinc %>%
   select(variable, method, PD) %>%
   pivot_wider(names_from = variable, values_from = PD)
+```
 
 
+```{r write_acerto_erro, include=FALSE}
 writexl::write_xlsx(acerto_erro, "output/acerto_erro.xlsx")
 ```
 
-# Criando o gráfico
+## Visualização dos Resultados
 
-## PD, Precision
+Para visualizar os índices de coincidência, utilizamos gráficos de calor (heatmaps) para representar os valores de Poder de Decisão (PD), Precisão, Especificidade e Falso positivos. A seguir, apresentamos os gráficos para cada índice.
+
+### Poder de Decisão (PD) e Precisão
+
+Para visualizar o Poder de Decisão (PD) e a Precisão, utilizamos um gráfico de calor onde os valores são representados por cores. Os métodos são organizados em ordem decrescente de importância, e as regiões são facetadas por herdabilidade.
+
 ```{r}
+# Visualizando os índices de coincidência
 coinc %>%
   select(method, ngenes, herd, PD, Precision) %>%
   pivot_longer(cols = 4:5) %>%
-  mutate(method = factor(method, levels = rev(sort(unique(
-    method
-  ))))) %>%
+  mutate(method = factor(method, levels = rev(sort(unique(method))))) %>%
   ggplot(aes(
     x = factor(ngenes),
     y = method,
     fill = value
   )) +
-  
   # Adicionando os tiles (blocos da matriz)
   geom_tile(color = "black") +
-  
   # Ajustando a escala de preenchimento
   scale_fill_gradient2(
     low = "white",
@@ -329,13 +398,10 @@ coinc %>%
     space = "Lab",
     name = "Value"
   ) +
-  
   # Facetando por 'herd' (herdabilidade)
   facet_wrap(name ~ herd, nrow = 1) +
-  
   # Aplicando tema minimalista com tamanho de texto base
   theme_bw() +
-  
   # Ajustando elementos do tema
   theme(
     axis.text.x = element_text(vjust = 1, hjust = 0.5),
@@ -347,18 +413,17 @@ coinc %>%
     #    legend.title = element_text(size = 12),
     #    legend.text = element_text(size = 10)
   ) +
-  
   # Fixando a proporção dos eixos
   coord_fixed() +
-  
   # Adicionando os valores de PD como texto nos tiles
   geom_text(aes(label = value), color = "black") +
-  
   # Ajustando o título do eixo X
   labs(x = "Number of Genes")
 ```
 
-## FP, Specificity
+### Falso Positivo (FP) e Especificidade
+
+Para visualizar o Falso Positivo (FP) e a Especificidade, utilizamos um gráfico de calor semelhante ao anterior, onde os valores são representados por cores. Os métodos são organizados em ordem decrescente de importância, e as regiões são facetadas por herdabilidade.
 
 ```{r}
 coinc %>%
@@ -372,10 +437,8 @@ coinc %>%
     y = method,
     fill = value
   )) +
-  
   # Adicionando os tiles (blocos da matriz)
   geom_tile(color = "black") +
-  
   # Ajustando a escala de preenchimento
   scale_fill_gradient2(
     low = "white",
@@ -387,13 +450,10 @@ coinc %>%
     space = "Lab",
     name = "Value"
   ) +
-  
   # Facetando por 'herd' (herdabilidade)
   facet_wrap(name ~ herd, nrow = 1) +
-  
   # Aplicando tema minimalista com tamanho de texto base
   theme_bw() +
-  
   # Ajustando elementos do tema
   theme(
     axis.text.x = element_text(vjust = 1, hjust = 0.5),
@@ -405,18 +465,17 @@ coinc %>%
     #    legend.title = element_text(size = 12),
     #    legend.text = element_text(size = 10)
   ) +
-  
   # Fixando a proporção dos eixos
   coord_fixed() +
-  
   # Adicionando os valores de PD como texto nos tiles
   geom_text(aes(label = value), color = "black") +
-  
   # Ajustando o título do eixo X
   labs(x = "Number of Genes")
 ```
 
-## F1 Score
+### F1 Score
+
+O índice F1 Score é uma métrica que combina a precisão e o Poder de Decisão (PD) em um único valor, permitindo uma avaliação mais equilibrada do desempenho dos métodos. A seguir, apresentamos o gráfico de calor para o F1 Score.
 
 ```{r}
 coinc %>%
@@ -430,10 +489,8 @@ coinc %>%
     y = method,
     fill = value
   )) +
-  
   # Adicionando os tiles (blocos da matriz)
   geom_tile(color = "black") +
-  
   # Ajustando a escala de preenchimento
   scale_fill_gradient2(
     low = "white",
@@ -445,13 +502,10 @@ coinc %>%
     space = "Lab",
     name = "Value"
   ) +
-  
   # Facetando por 'herd' (herdabilidade)
   facet_wrap(name ~ herd, nrow = 1) +
-  
   # Aplicando tema minimalista com tamanho de texto base
   theme_bw() +
-  
   # Ajustando elementos do tema
   theme(
     axis.text.x = element_text(vjust = 1, hjust = 0.5),
@@ -463,86 +517,17 @@ coinc %>%
     #    legend.title = element_text(size = 12),
     #    legend.text = element_text(size = 10)
   ) +
-  
   # Fixando a proporção dos eixos
   coord_fixed() +
-  
   # Adicionando os valores de PD como texto nos tiles
   geom_text(aes(label = value), color = "black") +
-  
   # Ajustando o título do eixo X
   labs(x = "Number of Genes")
 ```
 
-# Manhattan plot
+## Conclusão
+A análise realizada demonstra a importância dos marcadores para a detecção de QTLs utilizando métodos de machine learning. Os resultados mostram que, embora alguns métodos apresentem alta sensibilidade na detecção de regiões associadas a QTLs, eles também podem gerar um número elevado de falsos positivos.
 
-```{r}
-###### Definindo as posi??es dos grupos de liga??o no plot
-axisdf = plot_data %>%
-  group_by(CHR) %>%
-  summarize(center = (max(marker) + min(marker)) / 2)
-```
+Além disso, a análise de coincidência revela que os métodos MARS e G-BLUP apresentam um bom equilíbrio entre Poder de Decisão e Especificidade, enquanto outros métodos, como MLP e RBF, tendem a gerar muitos falsos positivos.
 
-
-```{r}
-for (i in 1:10) {
-  plotgwasall <- plot_data %>%
-    filter(variable == i)
-  
-  region <- plotgwasall %>%
-    filter(variable == i, region_markers > 0) %>%
-    group_by(region_markers) %>%
-    summarise(marker_min = min(marker),
-              marker_max = max(marker))
-  
-  p <- ggplot() +
-    geom_point(
-      data = plotgwasall,
-      aes(marker, Overall_res, color = as.factor(CHR)),
-      alpha = 0.05,
-      size = 1
-    ) +
-    scale_x_continuous(label = axisdf$CHR, breaks = axisdf$center) +
-    #scale_y_continuous(expand = c(0.01, 0.05), breaks = c(0, 100)) + #remove space between plot area and x axis
-    geom_hline(yintercept = 1.25,
-               linetype = "dashed",
-               color = "black") +
-    # Add highlighted points
-    geom_rect(
-      data = region,
-      aes(xmin = marker_min, xmax = marker_max),
-      ymin = Inf,
-      ymax = Inf,
-      alpha = 0.25,
-      fill = "orange"
-    ) +
-    facet_wrap(
-      method ~ .,
-      ncol = 1,
-      scales = "free_y" ,
-      strip.position = "right"
-    ) +
-    theme_hc() +
-    scale_color_gdocs() +
-    new_scale_color() +
-    geom_point(
-      data = subset(plotgwasall, is_high_anno != 4),
-      aes(marker, Overall_res, color = as.factor(is_high_anno)),
-      size = 2
-    ) +
-    scale_color_manual(values = c("seagreen3", "orange", "red")) +
-    xlab("Linkage Group") + ylab("Importance (%)") +
-    theme(
-      legend.position = "none",
-      text = element_text(size = 12),
-      panel.border = element_blank(),
-      panel.grid.major.x = element_blank(),
-      panel.grid.minor.x = element_blank(),
-      panel.spacing.y = unit(1, "lines"),
-      axis.ticks.x = element_blank()
-    )
-  
-  print("Trait:", i)
-  print(p)
-}
-```
+De forma geral, embora redes neurais e G BLUP sejam sensíveis ao captar zonas ligadas, sua baixa especificidade compromete a aplicabilidade prática. Dentre as demais metodologias, os protocolos MARS se destacam pelo equilíbrio entre detecção e precisão, especialmente em cenários de alta herdabilidade e múltiplos QTLs.

@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Costa, W. G." />
+
+<meta name="date" content="2025-07-28" />
+
+<title>Importance markers</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Importance of markers for QTL detection by machine learning methods</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="map.html">Map Genetic</a>
+</li>
+<li>
+  <a href="ld_decay.html">LD decay</a>
+</li>
+<li>
+  <a href="gwas-GLM.html">GWAS - GLM</a>
+</li>
+<li>
+  <a href="GWAS.html">Importance markers</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Importance markers</h1>
+<h4 class="author">Costa, W. G.</h4>
+<h4 class="date">2025-07-28</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-07-28
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>Importance-of-markers-for-QTL-detection-by-machine-learning-methods/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221222code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221222)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221222code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221222)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree48e7039efc383d20facedccd4c40bf5d616645c1targetblank48e7039a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/48e7039efc383d20facedccd4c40bf5d616645c1" target="_blank">48e7039</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree48e7039efc383d20facedccd4c40bf5d616645c1targetblank48e7039a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/48e7039efc383d20facedccd4c40bf5d616645c1" target="_blank">48e7039</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    output/mod.rda
+
+Untracked files:
+    Untracked:  lib/
+    Untracked:  output/GAPIT.Association.Filter_GWAS_results.csv
+    Untracked:  output/GAPIT.Association.GWAS_Results.GLM.Sim(NYC).csv
+    Untracked:  output/GAPIT.Association.GWAS_Results.GLM.Sim.csv
+    Untracked:  output/GAPIT.Association.GWAS_StdErr.GLM.Sim(NYC).csv
+    Untracked:  output/GAPIT.Association.GWAS_StdErr.GLM.Sim.csv
+    Untracked:  output/GAPIT.Association.Interactive_Manhattan.GLM.Sim.html
+    Untracked:  output/GAPIT.Association.Interactive_QQ GLM.Sim.html
+    Untracked:  output/GAPIT.Association.Manhattan_Chro.GLM.Sim(NYC).pdf
+    Untracked:  output/GAPIT.Association.Manhattan_Chro.GLM.Sim.pdf
+    Untracked:  output/GAPIT.Association.Manhattan_Geno.GLM.Sim(NYC).pdf
+    Untracked:  output/GAPIT.Association.Manhattan_Geno.GLM.Sim.pdf
+    Untracked:  output/GAPIT.Association.Manhattans_Symphysic.pdf
+    Untracked:  output/GAPIT.Association.Manhattans_Symphysic_Legend.pdf
+    Untracked:  output/GAPIT.Association.Manhattans_Symphysic_Traitsnames.csv
+    Untracked:  output/GAPIT.Association.Optimum.GLM.Sim.pdf
+    Untracked:  output/GAPIT.Association.PVE.GLM.Sim.csv
+    Untracked:  output/GAPIT.Association.Prediction_results.GLM.Sim.csv
+    Untracked:  output/GAPIT.Association.Prediction_results.GLM.V1.csv
+    Untracked:  output/GAPIT.Association.QQ.GLM.Sim(NYC).pdf
+    Untracked:  output/GAPIT.Association.QQ.GLM.Sim.pdf
+    Untracked:  output/GAPIT.Association.Significant_SNPs.GLM.Sim.pdf
+    Untracked:  output/GAPIT.Association.Vairance_markers.GLM.Sim.csv
+    Untracked:  output/GAPIT.Genotype.Distance.Rsquare.csv
+    Untracked:  output/GAPIT.Genotype.Distance_R_Chro.pdf
+    Untracked:  output/GAPIT.Genotype.Frequency.pdf
+    Untracked:  output/GAPIT.Genotype.Frequency_MAF.csv
+    Untracked:  output/GAPIT.Genotype.Kin_NJtree_compress_z.txt
+    Untracked:  output/GAPIT.Genotype.Kin_NJtree_fan.pdf
+    Untracked:  output/GAPIT.Genotype.Kin_NJtree_unrooted.pdf
+    Untracked:  output/GAPIT.Genotype.Kin_Zhang.csv
+    Untracked:  output/GAPIT.Genotype.Kin_Zhang.pdf
+    Untracked:  output/GAPIT.Genotype.MAF_Heterozosity.pdf
+    Untracked:  output/GAPIT.Genotype.PCA.csv
+    Untracked:  output/GAPIT.Genotype.PCA_2D.pdf
+    Untracked:  output/GAPIT.Genotype.PCA_3D.pdf
+    Untracked:  output/GAPIT.Genotype.PCA_eigenValue.pdf
+    Untracked:  output/GAPIT.Genotype.PCA_eigenvalues.csv
+    Untracked:  output/GAPIT.Phenotype.Distribution_Significantmarkers.GLM.Sim.pdf
+    Untracked:  output/GAPIT.Phenotype.View.Sim.pdf
+    Untracked:  output/GAPIT.Phenotype.View.Simulated.Phenotype.pdf
+    Untracked:  output/GAPIT.Phenotype.View.V1.pdf
+    Untracked:  output/Interactive.PCA.html
+    Untracked:  output/acerto_erro.xlsx
+    Untracked:  output/imp.tot.RData
+    Untracked:  output/results_gwas.rda
+
+Unstaged changes:
+    Modified:   analysis/GWAS.Rmd
+    Modified:   analysis/gwas-GLM.Rmd
+    Modified:   analysis/ld_decay.Rmd
+    Modified:   analysis/map.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/GWAS.Rmd</code>) and HTML
+(<code>docs/GWAS.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/blob/afa31ca8fd1e2f4432e07bd0fd645ce5d535bc55/analysis/GWAS.Rmd" target="_blank">afa31ca</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-03-25
+</td>
+<td>
+add results in gwas.rmd
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/blob/450b544ee4118e65f87c6af05e8370f0aa54cfb4/analysis/GWAS.Rmd" target="_blank">450b544</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-03-25
+</td>
+<td>
+add files GWAS.Rmd, map.Rmd and snpsofinterest. Rdata
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div
+id="importance-markers-for-qtl-detection-by-machine-learning-methods"
+class="section level1">
+<h1>Importance Markers for QTL Detection by Machine Learning
+Methods</h1>
+<p>This document provides an overview of the analysis performed to
+assess the importance of markers for QTL detection using machine
+learning methods. The analysis includes data preparation, trait
+importance calculation, and visualization of results.</p>
+<p>The traits importance data was obtained by script in <a
+href="https://wevertongomescosta.github.io/Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis/">Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(metan)</span></code></pre></div>
+<pre><code>Registered S3 method overwritten by &#39;GGally&#39;:
+  method from   
+  +.gg   ggplot2</code></pre>
+<pre><code>|=========================================================|</code></pre>
+<pre><code>| Multi-Environment Trial Analysis (metan) v1.19.0        |</code></pre>
+<pre><code>| Author: Tiago Olivoto                                   |</code></pre>
+<pre><code>| Type &#39;citation(&#39;metan&#39;)&#39; to know how to cite metan      |</code></pre>
+<pre><code>| Type &#39;vignette(&#39;metan_start&#39;)&#39; for a short tutorial     |</code></pre>
+<pre><code>| Visit &#39;https://bit.ly/metanpkg&#39; for a complete tutorial |</code></pre>
+<pre><code>|=========================================================|</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     </code></pre>
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ forcats::as_factor()         masks metan::as_factor()
+✖ tibble::column_to_rownames() masks metan::column_to_rownames()
+✖ dplyr::filter()              masks stats::filter()
+✖ dplyr::lag()                 masks stats::lag()
+✖ dplyr::recode_factor()       masks metan::recode_factor()
+✖ tibble::remove_rownames()    masks metan::remove_rownames()
+✖ tidyr::replace_na()          masks metan::replace_na()
+✖ tibble::rownames_to_column() masks metan::rownames_to_column()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">library</span>(ggnewscale)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
+<pre><code>
+Anexando pacote: &#39;gridExtra&#39;
+
+O seguinte objeto é mascarado por &#39;package:dplyr&#39;:
+
+    combine</code></pre>
+<div id="data-importantion" class="section level2">
+<h2>Data importantion</h2>
+<p>The results are stored in the <code>imp.tot</code> object. The
+<code>snpsOfInterest</code> object contains the SNPs of interest, and
+the <code>results_gwas</code> object contains the results of the GWAS
+analysis.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;output/imp.tot.RData&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">head</span>(imp.tot)</span></code></pre></div>
+<pre><code># A tibble: 6 × 5
+  Overall marker n.fold method variable
+    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   
+1   100   601    1      MARS L 1       
+2    91.6 1797   1      MARS L 1       
+3    82.0 1396   1      MARS L 1       
+4    73.3 2607   1      MARS L 1       
+5    64.8 2196   1      MARS L 1       
+6    54.7 1005   1      MARS L 1       </code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/snpsOfInterest.RData&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">head</span>(snpsOfInterest)</span></code></pre></div>
+<pre><code>  variable marker
+1        1    201
+2        1    602
+3        1   1003
+4        1   1404
+5        1   1805
+6        1   2206</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;output/results_gwas.rda&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">head</span>(results_gwas)</span></code></pre></div>
+<pre><code>  SNP Chr Pos     P.value    MAF nobs H.B.P.Value    Effect variable method
+1   1   1 0.0 0.006491210 0.4830 1000  0.02957927 0.3398233       V1    GLM
+2   2   1 0.5 0.005261302 0.4810 1000  0.02544973 0.3467606       V1    GLM
+3   3   1 1.0 0.005396649 0.4815 1000  0.02588584 0.3474298       V1    GLM
+4   4   1 1.5 0.011629021 0.4825 1000  0.04447452 0.3137256       V1    GLM
+5   5   1 2.0 0.010304126 0.4840 1000  0.04082959 0.3196014       V1    GLM
+6   6   1 2.5 0.014412682 0.4840 1000  0.05192709 0.3027587       V1    GLM</code></pre>
+</div>
+<div id="preparando-os-dados" class="section level2">
+<h2>Preparando os dados</h2>
+<p>Os dados de importância dos marcadores são organizados em um formato
+adequado para análise. A seguir, realizamos algumas transformações nos
+dados para facilitar a análise.</p>
+<div id="preparando-os-dados-de-importância-dos-marcadores"
+class="section level3">
+<h3>Preparando os dados de importância dos marcadores</h3>
+<p>O objeto <code>imp.tot</code> contém a importância dos marcadores
+para cada variável e método. A seguir, realizamos algumas transformações
+nos dados para facilitar a análise. Como temos 10 variáveis, cada uma
+com 4010 marcadores, e 11 métodos, para cada repetição e cada fold,
+vamos obter uma média dos dados.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>imp.tot <span class="ot">&lt;-</span> imp.tot <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="at">variable =</span> <span class="fu">as.numeric</span>(variable),</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="at">method =</span> <span class="fu">as.factor</span>(method),</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    <span class="at">marker =</span> <span class="fu">as.numeric</span>(<span class="fu">str_replace</span>(marker, <span class="st">&quot;V&quot;</span>, <span class="st">&quot;&quot;</span>))</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method, marker) <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Overall =</span> <span class="fu">mean</span>(Overall), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+</div>
+<div id="preparando-os-resultados-do-gwas" class="section level3">
+<h3>Preparando os resultados do GWAS</h3>
+<p>Os dados do GWAS são filtrados para incluir apenas os marcadores
+significativos, e o limiar de significância é definido com base no
+número total de marcadores.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Definindo o limiar de significância</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>n.markers <span class="ot">&lt;-</span> <span class="dv">4010</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> alpha <span class="sc">/</span> n.markers</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co"># Preparando os resultados do GWAS</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>results_gwas <span class="ot">&lt;-</span> results_gwas <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">marker =</span> SNP, <span class="at">CHR =</span> Chr) <span class="sc">%&gt;%</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>    <span class="at">variable =</span> <span class="fu">as.numeric</span>(<span class="fu">str_replace</span>(variable, <span class="st">&quot;V&quot;</span>, <span class="st">&quot;&quot;</span>)),</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>    <span class="at">method =</span> <span class="fu">as.factor</span>(method),</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>    <span class="at">CHR =</span> <span class="fu">as.numeric</span>(CHR),</span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>    <span class="at">marker =</span> <span class="fu">as.numeric</span>(marker),</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>    <span class="at">Overall =</span> <span class="sc">-</span><span class="fu">log10</span>(P.value)</span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>  )</span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a><span class="co"># Filtrando os resultados significativos</span></span>
+<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a>results_gwas_sig <span class="ot">&lt;-</span> results_gwas <span class="sc">%&gt;%</span></span>
+<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a>  <span class="fu">filter</span>(P.value <span class="sc">&lt;</span> threshold) <span class="sc">%&gt;%</span></span>
+<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sig =</span> <span class="fu">paste</span>(variable, marker, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a>  <span class="fu">droplevels</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a>  <span class="fu">select</span>(variable, method, marker, CHR, Overall, sig)</span></code></pre></div>
+</div>
+<div
+id="normalizando-a-importância-dos-marcadores-para-cada-variável-e-método"
+class="section level3">
+<h3>Normalizando a importância dos marcadores para cada variável e
+método</h3>
+<p>Normalizamos a importância dos marcadores para cada variável e
+método, escalando os valores de <code>Overall</code> para um intervalo
+de 0 a 10. Isso facilita a comparação entre diferentes métodos e
+variáveis.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>methods <span class="ot">&lt;-</span> <span class="fu">unique</span>(imp.tot<span class="sc">$</span>method)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">unique</span>(imp.tot<span class="sc">$</span>variable)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>normalized_imp <span class="ot">&lt;-</span> imp.tot <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">group_by</span>(method, variable) <span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Overall_res =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(Overall, <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">finite =</span> F)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div>
+</div>
+<div id="criando-regiões-ao-redor-dos-snps-de-interesse"
+class="section level3">
+<h3>Criando regiões ao redor dos SNPs de interesse</h3>
+<p>Primeiro criamos dois data frames, <code>reg1</code> e
+<code>reg2</code>, que contêm os marcadores ao redor de cada SNP de
+interesse. Em seguida, unimos esses data frames para criar o data frame
+<code>region</code>, que contém as regiões ao redor dos SNPs de
+interesse.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Criando os data frames &#39;reg1&#39; e &#39;reg2&#39; com os marcadores ao redor de cada SNP de interesse</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region_markers =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="co"># Adicionando 8 à variável &#39;variable&#39; para criar o segundo data frame</span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> variable <span class="sc">+</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>  <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span></span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region_markers =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="co"># Agora, criamos o data frame &#39;region&#39; com os marcadores ao redor de cada SNP de interesse</span></span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a><span class="co"># Unindo os data frames &#39;reg1&#39; e &#39;reg2&#39; e criando as regiões ao redor dos SNPs de interesse</span></span>
+<span id="cb24-18"><a href="#cb24-18" tabindex="-1"></a>region <span class="ot">&lt;-</span> reg1 <span class="sc">%&gt;%</span></span>
+<span id="cb24-19"><a href="#cb24-19" tabindex="-1"></a>  <span class="fu">full_join</span>(reg2) <span class="sc">%&gt;%</span></span>
+<span id="cb24-20"><a href="#cb24-20" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-21"><a href="#cb24-21" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marker =</span> <span class="fu">list</span>(<span class="fu">seq</span>(marker <span class="sc">-</span> distance, marker <span class="sc">+</span> distance))) <span class="sc">%&gt;%</span></span>
+<span id="cb24-22"><a href="#cb24-22" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-23"><a href="#cb24-23" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> marker) <span class="sc">%&gt;%</span></span>
+<span id="cb24-24"><a href="#cb24-24" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">13</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-25"><a href="#cb24-25" tabindex="-1"></a>  <span class="fu">droplevels</span>()</span></code></pre></div>
+<pre><code>Joining with `by = join_by(variable, marker, region_markers)`</code></pre>
+</div>
+<div id="contando-o-número-de-genes-em-cada-região"
+class="section level3">
+<h3>Contando o número de genes em cada região</h3>
+<p>Para cada região, contamos o número de genes presentes. Isso nos
+ajuda a entender a densidade de marcadores em cada região do QTL.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Contando o número de genes em cada região</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>ngenes_region <span class="ot">&lt;-</span> region <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ngenes_region =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">factor</span>(variable, <span class="at">labels =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)))</span></code></pre></div>
+</div>
+<div id="calculando-a-importância-média-dos-marcadores"
+class="section level3">
+<h3>Calculando a importância média dos marcadores</h3>
+<p>Os efeitos médios dos marcadores são calculados para cada variável e
+método, permitindo uma análise comparativa da importância dos marcadores
+entre diferentes métodos de machine learning e a atribuição de
+significância aos marcadores.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Calculando a importância média dos marcadores para cada variável e método</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>effects_markers <span class="ot">&lt;-</span> normalized_imp <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">effects_markers =</span> <span class="fu">mean</span>(Overall_res), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="associando-os-marcadores-às-regiões-do-qtl"
+class="section level2">
+<h2>Associando os marcadores às regiões do QTL</h2>
+<p>Nesta seção, associamos os marcadores às regiões do QTL, utilizando
+os data frames <code>normalized_imp</code>, <code>results_gwas</code>,
+<code>effects_markers</code> e <code>region</code>. A seguir, criamos o
+data frame <code>plot_data</code>, que contém informações sobre os
+marcadores, suas importâncias, os resultados do GWAS e as regiões de
+interesse.</p>
+<div id="criando-o-data-frame-plot_data" class="section level3">
+<h3>Criando o data frame <code>plot_data</code></h3>
+<p>O data frame <code>plot_data</code> é criado para associar os
+marcadores às regiões do QTL, incluindo informações sobre a importância
+dos marcadores, os resultados do GWAS e as regiões de interesse. Para
+isso , utilizamos a função <code>mutate</code> para adicionar uma coluna
+<code>CHR</code> que indica o cromossomo ao qual cada marcador pertence.
+Em seguida, unimos os data frames <code>normalized_imp</code>,
+<code>results_gwas</code>, <code>effects_markers</code> e
+<code>region</code> para criar o data frame final
+<code>plot_data</code>.</p>
+<p>Além disso, adicionamos informações sobre os marcadores e regiões,
+como se o marcador é destacado (<code>is_highlight</code>) ou anotado
+(<code>is_annotate</code>), e criamos variáveis adicionais para
+facilitar a análise.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># Associando os marcadores às regiões do QTL</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> normalized_imp <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>    <span class="at">CHR =</span> <span class="fu">case_when</span>(</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">401</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">802</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">1203</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">1604</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">2005</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">2406</span> <span class="sc">~</span> <span class="dv">6</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">2807</span> <span class="sc">~</span> <span class="dv">7</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">3208</span> <span class="sc">~</span> <span class="dv">8</span>,</span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>      marker <span class="sc">&lt;=</span> <span class="dv">3609</span> <span class="sc">~</span> <span class="dv">9</span>,</span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">10</span></span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>    )</span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a>  <span class="fu">full_join</span>(results_gwas) <span class="sc">%&gt;%</span></span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a>  <span class="fu">full_join</span>(effects_markers) <span class="sc">%&gt;%</span></span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>  <span class="fu">full_join</span>(region)</span></code></pre></div>
+<pre><code>Joining with `by = join_by(variable, method, marker, Overall, CHR)`
+Joining with `by = join_by(variable, method)`
+Joining with `by = join_by(variable, marker)`</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># Adicionando informações sobre os marcadores e regiões</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>    <span class="at">sig =</span> <span class="fu">paste</span>(variable, marker, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>    <span class="at">is_highlight =</span> <span class="fu">if_else</span>(<span class="sc">!</span><span class="fu">is.na</span>(region_markers), <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>    <span class="at">is_annotate =</span> <span class="fu">case_when</span>(</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>      Overall_res <span class="sc">&gt;</span> effects_markers <span class="sc">&amp;</span> method <span class="sc">!=</span> <span class="st">&quot;GLM&quot;</span> <span class="sc">~</span> <span class="st">&quot;yes&quot;</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>      method <span class="sc">==</span> <span class="st">&quot;GLM&quot;</span> <span class="sc">&amp;</span> sig <span class="sc">%in%</span> results_gwas_sig<span class="sc">$</span>sig <span class="sc">~</span> <span class="st">&quot;yes&quot;</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;no&quot;</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>    )</span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="criando-variáveis-adicionais" class="section level3">
+<h3>Criando variáveis adicionais</h3>
+<p>Para facilitar a análise, criamos variáveis adicionais no data frame
+<code>plot_data</code>, como <code>herd</code>, <code>ngenes</code>,
+<code>created</code>, e <code>is_high_anno</code>. Essas variáveis
+ajudam a categorizar os dados e a identificar as características dos
+métodos e das regiões analisadas.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># Criando variáveis adicionais no data frame plot_data</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>    <span class="at">herd =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(variable <span class="sc">&lt;</span> <span class="dv">9</span>, <span class="st">&quot;50%&quot;</span>, <span class="st">&quot;80%&quot;</span>)),</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>    <span class="at">ngenes =</span> <span class="fu">factor</span>(</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>      <span class="fu">case_when</span>(</span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">9</span>) <span class="sc">~</span> <span class="dv">8</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">10</span>) <span class="sc">~</span> <span class="dv">40</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">11</span>) <span class="sc">~</span> <span class="dv">80</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">12</span>) <span class="sc">~</span> <span class="dv">120</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">13</span>) <span class="sc">~</span> <span class="dv">240</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">14</span>) <span class="sc">~</span> <span class="dv">480</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">15</span>) <span class="sc">~</span> <span class="dv">88</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>        variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">16</span>) <span class="sc">~</span> <span class="dv">160</span></span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>      )</span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a>    ),</span>
+<span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a>    <span class="at">created =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(</span>
+<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a>      ngenes <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">88</span>, <span class="dv">160</span>), <span class="st">&quot;Simulated modified&quot;</span>, <span class="st">&quot;Simulated&quot;</span></span>
+<span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a>    )),</span>
+<span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a>    <span class="at">is_high_anno =</span> <span class="fu">case_when</span>(</span>
+<span id="cb31-21"><a href="#cb31-21" tabindex="-1"></a>      is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span> <span class="sc">&amp;</span> is_annotate <span class="sc">==</span> <span class="st">&quot;yes&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb31-22"><a href="#cb31-22" tabindex="-1"></a>      is_highlight <span class="sc">==</span> <span class="st">&quot;yes&quot;</span> <span class="sc">&amp;</span> is_annotate <span class="sc">==</span> <span class="st">&quot;no&quot;</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb31-23"><a href="#cb31-23" tabindex="-1"></a>      is_highlight <span class="sc">==</span> <span class="st">&quot;no&quot;</span> <span class="sc">&amp;</span> is_annotate <span class="sc">==</span> <span class="st">&quot;yes&quot;</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb31-24"><a href="#cb31-24" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">4</span></span>
+<span id="cb31-25"><a href="#cb31-25" tabindex="-1"></a>    ),</span>
+<span id="cb31-26"><a href="#cb31-26" tabindex="-1"></a>    <span class="at">variable =</span> <span class="fu">factor</span>(variable)</span>
+<span id="cb31-27"><a href="#cb31-27" tabindex="-1"></a>  )</span>
+<span id="cb31-28"><a href="#cb31-28" tabindex="-1"></a></span>
+<span id="cb31-29"><a href="#cb31-29" tabindex="-1"></a><span class="co"># Reordenando os métodos</span></span>
+<span id="cb31-30"><a href="#cb31-30" tabindex="-1"></a><span class="fu">levels</span>(plot_data<span class="sc">$</span>method) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">&quot;BAG&quot;</span>,</span>
+<span id="cb31-31"><a href="#cb31-31" tabindex="-1"></a>                               <span class="st">&quot;BO&quot;</span>,</span>
+<span id="cb31-32"><a href="#cb31-32" tabindex="-1"></a>                               <span class="st">&quot;DT&quot;</span>,</span>
+<span id="cb31-33"><a href="#cb31-33" tabindex="-1"></a>                               <span class="st">&quot;G-BLUP&quot;</span>,</span>
+<span id="cb31-34"><a href="#cb31-34" tabindex="-1"></a>                               <span class="st">&quot;MARS 3&quot;</span>,</span>
+<span id="cb31-35"><a href="#cb31-35" tabindex="-1"></a>                               <span class="st">&quot;MARS 1&quot;</span>,</span>
+<span id="cb31-36"><a href="#cb31-36" tabindex="-1"></a>                               <span class="st">&quot;MARS 2&quot;</span>,</span>
+<span id="cb31-37"><a href="#cb31-37" tabindex="-1"></a>                               <span class="st">&quot;MLP&quot;</span>,</span>
+<span id="cb31-38"><a href="#cb31-38" tabindex="-1"></a>                               <span class="st">&quot;RBF&quot;</span>,</span>
+<span id="cb31-39"><a href="#cb31-39" tabindex="-1"></a>                               <span class="st">&quot;RF&quot;</span>,</span>
+<span id="cb31-40"><a href="#cb31-40" tabindex="-1"></a>                               <span class="st">&quot;GLM&quot;</span>)</span>
+<span id="cb31-41"><a href="#cb31-41" tabindex="-1"></a></span>
+<span id="cb31-42"><a href="#cb31-42" tabindex="-1"></a><span class="co"># Reordenando os métodos para facilitar a visualização</span></span>
+<span id="cb31-43"><a href="#cb31-43" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb31-44"><a href="#cb31-44" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span>  <span class="fu">fct_relevel</span>(method, sort))</span></code></pre></div>
+</div>
+<div id="filtrando-apenas-as-variáveis-simuladas"
+class="section level3">
+<h3>Filtrando apenas as variáveis simuladas</h3>
+<p>Algumas variáveis foram criadas para simular diferentes cenários de
+herdabilidade e número de genes. Para a análise, vamos focar apenas nas
+variáveis simuladas, excluindo aquelas que não são relevantes para o
+nosso estudo.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Filtrando apenas as variáveis simuladas</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="fu">filter</span>(created <span class="sc">==</span> <span class="st">&quot;Simulated&quot;</span> <span class="sc">&amp;</span> ngenes <span class="sc">!=</span> <span class="dv">480</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="co">#filter(!(method %in% c(&quot;RBF&quot;, &quot;MLP&quot;, &quot;G-BLUP&quot;))) %&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">droplevels</span>()</span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a><span class="co"># Reordenando as variáveis para facilitar a visualização</span></span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a><span class="fu">levels</span>(plot_data<span class="sc">$</span>variable) <span class="ot">&lt;-</span></span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>, <span class="st">&quot;8&quot;</span>, <span class="st">&quot;9&quot;</span>, <span class="st">&quot;10&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="análise-de-coincidência" class="section level2">
+<h2>Análise de Coincidência</h2>
+<p>Nesta seção, calculamos o índice de coincidência entre os marcadores
+anotados e os marcadores significativos do GWAS. A análise é feita para
+cada variável, método e região dos marcadores.</p>
+<div id="contando-os-marcadores-anotados" class="section level3">
+<h3>Contando os marcadores anotados</h3>
+<p>Primeiro, filtramos os dados para obter apenas os marcadores anotados
+e contamos quantos marcadores estão presentes em cada região.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># Contando os marcadores anotados</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>ver <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>  <span class="fu">filter</span>(is_annotate <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method, CHR, region_markers) <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+</div>
+<div id="separando-acertos-e-erros" class="section level3">
+<h3>Separando acertos e erros</h3>
+<p>A seguir, separamos os acertos (marcadores anotados que estão
+presentes nas regiões) e os erros (marcadores anotados que não estão
+presentes nas regiões).</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># Separando acertos e erros</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>certo <span class="ot">&lt;-</span> ver <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="fu">filter</span>(region_markers <span class="sc">!=</span> <span class="st">&quot;NA&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method) <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">n =</span> n)</span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a><span class="co"># Contando os acertos</span></span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>acerto <span class="ot">&lt;-</span> certo <span class="sc">%&gt;%</span></span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>  <span class="fu">count</span>(variable, method, <span class="at">name =</span> <span class="st">&quot;acerto&quot;</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a><span class="co"># Contando os erros</span></span>
+<span id="cb34-12"><a href="#cb34-12" tabindex="-1"></a>errado <span class="ot">&lt;-</span> ver <span class="sc">%&gt;%</span></span>
+<span id="cb34-13"><a href="#cb34-13" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(region_markers)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-14"><a href="#cb34-14" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method, CHR, region_markers) <span class="sc">%&gt;%</span></span>
+<span id="cb34-15"><a href="#cb34-15" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="st">&quot;erro&quot;</span> <span class="ot">=</span> n)</span>
+<span id="cb34-16"><a href="#cb34-16" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" tabindex="-1"></a><span class="co"># Agrupando os erros por variável e método</span></span>
+<span id="cb34-18"><a href="#cb34-18" tabindex="-1"></a>erro <span class="ot">&lt;-</span> errado <span class="sc">%&gt;%</span></span>
+<span id="cb34-19"><a href="#cb34-19" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method) <span class="sc">%&gt;%</span></span>
+<span id="cb34-20"><a href="#cb34-20" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">erro =</span> <span class="fu">sum</span>(erro), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+</div>
+<div id="unindo-acertos-e-erros-e-calculando-os-índices"
+class="section level3">
+<h3>Unindo acertos e erros e calculando os índices</h3>
+<p>O data frame <code>coinc</code> é criado unindo os acertos e erros, e
+adicionando informações sobre o número de genes em cada região. Em
+seguida, calculamos os índices de Poder de Decisão (PD), Falso Positivo
+(FP), Precisão, Especificidade e F1 Score para cada variável e
+método.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># Unindo acertos e erros e calculando os índices</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>coinc <span class="ot">&lt;-</span> <span class="fu">full_join</span>(acerto, erro) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>  <span class="fu">full_join</span>(ngenes_region) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>    <span class="at">acerto =</span> <span class="fu">replace_na</span>(acerto, <span class="dv">0</span>),</span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>    <span class="at">erro =</span> <span class="fu">replace_na</span>(erro, <span class="dv">0</span>),</span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>    <span class="at">ngenes =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;6&quot;</span>) <span class="sc">~</span> <span class="dv">8</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;7&quot;</span>) <span class="sc">~</span> <span class="dv">40</span>,</span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;8&quot;</span>) <span class="sc">~</span> <span class="dv">80</span>,</span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;4&quot;</span>, <span class="st">&quot;9&quot;</span>) <span class="sc">~</span> <span class="dv">120</span>,</span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;5&quot;</span>, <span class="st">&quot;10&quot;</span>) <span class="sc">~</span> <span class="dv">240</span></span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>    ),</span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a>    <span class="at">herd =</span> <span class="fu">if_else</span>(<span class="fu">as.numeric</span>(variable) <span class="sc">&lt;</span> <span class="dv">6</span>, <span class="st">&quot;h² = 0.50&quot;</span>, <span class="st">&quot;h² = 0.80&quot;</span>),</span>
+<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>    <span class="co"># Poder de Decisão (PD) = Sensibilidade</span></span>
+<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a>    <span class="at">PD =</span> <span class="fu">round</span>((acerto <span class="sc">/</span> ngenes) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a>    <span class="co"># Falso Positivo (FP)</span></span>
+<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a>    <span class="at">FP =</span> <span class="fu">round</span>((erro <span class="sc">/</span> (</span>
+<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a>      n.markers <span class="sc">-</span> ngenes_region</span>
+<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a>    )) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a>    <span class="co"># Precisão</span></span>
+<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a>    <span class="at">Precision =</span> <span class="fu">round</span>(acerto <span class="sc">/</span> (acerto <span class="sc">+</span> erro) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a>    <span class="co"># Adicionando os novos índices:</span></span>
+<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a>    <span class="at">Specificity =</span> <span class="fu">round</span>((((n.markers <span class="sc">-</span> ngenes_region) <span class="sc">-</span> erro</span>
+<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a>    ) <span class="sc">/</span> (</span>
+<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a>      n.markers <span class="sc">-</span> ngenes_region</span>
+<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a>    )) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a>    <span class="co"># Média harmônica entre precisão e Poder de Decisão ,</span></span>
+<span id="cb35-29"><a href="#cb35-29" tabindex="-1"></a>    <span class="st">`</span><span class="at">F1 Score</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> (Precision <span class="sc">*</span> PD) <span class="sc">/</span> (Precision <span class="sc">+</span> PD), <span class="dv">2</span>),</span>
+<span id="cb35-30"><a href="#cb35-30" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb35-31"><a href="#cb35-31" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(method <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;RBF&quot;</span>, <span class="st">&quot;MLP&quot;</span>, <span class="st">&quot;G-BLUP&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb35-32"><a href="#cb35-32" tabindex="-1"></a>  <span class="fu">droplevels</span>()</span></code></pre></div>
+<pre><code>Joining with `by = join_by(variable, method)`
+Joining with `by = join_by(variable)`</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># Selecionando as colunas relevantes para o resultado final</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>acerto_erro <span class="ot">&lt;-</span> coinc <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>  <span class="fu">select</span>(variable, method, acerto, erro)</span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a><span class="co"># Calculando a média de acertos e erros por variável e método</span></span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a>coinc <span class="sc">%&gt;%</span></span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>  <span class="fu">select</span>(variable, method, PD) <span class="sc">%&gt;%</span></span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> variable, <span class="at">values_from =</span> PD)</span></code></pre></div>
+<pre><code># A tibble: 8 × 11
+  method   `1`   `2`   `3`   `4`   `5`   `6`   `7`   `8`   `9`  `10`
+  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 BAG    100    90    91.2  91.7  83.8 100    97.5  90    87.5  85.4
+2 BO     100   100    96.2  93.3  92.1 100   100    95    95.8  87.5
+3 DT     100    42.5  41.2  50    44.2 100    67.5  41.2  40.8  41.2
+4 GLM     62.5  57.5  72.5  81.7  94.2  87.5  92.5  98.8  97.5  99.6
+5 MARS 1 100    15    12.5  11.7  12.5 100    17.5  13.8  14.2  13.3
+6 MARS 2 100    27.5  18.8  22.5  30   100    52.5  41.2  30.8  37.5
+7 MARS 3 100    57.5  47.5  54.2  66.7 100    72.5  67.5  66.7  68.3
+8 RF     100    82.5  90    86.7  81.7 100    95    86.2  85.8  82.1</code></pre>
+</div>
+</div>
+<div id="visualização-dos-resultados" class="section level2">
+<h2>Visualização dos Resultados</h2>
+<p>Para visualizar os índices de coincidência, utilizamos gráficos de
+calor (heatmaps) para representar os valores de Poder de Decisão (PD),
+Precisão, Especificidade e Falso positivos. A seguir, apresentamos os
+gráficos para cada índice.</p>
+<div id="poder-de-decisão-pd-e-precisão" class="section level3">
+<h3>Poder de Decisão (PD) e Precisão</h3>
+<p>Para visualizar o Poder de Decisão (PD) e a Precisão, utilizamos um
+gráfico de calor onde os valores são representados por cores. Os métodos
+são organizados em ordem decrescente de importância, e as regiões são
+facetadas por herdabilidade.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="co"># Visualizando os índices de coincidência</span></span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>coinc <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a>  <span class="fu">select</span>(method, ngenes, herd, PD, Precision) <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="fu">factor</span>(method, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(method))))) <span class="sc">%&gt;%</span></span>
+<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(ngenes),</span>
+<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>    <span class="at">y =</span> method,</span>
+<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>    <span class="at">fill =</span> value</span>
+<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a>  <span class="co"># Adicionando os tiles (blocos da matriz)</span></span>
+<span id="cb39-12"><a href="#cb39-12" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" tabindex="-1"></a>  <span class="co"># Ajustando a escala de preenchimento</span></span>
+<span id="cb39-14"><a href="#cb39-14" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb39-15"><a href="#cb39-15" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb39-16"><a href="#cb39-16" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb39-17"><a href="#cb39-17" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb39-18"><a href="#cb39-18" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">50</span>,</span>
+<span id="cb39-19"><a href="#cb39-19" tabindex="-1"></a>    <span class="co"># 100 / 2 simplifica para 50</span></span>
+<span id="cb39-20"><a href="#cb39-20" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb39-21"><a href="#cb39-21" tabindex="-1"></a>    <span class="at">space =</span> <span class="st">&quot;Lab&quot;</span>,</span>
+<span id="cb39-22"><a href="#cb39-22" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Value&quot;</span></span>
+<span id="cb39-23"><a href="#cb39-23" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-24"><a href="#cb39-24" tabindex="-1"></a>  <span class="co"># Facetando por &#39;herd&#39; (herdabilidade)</span></span>
+<span id="cb39-25"><a href="#cb39-25" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(name <span class="sc">~</span> herd, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb39-26"><a href="#cb39-26" tabindex="-1"></a>  <span class="co"># Aplicando tema minimalista com tamanho de texto base</span></span>
+<span id="cb39-27"><a href="#cb39-27" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb39-28"><a href="#cb39-28" tabindex="-1"></a>  <span class="co"># Ajustando elementos do tema</span></span>
+<span id="cb39-29"><a href="#cb39-29" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb39-30"><a href="#cb39-30" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb39-31"><a href="#cb39-31" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb39-32"><a href="#cb39-32" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb39-33"><a href="#cb39-33" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb39-34"><a href="#cb39-34" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb39-35"><a href="#cb39-35" tabindex="-1"></a>    <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb39-36"><a href="#cb39-36" tabindex="-1"></a>    <span class="co">#    legend.title = element_text(size = 12),</span></span>
+<span id="cb39-37"><a href="#cb39-37" tabindex="-1"></a>    <span class="co">#    legend.text = element_text(size = 10)</span></span>
+<span id="cb39-38"><a href="#cb39-38" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-39"><a href="#cb39-39" tabindex="-1"></a>  <span class="co"># Fixando a proporção dos eixos</span></span>
+<span id="cb39-40"><a href="#cb39-40" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb39-41"><a href="#cb39-41" tabindex="-1"></a>  <span class="co"># Adicionando os valores de PD como texto nos tiles</span></span>
+<span id="cb39-42"><a href="#cb39-42" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb39-43"><a href="#cb39-43" tabindex="-1"></a>  <span class="co"># Ajustando o título do eixo X</span></span>
+<span id="cb39-44"><a href="#cb39-44" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Number of Genes&quot;</span>)</span></code></pre></div>
+<p><img src="figure/GWAS.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="falso-positivo-fp-e-especificidade" class="section level3">
+<h3>Falso Positivo (FP) e Especificidade</h3>
+<p>Para visualizar o Falso Positivo (FP) e a Especificidade, utilizamos
+um gráfico de calor semelhante ao anterior, onde os valores são
+representados por cores. Os métodos são organizados em ordem decrescente
+de importância, e as regiões são facetadas por herdabilidade.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>coinc <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>  <span class="fu">select</span>(method, ngenes, herd, FP, Specificity) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="fu">factor</span>(method, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(</span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>    method</span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>  ))))) <span class="sc">%&gt;%</span></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(ngenes),</span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>    <span class="at">y =</span> method,</span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a>    <span class="at">fill =</span> value</span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a>  <span class="co"># Adicionando os tiles (blocos da matriz)</span></span>
+<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a>  <span class="co"># Ajustando a escala de preenchimento</span></span>
+<span id="cb40-15"><a href="#cb40-15" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb40-16"><a href="#cb40-16" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">50</span>,</span>
+<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a>    <span class="co"># 100 / 2 simplifica para 50</span></span>
+<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a>    <span class="at">space =</span> <span class="st">&quot;Lab&quot;</span>,</span>
+<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Value&quot;</span></span>
+<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a>  <span class="co"># Facetando por &#39;herd&#39; (herdabilidade)</span></span>
+<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(name <span class="sc">~</span> herd, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a>  <span class="co"># Aplicando tema minimalista com tamanho de texto base</span></span>
+<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a>  <span class="co"># Ajustando elementos do tema</span></span>
+<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a>    <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>    <span class="co">#    legend.title = element_text(size = 12),</span></span>
+<span id="cb40-38"><a href="#cb40-38" tabindex="-1"></a>    <span class="co">#    legend.text = element_text(size = 10)</span></span>
+<span id="cb40-39"><a href="#cb40-39" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-40"><a href="#cb40-40" tabindex="-1"></a>  <span class="co"># Fixando a proporção dos eixos</span></span>
+<span id="cb40-41"><a href="#cb40-41" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb40-42"><a href="#cb40-42" tabindex="-1"></a>  <span class="co"># Adicionando os valores de PD como texto nos tiles</span></span>
+<span id="cb40-43"><a href="#cb40-43" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb40-44"><a href="#cb40-44" tabindex="-1"></a>  <span class="co"># Ajustando o título do eixo X</span></span>
+<span id="cb40-45"><a href="#cb40-45" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Number of Genes&quot;</span>)</span></code></pre></div>
+<p><img src="figure/GWAS.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="f1-score" class="section level3">
+<h3>F1 Score</h3>
+<p>O índice F1 Score é uma métrica que combina a precisão e o Poder de
+Decisão (PD) em um único valor, permitindo uma avaliação mais
+equilibrada do desempenho dos métodos. A seguir, apresentamos o gráfico
+de calor para o F1 Score.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>coinc <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>  <span class="fu">select</span>(method, ngenes, herd, <span class="st">`</span><span class="at">F1 Score</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="fu">factor</span>(method, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(</span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>    method</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>  ))))) <span class="sc">%&gt;%</span></span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(ngenes),</span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a>    <span class="at">y =</span> method,</span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a>    <span class="at">fill =</span> value</span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a>  <span class="co"># Adicionando os tiles (blocos da matriz)</span></span>
+<span id="cb41-13"><a href="#cb41-13" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="#cb41-14" tabindex="-1"></a>  <span class="co"># Ajustando a escala de preenchimento</span></span>
+<span id="cb41-15"><a href="#cb41-15" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb41-16"><a href="#cb41-16" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb41-17"><a href="#cb41-17" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb41-18"><a href="#cb41-18" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb41-19"><a href="#cb41-19" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">50</span>,</span>
+<span id="cb41-20"><a href="#cb41-20" tabindex="-1"></a>    <span class="co"># 100 / 2 simplifica para 50</span></span>
+<span id="cb41-21"><a href="#cb41-21" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb41-22"><a href="#cb41-22" tabindex="-1"></a>    <span class="at">space =</span> <span class="st">&quot;Lab&quot;</span>,</span>
+<span id="cb41-23"><a href="#cb41-23" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Value&quot;</span></span>
+<span id="cb41-24"><a href="#cb41-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-25"><a href="#cb41-25" tabindex="-1"></a>  <span class="co"># Facetando por &#39;herd&#39; (herdabilidade)</span></span>
+<span id="cb41-26"><a href="#cb41-26" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(name <span class="sc">~</span> herd, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb41-27"><a href="#cb41-27" tabindex="-1"></a>  <span class="co"># Aplicando tema minimalista com tamanho de texto base</span></span>
+<span id="cb41-28"><a href="#cb41-28" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb41-29"><a href="#cb41-29" tabindex="-1"></a>  <span class="co"># Ajustando elementos do tema</span></span>
+<span id="cb41-30"><a href="#cb41-30" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb41-31"><a href="#cb41-31" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb41-32"><a href="#cb41-32" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-33"><a href="#cb41-33" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-34"><a href="#cb41-34" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-35"><a href="#cb41-35" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb41-36"><a href="#cb41-36" tabindex="-1"></a>    <span class="at">legend.direction =</span> <span class="st">&quot;vertical&quot;</span>,</span>
+<span id="cb41-37"><a href="#cb41-37" tabindex="-1"></a>    <span class="co">#    legend.title = element_text(size = 12),</span></span>
+<span id="cb41-38"><a href="#cb41-38" tabindex="-1"></a>    <span class="co">#    legend.text = element_text(size = 10)</span></span>
+<span id="cb41-39"><a href="#cb41-39" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-40"><a href="#cb41-40" tabindex="-1"></a>  <span class="co"># Fixando a proporção dos eixos</span></span>
+<span id="cb41-41"><a href="#cb41-41" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb41-42"><a href="#cb41-42" tabindex="-1"></a>  <span class="co"># Adicionando os valores de PD como texto nos tiles</span></span>
+<span id="cb41-43"><a href="#cb41-43" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-44"><a href="#cb41-44" tabindex="-1"></a>  <span class="co"># Ajustando o título do eixo X</span></span>
+<span id="cb41-45"><a href="#cb41-45" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Number of Genes&quot;</span>)</span></code></pre></div>
+<p><img src="figure/GWAS.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="conclusão" class="section level2">
+<h2>Conclusão</h2>
+<p>A análise realizada demonstra a importância dos marcadores para a
+detecção de QTLs utilizando métodos de machine learning. Os resultados
+mostram que, embora alguns métodos apresentem alta sensibilidade na
+detecção de regiões associadas a QTLs, eles também podem gerar um número
+elevado de falsos positivos.</p>
+<p>Além disso, a análise de coincidência revela que os métodos MARS e
+G-BLUP apresentam um bom equilíbrio entre Poder de Decisão e
+Especificidade, enquanto outros métodos, como MLP e RBF, tendem a gerar
+muitos falsos positivos.</p>
+<p>De forma geral, embora redes neurais e G BLUP sejam sensíveis ao
+captar zonas ligadas, sua baixa especificidade compromete a
+aplicabilidade prática. Dentre as demais metodologias, os protocolos
+MARS se destacam pelo equilíbrio entre detecção e precisão,
+especialmente em cenários de alta herdabilidade e múltiplos QTLs.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26100)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=Portuguese_Brazil.utf8  LC_CTYPE=Portuguese_Brazil.utf8   
+[3] LC_MONETARY=Portuguese_Brazil.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Portuguese_Brazil.utf8    
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] gridExtra_2.3    ggthemes_5.1.0   ggnewscale_0.5.2 ggrepel_0.9.6   
+ [5] lubridate_1.9.4  forcats_1.0.0    stringr_1.5.1    dplyr_1.1.4     
+ [9] purrr_1.1.0      readr_2.1.5      tidyr_1.3.1      tibble_3.3.0    
+[13] ggplot2_3.5.2    tidyverse_2.0.0  metan_1.19.0    
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6        xfun_0.52           bslib_0.9.0        
+ [4] GGally_2.2.1        lattice_0.22-7      tzdb_0.5.0         
+ [7] numDeriv_2016.8-1.1 mathjaxr_1.8-0      vctrs_0.6.5        
+[10] tools_4.4.1         Rdpack_2.6.4        generics_0.1.4     
+[13] pkgconfig_2.0.3     Matrix_1.7-0        RColorBrewer_1.1-3 
+[16] lifecycle_1.0.4     compiler_4.4.1      farver_2.1.2       
+[19] git2r_0.36.2        ggforce_0.5.0       lmerTest_3.1-3     
+[22] httpuv_1.6.16       htmltools_0.5.8.1   sass_0.4.10        
+[25] yaml_2.3.10         later_1.4.2         pillar_1.11.0      
+[28] nloptr_2.2.1        jquerylib_0.1.4     whisker_0.4.1      
+[31] MASS_7.3-60.2       cachem_1.1.0        reformulas_0.4.1   
+[34] boot_1.3-30         nlme_3.1-168        ggstats_0.10.0     
+[37] tidyselect_1.2.1    digest_0.6.37       stringi_1.8.7      
+[40] labeling_0.4.3      splines_4.4.1       polyclip_1.10-7    
+[43] rprojroot_2.0.4     fastmap_1.2.0       grid_4.4.1         
+[46] cli_3.6.5           magrittr_2.0.3      patchwork_1.3.1    
+[49] utf8_1.2.6          withr_3.0.2         scales_1.4.0       
+[52] promises_1.3.3      writexl_1.5.4       timechange_0.3.0   
+[55] rmarkdown_2.29      lme4_1.1-37         workflowr_1.7.1    
+[58] hms_1.1.3           evaluate_1.0.4      knitr_1.50         
+[61] rbibutils_2.3       rlang_1.1.6         Rcpp_1.1.0         
+[64] glue_1.8.0          tweenr_2.0.3        rstudioapi_0.17.1  
+[67] minqa_1.2.8         jsonlite_2.0.0      R6_2.6.1           
+[70] plyr_1.8.9          fs_1.6.6           </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

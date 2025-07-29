@@ -49,21 +49,6 @@ Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)
 Departamento de Estatística - UFV  
 [weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)
 
-**Hélcio Duarte Pereira**  
-Pesquisador Associado  
-Centro de Biologia Molecular e Engenharia Genética (CBMEG/UNICAMP)  
-[hhelciopas-sos@yahoo.com.br](mailto:hhelciopas-sos@yahoo.com.br)
-
-**Gabi Nunes Silva**  
-Professora Adjunta  
-Universidade Federal de Rondônia  
-[gabi.silva@unir.br](mailto:gabi.silva@unir.br)
-
-**Aluizio Borém**  
-Professor Titular  
-Departamento de Agronomia - UFV  
-[borem@ufv.br](mailto:borem@ufv.br)
-
 **Cosme Damião Cruz**  
 Coordenador Científico  
 Instituto de Inteligência Artificial e Computacional (Idata) - UFV  
@@ -76,10 +61,9 @@ LICAE/Departamento de Estatística - UFV
 
 ---
 
-## Instituições Parceiras / Partner Institutions
+## Instituições/Institutions
 - [Universidade Federal de Viçosa (UFV)](https://www.ufv.br/)
-- [Universidade Estadual de Campinas (UNICAMP)](https://www.unicamp.br/)
-- [Universidade Federal de Rondônia (UNIR)](https://www.unir.br/)
+- [Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)](https://www.licae.ufv.br/)
 - [Instituto de Inteligência Artificial e Computacional (Idata)](https://www.idata.ufv.br/)
 
 ---

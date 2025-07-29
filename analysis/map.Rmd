@@ -165,7 +165,7 @@ map5 <- map %>%
 
 Agora cirei o gráfico de cada característica e depois agrupei eles em apenas uma imagem `maps`.
 
-```{r}
+```{r out.width='100%'}
 map_plot1 <- ggplot(map1, aes(x = LG, y = Size)) +
   geom_segment(aes(
     yend = 200,

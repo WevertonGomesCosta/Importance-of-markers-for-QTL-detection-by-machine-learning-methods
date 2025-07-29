@@ -16,13 +16,11 @@ github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machi
 knitr::opts_chunk$set(echo = T, warning = F, message = F)
 ```
 
-## Importance of markers for QTL detection by machine learning methods
-
 # Creating Genetic Map Chart
 
-## Libraries 
+Este documento tem como objetivo criar um gráfico genético para as características do experimento. O gráfico será dividido em cinco partes, cada uma representando uma característica diferente.
 
-```{r}
+```{r libraries}
 library(tidyverse)
 library(data.table)
 library(metan)
@@ -37,13 +35,13 @@ library(tidytext)
 
 Primeiro vamos definir nossos SNPs de interesse para as variáveis. Essas informações foram pré-definidas e podem ser encontrados no arquivo `control_genetic`. Vamos carregar o arquivo `snpsOfInterest.RData` que contém as infomações dos snps considerados QTLs por variavel. 
 
-```{r}
+```{r load_snps}
 load("data/snpsOfInterest.RData")
 ```
 
 Agora vamos definir os nomes das colunas para nosso `snpsOfInterest` e criar um objeto `locus` com as informações de ininício e témino de cada grupo de ligação. 
 
-```{r}
+```{r define_colnames}
 locus <-
   data.frame(
     c(
@@ -75,7 +73,7 @@ colnames(locus) <- c("marker")
 
 Para facilitar a visualização criei um gráfico  genético das características `map_plot`. Para isso criei o  `map` com o número de marcadores e tamanho de cada grupo de liagação. 
 
-```{r}
+```{r create_map}
 map <-
   data.frame(rbind(
     cbind(seq(1, 401, 1), rep("LG 1", 401), seq(0, 200, 0.5)),
@@ -116,7 +114,7 @@ map <- map %>%
 
 Para dividir a figura e mostrar todos os maps genômicos das características, dividi o `snpsOfInterest` e o `map` para cada característica e inclui os SNPs de interesse no `map` para cada característica.
 
-```{r}
+```{r split_snps}
 snpsOfInterest1 <- snpsOfInterest %>%
   filter(variable == 1)
 
@@ -165,7 +163,7 @@ map5 <- map %>%
 
 Agora cirei o gráfico de cada característica e depois agrupei eles em apenas uma imagem `maps`.
 
-```{r out.width='100%'}
+```{r maps, out.width='100%'}
 map_plot1 <- ggplot(map1, aes(x = LG, y = Size)) +
   geom_segment(aes(
     yend = 200,
@@ -505,4 +503,9 @@ maps <- ggdraw() +
   )
 
 print(maps)
+```
+
+```{r save_maps, echo=FALSE, eval=FALSE, include=FALSE}
+# Save the maps plot to a file
+ggsave("output/genetic_map.png", plot = maps, width = 12, height = 8, dpi = 300)
 ```

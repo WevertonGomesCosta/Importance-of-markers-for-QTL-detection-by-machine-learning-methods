@@ -7,6 +7,7 @@ url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detectio
 output:
   workflowr::wflow_html:
     toc: TRUE
+    toc_float: TRUE
   highlight: github
 editor_options:
   chunk_output_type: console
@@ -15,29 +16,38 @@ github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machi
 
 # Importance Markers for QTL Detection by Machine Learning Methods
 
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = T, warning = F, message = F)
+```
+
 This document provides an overview of the analysis performed to assess the importance of markers for QTL detection using machine learning methods. The analysis includes data preparation, trait importance calculation, and visualization of results.
 
 The traits importance data was obtained by script in [Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis](https://wevertongomescosta.github.io/Genomic-prediction-through-machine-learning-and-neural-networks-for-traits-with-epistasis/)
 
 
-```{r setup, essage=FALSE, warning=FALSE}
-library(metan)
-library(tidyverse)
-library(ggrepel)
-library(ggnewscale)
-library(ggthemes)
-library(gridExtra)
+```{r package, message=FALSE, warning=FALSE}
+library(metan) # for the `metan` package
+library(tidyverse) # for data manipulation and visualization
+library(ggrepel) # for text label positioning
+library(ggnewscale) # for multiple color scales in ggplot2
+library(ggthemes) # for additional ggplot2 themes
+library(gridExtra) # for arranging multiple ggplot2 plots
 ```
 
 ## Data importantion 
 
 The results are stored in the `imp.tot` object. The `snpsOfInterest` object contains the SNPs of interest, and the `results_gwas` object contains the results of the GWAS analysis. 
 
-```{r}
+```{r load_data}
+# Load the data
 load("output/imp.tot.RData")
 head(imp.tot)
+
+# Load the SNPs of interest and GWAS results
 load("data/snpsOfInterest.RData")
 head(snpsOfInterest)
+
+# Load the GWAS results
 load("output/results_gwas.rda")
 head(results_gwas)
 ```
@@ -50,7 +60,8 @@ Os dados de importância dos marcadores são organizados em um formato adequado 
 
 O objeto `imp.tot` contém a importância dos marcadores para cada variável e método. A seguir, realizamos algumas transformações nos dados para facilitar a análise. Como temos 10 variáveis, cada uma com 4010 marcadores, e 11 métodos, para cada repetição e cada fold, vamos obter uma média dos dados. 
 
-```{r}
+```{r prepare_importance_data}
+# Preparando os dados de importância dos marcadores
 imp.tot <- imp.tot %>%
   mutate(
     variable = as.numeric(variable),
@@ -65,7 +76,7 @@ imp.tot <- imp.tot %>%
 
 Os dados do GWAS são filtrados para incluir apenas os marcadores significativos, e o limiar de significância é definido com base no número total de marcadores.
 
-```{r}
+```{r results_gwas_prep}
 # Definindo o limiar de significância
 alpha <- 0.05
 n.markers <- 4010
@@ -94,10 +105,10 @@ results_gwas_sig <- results_gwas %>%
 
 Normalizamos a importância dos marcadores para cada variável e método, escalando os valores de `Overall` para um intervalo de 0 a 10. Isso facilita a comparação entre diferentes métodos e variáveis.
 
-```{r}
+```{r normalize_importance}
+# Normalizando a importância dos marcadores para cada variável e método
 methods <- unique(imp.tot$method)
 variables <- unique(imp.tot$variable)
-
 normalized_imp <- imp.tot %>%
   group_by(method, variable) %>%
   mutate(Overall_res = scales::rescale(Overall, to = c(0, 10), finite = F)) %>%
@@ -108,7 +119,7 @@ normalized_imp <- imp.tot %>%
 
 Primeiro criamos dois data frames, `reg1` e `reg2`, que contêm os marcadores ao redor de cada SNP de interesse. Em seguida, unimos esses data frames para criar o data frame `region`, que contém as regiões ao redor dos SNPs de interesse.
 
-```{r}
+```{r region_creation}
 # Criando os data frames 'reg1' e 'reg2' com os marcadores ao redor de cada SNP de interesse
 reg1 <- snpsOfInterest %>%
   group_by(variable) %>%
@@ -140,7 +151,7 @@ region <- reg1 %>%
 
 Para cada região, contamos o número de genes presentes. Isso nos ajuda a entender a densidade de marcadores em cada região do QTL. 
 
-```{r}
+```{r count_genes_region}
 # Contando o número de genes em cada região
 ngenes_region <- region %>%
   group_by(variable) %>%
@@ -152,7 +163,7 @@ ngenes_region <- region %>%
 
 Os efeitos médios dos marcadores são calculados para cada variável e método, permitindo uma análise comparativa da importância dos marcadores entre diferentes métodos de machine learning e a atribuição de significância aos marcadores.
 
-```{r}
+```{r effects_markers}
 # Calculando a importância média dos marcadores para cada variável e método
 effects_markers <- normalized_imp %>%
   group_by(variable, method) %>%
@@ -169,7 +180,7 @@ O data frame `plot_data` é criado para associar os marcadores às regiões do Q
 
 Além disso, adicionamos informações sobre os marcadores e regiões, como se o marcador é destacado (`is_highlight`) ou anotado (`is_annotate`), e criamos variáveis adicionais para facilitar a análise. 
 
-```{r}
+```{r plot_data_creation}
 # Associando os marcadores às regiões do QTL
 plot_data <- normalized_imp %>%
   mutate(
@@ -207,7 +218,7 @@ plot_data <- plot_data %>%
 
 Para facilitar a análise, criamos variáveis adicionais no data frame `plot_data`, como `herd`, `ngenes`, `created`, e `is_high_anno`. Essas variáveis ajudam a categorizar os dados e a identificar as características dos métodos e das regiões analisadas. 
 
-```{r}
+```{r create_additional_variables}
 # Criando variáveis adicionais no data frame plot_data
 plot_data <- plot_data %>%
   mutate(
@@ -258,7 +269,7 @@ plot_data <- plot_data %>%
 
 Algumas variáveis foram criadas para simular diferentes cenários de herdabilidade e número de genes. Para a análise, vamos focar apenas nas variáveis simuladas, excluindo aquelas que não são relevantes para o nosso estudo.
 
-```{r}
+```{r filter_simulated_variables}
 # Filtrando apenas as variáveis simuladas
 plot_data <- plot_data %>%
   filter(created == "Simulated" & ngenes != 480) %>%
@@ -278,7 +289,7 @@ Nesta seção, calculamos o índice de coincidência entre os marcadores anotado
 
 Primeiro, filtramos os dados para obter apenas os marcadores anotados e contamos quantos marcadores estão presentes em cada região.
 
-```{r}
+```{r count_annotated_markers}
 # Contando os marcadores anotados
 ver <- plot_data %>%
   filter(is_annotate == "yes") %>%
@@ -290,7 +301,7 @@ ver <- plot_data %>%
 
 A seguir, separamos os acertos (marcadores anotados que estão presentes nas regiões) e os erros (marcadores anotados que não estão presentes nas regiões).
 
-```{r}
+```{r separating_correct_errors}
 # Separando acertos e erros
 certo <- ver %>%
   filter(region_markers != "NA") %>%
@@ -317,7 +328,7 @@ erro <- errado %>%
 
 O data frame `coinc` é criado unindo os acertos e erros, e adicionando informações sobre o número de genes em cada região. Em seguida, calculamos os índices de Poder de Decisão (PD), Falso Positivo (FP), Precisão, Especificidade e F1 Score para cada variável e método.
 
-```{r}
+```{r calculate_indices}
 # Unindo acertos e erros e calculando os índices
 coinc <- full_join(acerto, erro) %>%
   full_join(ngenes_region) %>%
@@ -374,7 +385,7 @@ Para visualizar os índices de coincidência, utilizamos gráficos de calor (hea
 
 Para visualizar o Poder de Decisão (PD) e a Precisão, utilizamos um gráfico de calor onde os valores são representados por cores. Os métodos são organizados em ordem decrescente de importância, e as regiões são facetadas por herdabilidade.
 
-```{r}
+```{r visualize_PD_Precision}
 # Visualizando os índices de coincidência
 coinc %>%
   select(method, ngenes, herd, PD, Precision) %>%
@@ -425,7 +436,7 @@ coinc %>%
 
 Para visualizar o Falso Positivo (FP) e a Especificidade, utilizamos um gráfico de calor semelhante ao anterior, onde os valores são representados por cores. Os métodos são organizados em ordem decrescente de importância, e as regiões são facetadas por herdabilidade.
 
-```{r}
+```{r visualize_FP_Specificity}
 coinc %>%
   select(method, ngenes, herd, FP, Specificity) %>%
   pivot_longer(cols = 4:5) %>%
@@ -477,7 +488,7 @@ coinc %>%
 
 O índice F1 Score é uma métrica que combina a precisão e o Poder de Decisão (PD) em um único valor, permitindo uma avaliação mais equilibrada do desempenho dos métodos. A seguir, apresentamos o gráfico de calor para o F1 Score.
 
-```{r}
+```{r visualize_F1_Score}
 coinc %>%
   select(method, ngenes, herd, `F1 Score`) %>%
   pivot_longer(cols = 4) %>%

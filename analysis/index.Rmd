@@ -11,7 +11,7 @@ url: "https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detecti
 github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-<!-- Este script foi desenvolvido para o artigo intitulado: "Machine Learning in Genome-Wide Association Studies for Complex Traits", enviado para a revista Agronomy (EISSN 2073-4395, Published by MDPI) -->
+<!-- Este script foi desenvolvido para o artigo intitulado: "Machine Learning in Genome-Wide Association Studies for Complex Traits" -->
 
 # Português
 

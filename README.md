@@ -1,6 +1,6 @@
 # Importância de Marcadores Moleculares na Detecção de QTLs por Métodos de Machine Learning
 
-*Este repositório foi desenvolvido para o artigo intitulado "Machine Learning in Genome-Wide Association Studies for Complex Traits", enviado para a revista Agronomy (EISSN 2073-4395, Published by MDPI).*
+*Este repositório foi desenvolvido para o artigo intitulado "Machine Learning in Genome-Wide Association Studies for Complex Traits".*
 
 ![ML in GWAS](https://example.com/images/ml_gwas.png)
 

@@ -19,7 +19,7 @@ github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machi
 Nesse script, vamos realizar uma análise de associação genômica ampla (GWAS) utilizando o modelo linear generalizado (GLM) com o pacote GAPIT. O objetivo é identificar marcadores genéticos associados a características fenotípicas específicas.
 
 ```{r setup, include=FALSE} 
-knitr::opts_chunk$set(echo = T, warning = F, message = F)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, out.width = "100%")
 ```
 
 ```{r packages, message=FALSE, warning=FALSE}

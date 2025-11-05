@@ -13,7 +13,7 @@ github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machi
 ---
 
 ```{r setup, include=F} 
-knitr::opts_chunk$set(echo = T, warning = F, message = F)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, out.width = "100%")
 ```
 
 # Creating Genetic Map Chart

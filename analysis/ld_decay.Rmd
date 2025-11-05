@@ -19,7 +19,7 @@ github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machi
 This document provides a detailed analysis of Linkage Disequilibrium (LD) decay across different linkage groups using genotype and map data. The analysis includes the following steps:
 
 ```{r setup, include=FALSE} 
-knitr::opts_chunk$set(echo = T, warning = F, message = F)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, out.width = "100%")
 ```
 
 ```{r libraries}
@@ -208,9 +208,7 @@ p +
   )
 ```
 
-```{r ave_plot, echo=FALSE, eval=FALSE, include=FALSE}
+```{r save_plot, echo=FALSE, eval=FALSE, include=FALSE}
 # Save the plot to a file
-ggsave("output/ld_decay_plot.png", plot = last_plot(), width = 12, height = 8, dpi = 300)
+ggsave("output/ld_decay_plot.tiff", plot = last_plot(), width = 12, height = 8, dpi = 300)
 ```
-
-

@@ -17,7 +17,7 @@ github-repo: wevertongomescosta/Importance-of-markers-for-QTL-detection-by-machi
 # Importance Markers for QTL Detection by Machine Learning Methods
 
 ```{r setup, include=FALSE} 
-knitr::opts_chunk$set(echo = T, warning = F, message = F)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, out.width = "100%")
 ```
 
 This document provides an overview of the analysis performed to assess the importance of markers for QTL detection using machine learning methods. The analysis includes data preparation, trait importance calculation, and visualization of results.
@@ -427,7 +427,7 @@ coinc %>%
   # Fixando a proporção dos eixos
   coord_fixed() +
   # Adicionando os valores de PD como texto nos tiles
-  geom_text(aes(label = value), color = "black") +
+  geom_text(aes(label = value), color = "black", size = 2.5) +
   # Ajustando o título do eixo X
   labs(x = "Number of Genes")
 ```
@@ -479,7 +479,7 @@ coinc %>%
   # Fixando a proporção dos eixos
   coord_fixed() +
   # Adicionando os valores de PD como texto nos tiles
-  geom_text(aes(label = value), color = "black") +
+  geom_text(aes(label = value), color = "black", size = 2.5) +
   # Ajustando o título do eixo X
   labs(x = "Number of Genes")
 ```

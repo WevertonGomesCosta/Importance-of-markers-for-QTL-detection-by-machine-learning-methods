@@ -1,93 +1,127 @@
-# Importância de Marcadores Moleculares na Detecção de QTLs por Métodos de Machine Learning
+# Importance of Markers for QTL Detection by Machine Learning Methods
 
-*Este repositório foi desenvolvido para o artigo intitulado "Machine Learning in Genome-Wide Association Studies for Complex Traits".*
-
-![ML in GWAS](https://example.com/images/ml_gwas.png)
-
-Bem-vindo ao repositório oficial do estudo sobre aplicação de machine learning em estudos de associação genômica ampla (GWAS) para caracteres complexos.
-
-## Conteúdo Principal
-1. **Mapa Genético Interativo**: Visualização de ligação genômica e distribuição de marcadores
-2. **Análise de Importância de Marcadores**: Métodos computacionais para identificação de QTLs
-3. **Pipeline Reprodutível**: Fluxo completo de análise de dados genômicos
-4. **Comparativo de Algoritmos**: Avaliação de diferentes métodos de ML na detecção de QTLs
-
-## Autores
-**Equipe Principal**  
-Weverton Gomes da Costa¹, Hélcio Duarte Pereira², Gabi Nunes Silva³, Aluizio Borém⁴, Cosme Damião Cruz⁵, Moyses Nascimento¹*  
-
-**Afiliações**  
-¹ Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE), UFV  
-² Centro de Biologia Molecular e Engenharia Genética (CBMEG/UNICAMP)  
-³ Universidade Federal de Rondônia  
-⁴ Departamento de Agronomia, UFV  
-⁵ Instituto de Inteligência Artificial e Computacional (Idata), UFV 
-
-## Como Navegar
-1. **Home**: Visão geral do projeto e principais resultados
-2. **Map Genetic**: Visualização interativa do mapa genético
-3. **Importance Markers**: Análises de importância de marcadores por diferentes algoritmos
-4. **About**: Detalhes metodológicos e informações institucionais
-5. **License**: Termos de uso e distribuição
-
-## Requisitos Técnicos
-- R ≥ 4.0.0
-- Pacotes CRAN: `caret`, `randomForest`, `ggplot2`
-- Ambiente reprodutível via `renv`
-
-## Contribuição
-Contribuições são bem-vindas mediante:
-- Relato de issues através do [GitHub](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/issues)
-- Submissão de pull requests para correções críticas
-- Sugestões de novos métodos de análise
-
-## Licença
-Este trabalho está licenciado sob [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Para uso comercial, contate os autores.
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+![R](https://img.shields.io/badge/Made%20with-R-blue.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)
+![GitHub last commit](https://img.shields.io/github/last-commit/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)
+[![Website](https://img.shields.io/badge/Project%20Site-online-brightgreen)](https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/)
+> **Note:** This repository contains the source code and reproducible pipeline for the research article: *"Benchmarking Machine Learning and Modern GWAS Methods for QTL Detection in Complex Traits"*.
 
 ---
 
-# Importance of Molecular Markers for QTL Detection Using Machine Learning Methods
+# Português
 
-*This repository was developed for the article titled "Machine Learning in Genome-Wide Association Studies for Complex Traits", submitted to the journal Agronomy (EISSN 2073-4395, Published by MDPI).*
+## 🧬 Sobre o Projeto
 
-![ML in GWAS](https://example.com/images/ml_gwas.png)
+Bem-vindo ao repositório oficial. Este estudo realiza um **benchmark computacional** comparando a eficácia de métodos de **Machine Learning (ML)** contra modelos estatísticos clássicos e modernos (**Modelos Mistos / GWAS**) na identificação de marcadores moleculares (QTLs).
 
-Welcome to the official repository for the study on machine learning applications in genome-wide association studies (GWAS) for complex traits.
+O pipeline integra computação de alto desempenho (HPC) para processar cenários complexos de herdabilidade e epistasia.
 
-## Core Content
-1. **Interactive Genetic Map**: Genome-wide linkage visualization
-2. **Marker Importance Analysis**: Computational methods for QTL identification
-3. **Reproducible Pipeline**: Complete genomic data analysis workflow
-4. **Algorithm Comparison**: Evaluation of different ML methods in QTL detection
+### 🚀 Conteúdo Principal
 
-## Authors
-**Core Team**  
-Weverton Gomes da Costa¹, Hélcio Duarte Pereira², Gabi Nunes Silva³, Aluizio Borém⁴, Cosme Damião Cruz⁵, Moyses Nascimento¹*  
+1.  **Genética:** Mapas de ligação e decaimento de Desequilíbrio de Ligação (LD).
+2.  **GWAS Multi-Modelo:** Execução paralela de GLM, MLM, CMLM, MLMM, FarmCPU e BLINK via GAPIT.
+3.  **Machine Learning:** Extração de "Feature Importance" via Random Forest, Bagging, Boosting (GBM), Decision Trees e MARS.
+4.  **Consolidação:** Análise comparativa de Poder de Detecção, Precisão, Falsos Positivos e F1-Score.
 
-**Affiliations**  
-¹ Computational Intelligence and Statistical Learning Laboratory (LICAE), UFV  
-² Center for Molecular Biology and Genetic Engineering (CBMEG/UNICAMP)  
-³ Federal University of Rondônia  
-⁴ Agronomy Department, UFV  
-⁵ Institute of Artificial and Computational Intelligence (Idata), UFV  
+### 👥 Autores
 
-## Navigation Guide
-1. **Home**: Project overview and key findings
-2. **Map Genetic**: Interactive genetic map visualization
-3. **Importance Markers**: Marker importance analysis across algorithms
-4. **About**: Methodological details and institutional information
-5. **License**: Usage and distribution terms
+**Equipe Principal** Weverton Gomes da Costa¹, Cosme Damião Cruz², Moyses Nascimento¹*
 
-## Technical Requirements
-- R ≥ 4.0.0
-- CRAN packages: `caret`, `randomForest`, `ggplot2`
-- Reproducible environment via `renv`
+**Afiliações** ¹ Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE), Dep. de Estatística - UFV  
+² Instituto de Inteligência Artificial e Computacional (Idata) - UFV
 
-## Contribution
-Contributions are welcome through:
-- Issue reporting via [GitHub](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/issues)
-- Pull request submission for critical fixes
-- Suggestions for new analytical methods
+*\*Autor para correspondência: moysesnascim@ufv.br*
 
-## License
-This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). For commercial use, please contact the authors.
+### 🧭 Como Navegar no Site do Projeto
+
+Acesse a documentação completa em: **[Project Website](https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/)**
+
+1.  **Genetic Map & LD:** Estrutura populacional e genômica.
+2.  **Association Models:** Resultados brutos do GWAS (GAPIT) e ML.
+3.  **Consolidated Analysis:** Tabelas e Heatmaps comparativos finais.
+
+### 💻 Requisitos Técnicos
+
+* **Linguagem:** R (≥ 4.0.0)
+* **Gerenciamento de Pacotes:** `renv` (para reprodutibilidade exata).
+* **Bibliotecas Chave:**
+    * *GWAS:* `GAPIT`
+    * *ML:* `randomForest`, `gbm`, `earth` (MARS), `rpart`, `caret`
+    * *Core:* `tidyverse`, `doParallel`, `foreach`
+
+### 📦 Instalação e Reprodução
+
+```r
+# 1. Clonar o repositório
+# git clone [https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git)
+
+# 2. Restaurar o ambiente (dentro do RStudio)
+renv::restore()
+
+# 3. Compilar o site e análises
+workflowr::wflow_build()
+````
+
+-----
+
+# English
+
+## 🧬 About the Project
+
+Welcome to the official repository. This study performs a **computational benchmark** comparing the efficacy of **Machine Learning (ML)** methods against classic and modern statistical models (**Mixed Models / GWAS**) in identifying molecular markers (QTLs).
+
+The pipeline integrates high-performance computing (HPC) to process complex scenarios involving varying heritability and epistasis.
+
+### 🚀 Core Content
+
+1.  **Genetics:** Linkage maps and Linkage Disequilibrium (LD) decay.
+2.  **Multi-Model GWAS:** Parallel execution of GLM, MLM, CMLM, MLMM, FarmCPU, and BLINK via GAPIT.
+3.  **Machine Learning:** Feature Importance extraction via Random Forest, Bagging, Boosting (GBM), Decision Trees, and MARS.
+4.  **Consolidation:** Comparative analysis of Detection Power, Precision, False Positive Rate, and F1-Score.
+
+### 👥 Authors
+
+**Core Team** Weverton Gomes da Costa¹, Cosme Damião Cruz², Moyses Nascimento¹\*
+
+**Affiliations** ¹ Computational Intelligence and Statistical Learning Laboratory (LICAE), Statistics Dept. - UFV  
+² Institute of Artificial and Computational Intelligence (Idata) - UFV
+
+*\*Corresponding author: moysesnascim@ufv.br*
+
+### 🧭 Navigation Guide
+
+Access the full documentation at: **[Project Website](https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/)**
+
+1.  **Genetic Map & LD:** Population structure and genomics.
+2.  **Association Models:** Raw results from GWAS (GAPIT) and ML.
+3.  **Consolidated Analysis:** Final comparative tables and Heatmaps.
+
+### 💻 Technical Requirements
+
+  * **Language:** R (≥ 4.0.0)
+  * **Package Management:** `renv` (for exact reproducibility).
+  * **Key Libraries:**
+      * *GWAS:* `GAPIT`
+      * *ML:* `randomForest`, `gbm`, `earth` (MARS), `rpart`, `caret`
+      * *Core:* `tidyverse`, `doParallel`, `foreach`
+
+### 📦 Installation & Reproduction
+
+```r
+# 1. Clone the repository
+# git clone [https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods.git)
+
+# 2. Restore environment (inside RStudio)
+renv::restore()
+
+# 3. Build website and analyses
+workflowr::wflow_build()
+```
+
+-----
+
+## 📄 License / Licença
+
+This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).  
+For commercial use, please contact the authors.

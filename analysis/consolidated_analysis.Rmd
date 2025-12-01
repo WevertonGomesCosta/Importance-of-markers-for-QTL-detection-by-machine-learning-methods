@@ -37,6 +37,10 @@ library(tidyverse) # Data manipulation (dplyr) and visualization (ggplot2)
 library(scales)    # Axis scaling and formatting
 library(patchwork) # Composition of multi-panel plots
 library(stringr)   # String manipulation
+library(ggnewscale)  # Multiple color scales in ggplot2
+library(ggrepel)   # Improved text labels in ggplot2
+library(ggthemes) # Additional ggplot2 themes
+library(DT)        # Interactive tables
 ```
 
 # 2. Data Importation
@@ -55,7 +59,7 @@ Machine Learning models (Random Forest, MARS, etc.) output **Importance Scores**
 ```{r load_ml}
 # 1. Define the path to the consolidated ML file
 # This file was created in the 'genomic_prediction.Rmd' script
-ml_files <- "output/ML_Results_Importance_CONSOLIDATED.csv"
+ml_files <- "output/ml_cv/ML_Results_Importance_CONSOLIDATED.csv"
 
 # 2. Reading and Cleaning (Explicit Process)
 # We use map_dfr to read the file(s) and apply a consistent cleaning function
@@ -148,7 +152,7 @@ if (file.exists(gwas_file)) {
       fold      = as.numeric(fold),
       overall   = as.numeric(overall),
       method    = as.character(method),
-      type      = "GWAS" # Tag to differentiate later
+      type      = "MM" # Tag to differentiate later
     ) %>%
     # Safety filter to remove corrupted rows (NAs)
     filter(!is.na(marker), !is.na(variable)) %>%
@@ -161,6 +165,13 @@ if (file.exists(gwas_file)) {
   warning("File 'GWAS_Results_Importance_CONSOLIDATED.csv' not found in output/gwas_cv/.")
   gwas_data <- data.frame()
 }
+
+head(gwas_data)
+```
+
+```{r filter_super, include=FALSE}
+gwas_data <- gwas_data %>% 
+  filter(method != "SUPER")
 ```
 
 ### 2.3. Unification
@@ -172,6 +183,12 @@ Finally, we stack the two datasets vertically. This creates a master dataset con
 all_data <- bind_rows(ml_data, gwas_data)
 cat("Total consolidated records:", nrow(all_data), "\n")
 ```
+
+```{r}
+all_data <- all_data %>% 
+  filter(variable %in% c(7:11, 13:17))
+```
+
 
 # 3. Ground Truth Definition (True QTLs)
 
@@ -215,6 +232,8 @@ region_map <- snpsOfInterest %>%
     is_in_region = TRUE
   )
 
+head(region_map)
+
 # --- B. Reference with ID (For Detection Power) ---
 # We keep the QTL_ID to count how many "unique QTLs" were found (Hit Rate)
 qtl_reference <- snpsOfInterest %>%
@@ -224,6 +243,8 @@ qtl_reference <- snpsOfInterest %>%
   ungroup() %>%
   unnest(cols = marker) %>%
   select(variable, marker, QTL_ID)
+
+head(qtl_reference)
 
 # --- C. Denominators (For Rates) ---
 truth_metadata <- snpsOfInterest %>%
@@ -236,6 +257,8 @@ markers_in_target <- region_map %>%
 
 truth_metadata <- left_join(truth_metadata, markers_in_target, by = "variable") %>%
   mutate(total_noise_markers = total_markers_genotype - total_target_markers)
+
+head(truth_metadata)
 ```
 
 # 4. Marker Classification
@@ -281,6 +304,8 @@ classified_data <- all_data %>%
       !is_selected & !is_in_region ~ "TN" # True Negative (Correct Rejection)
     )
   )
+
+head(classified_data)
 ```
 
 # 5. Calculation of Metrics by Replicate
@@ -298,6 +323,8 @@ hits_calc <- classified_data %>%
   inner_join(qtl_reference, by = c("variable", "marker"), relationship = "many-to-many") %>%
   group_by(variable, method, replicate, fold) %>%
   summarise(acerto_qtl = n_distinct(QTL_ID), .groups = "drop")
+
+head(hits_calc)
 ```
 
 ### 5.2. Error Statistics (FP) and Rejections (TN)
@@ -316,6 +343,8 @@ marker_stats <- classified_data %>%
     TN_markers = sum(classification == "TN"),
     .groups = "drop"
   )
+
+head(marker_stats)
 ```
 
 # 6. Consolidation and Calculation of Means
@@ -363,6 +392,8 @@ coinc_raw <- skeleton %>%
                       2 * ((DP * Precision) / (DP + Precision)))
   )
 
+head(coinc_raw)
+
 # Calculate Means and Standard Deviations across replicates
 coinc_summary <- coinc_raw %>%
   group_by(variable, method) %>%
@@ -384,6 +415,8 @@ coinc_summary <- coinc_raw %>%
     
     .groups = "drop"
   )
+
+head(coinc_summary)
 
 # Add Metadata and Classification (MM vs ML)
 coinc_plot <- coinc_summary %>%
@@ -422,6 +455,8 @@ coinc_plot <- coinc_plot %>%
     method = factor(method, levels = rev(sort(unique(method)))),
     ngenes_f = factor(ngenes, levels = sort(unique(ngenes)))
   )
+
+head(coinc_plot[,15:20])
 ```
 
 ```{r filter_variables, include=FALSE}
@@ -572,15 +607,15 @@ print(final_f1)
 ggsave("output/F1_Score_heatmap.tiff", final_f1, width = 14, height = 8, dpi = 300)
 ```
 
-# 8. Tabela Detalhada: Acertos e Erros
+# 8. Detailed Table: Hits and Errors
 
-Abaixo apresentamos a média e o desvio padrão de:
-* **Acertos (TP):** Quantidade de QTLs únicos encontrados.
-* **Erros (FP):** Quantidade de marcadores de ruído selecionados incorretamente.
+Below, we present the mean and standard deviation for:
+* **Hits (TP):** The number of unique true QTLs found.
+* **Errors (FP):** The number of noise markers incorrectly selected.
 
 ```{r detailed_table}
-# 1. Preparar os dados brutos
-# Unimos as contagens de Hits (QTLs) e Stats (FP/TN)
+# 1. Prepare Raw Data
+# Join Hits counts (QTLs) and Stats (FP/TN)
 raw_counts <- hits_calc %>%
   full_join(marker_stats, by = c("variable", "method", "replicate", "fold")) %>%
   mutate(
@@ -588,29 +623,29 @@ raw_counts <- hits_calc %>%
     FP_markers = replace_na(FP_markers, 0)
   )
 
-# 2. Calcular Média e Desvio Padrão por Variável e Método
+# 2. Calculate Mean and SD by Variable and Method
 table_summary <- raw_counts %>%
   group_by(variable, method) %>%
   summarise(
-    # Acertos (TP)
+    # Hits (TP)
     TP_Mean = mean(acerto_qtl),
     TP_SD   = sd(acerto_qtl),
     
-    # Erros (FP)
+    # Errors (FP)
     FP_Mean = mean(FP_markers),
     FP_SD   = sd(FP_markers),
     
     .groups = "drop"
   )
 
-# 3. Adicionar Metadados para facilitar a leitura
+# 3. Add Metadata for readability
 table_display <- table_summary %>%
   mutate(
-    # Formatação "Média ± SD"
+    # Format as "Mean ± SD"
     Hits_Format = paste0(round(TP_Mean, 2), " ± ", round(TP_SD, 2)),
     Errors_Format = paste0(round(FP_Mean, 2), " ± ", round(FP_SD, 2)),
     
-    # Informação de Herdabilidade (Opcional, ajuda na filtragem)
+    # Heritability Info (Optional, helps filtering)
     Heritability = case_when(
       variable %in% 1:6  ~ "0.3",
       variable %in% 7:12 ~ "0.5",
@@ -620,19 +655,142 @@ table_display <- table_summary %>%
     Methodology = ifelse(method %in% gwas_methods, "MM", "ML")
   ) %>%
   select(variable, Heritability, method, Methodology, Hits_Format, Errors_Format) %>%
-  arrange(variable, desc(Methodology), method) %>% 
-  filter(variable %in% c(7:11, 13:17)) # Filtrar apenas variáveis válidas
+  arrange(variable, desc(Methodology), method)
 
-# 4. Gerar Tabela Interativa
-# Se não tiver o pacote DT instalado: install.packages("DT")
-library(DT)
-
+# 4. Generate Interactive Table
 datatable(table_display, 
           rownames = FALSE,
           filter = 'top',
           options = list(pageLength = 15, autoWidth = TRUE),
           colnames = c("Var", "h2", "Method", "Type", "Hits (Mean ± SD)", "Errors (Mean ± SD)"))
 ```
+
+# 9\. Computational Efficiency (Runtime)
+
+In addition to biological precision, computational cost is a decisive factor. Below, we unify the execution times, standardizing column names (Rep -\> Replicate, Var -\> Variable) to generate a benchmark.
+
+```{r runtime_analysis, fig.width=12, fig.height=6}
+# Required libraries for themes
+library(ggthemes)
+
+# 1. Load Runtime Files
+# Note: Adjust paths if necessary
+gwas_time_file <- "output/gwas_cv/GWAS_Runtime_Summary.csv"
+
+# Prefer the specific runtime file, fallback to metrics file if needed
+ml_time_file   <- "output/ml_cv/ML_Results_Metrics_CONSOLIDATED.csv" 
+
+time_data <- data.frame()
+
+# --- Load GWAS and Standardize ---
+if(file.exists(gwas_time_file)) {
+  df_gwas <- read.csv(gwas_time_file) %>%
+    # CORRECTION: Rename to match ML standard
+    rename(
+      Replicate = Rep,
+      Variable = Var
+    ) %>%
+    mutate(Type = "MM (Statistical)")
+  
+  time_data <- bind_rows(time_data, df_gwas)
+}
+
+# --- Load ML and Standardize ---
+if(file.exists(ml_time_file)) {
+  df_ml <- read.csv(ml_time_file)
+  
+  # Check if renaming is needed
+  if("Rep" %in% names(df_ml)) df_ml <- rename(df_ml, Replicate = Rep)
+  if("Var" %in% names(df_ml)) df_ml <- rename(df_ml, Variable = Var)
+  
+  df_ml <- df_ml %>%
+    select(Model, Replicate, Variable, Fold, Time_Sec) %>%
+    mutate(Type = "ML (Machine Learning)")
+  
+  time_data <- bind_rows(time_data, df_ml)
+}
+
+head(time_data)
+```
+
+```{r}
+time_data <- time_data %>%
+  filter(Variable %in% c(7:11, 13:17) & Model != "SUPER")
+```
+
+```{r runtime_analysis2, fig.width=12, fig.height=6}
+if(nrow(time_data) > 0) {
+  
+  # 2. Final Cleaning for Plotting
+  colnames(time_data) <- tolower(colnames(time_data))
+  
+  time_clean <- time_data %>%
+    rename(method = model) %>%
+    mutate(
+      method = as.factor(method),
+      # Order by median time
+      method = reorder(method, time_sec, FUN = median)
+    ) %>% 
+    filter(method != "SUPER") # Remove SUPER if it was not fully executed
+
+  # 3. Visualization (Logarithmic Boxplot)
+  # Log10 scale is used because ML methods can be orders of magnitude slower than MM
+  p_time <- ggplot(time_clean, aes(x = method, y = time_sec, fill = type)) +
+    geom_boxplot(outlier.shape = 21, outlier.alpha = 0.6) +
+    labs(
+      x = "Method",
+      y = "Time (Seconds)",
+      fill = "Methodology"
+    ) +
+    scale_fill_gdocs() + # Google Docs style palette
+    theme_bw() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 11),
+      legend.position = "top"
+    )
+  
+  print(p_time)
+  ggsave("output/Runtime_Comparison.tiff", p_time, width = 10, height = 6, dpi = 300)
+  
+  # 4. Summary Table
+  time_summary <- time_clean %>%
+    group_by(method, variable, type) %>%
+    summarise(
+      Mean_Sec = mean(time_sec, na.rm=TRUE),
+      SD_Sec   = sd(time_sec, na.rm=TRUE),
+      Min_Sec  = min(time_sec, na.rm=TRUE),
+      Max_Sec  = max(time_sec, na.rm=TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(Mean_Sec) %>%
+    mutate(
+      Time_Format = paste0(round(Mean_Sec, 2), " ± ", round(SD_Sec, 2), " s")
+    ) %>%
+    select(method, variable, type, Time_Format, Min_Sec, Max_Sec)
+  
+  write.csv(time_summary, "output/Runtime_Summary_Table.csv", row.names = FALSE)
+
+    datatable(time_summary, 
+          caption = "Table 9.1: Runtime Statistics by Method (Seconds)",
+          filter = 'top',
+          options = list(pageLength = 20, autoWidth = TRUE),
+          colnames = c("Method", "Type", "Mean Time (s)", "Min", "Max"))
+  
+} else {
+  cat("No runtime files found.\n")
+}
+```
+
+### Efficiency Conclusion
+
+The runtime results demonstrate the trade-off between complexity and computational cost:
+
+1.  **High Efficiency (MM):** Methods such as **BLINK** and **FarmCPU** (grouped under MM) generally exhibit the lowest execution times due to linear algebra optimizations, processing thousands of markers in seconds.
+2.  **Cost of Learning (ML):** ML methods, especially **Random Forest** and **MARS** (particularly when fitting high-degree interactions), tend to be orders of magnitude slower, reflecting the exhaustive search for non-linear patterns and interactions.
+3.  **Practical Implication:** For datasets with millions of SNPs, using ML may require marker pre-selection (screening) or High-Performance Computing (HPC) infrastructure, whereas MM scales more easily on personal computers.
+
+-----
+
 ## General Conclusion
 
 The present analysis allows for the following conclusions:
@@ -640,4 +798,6 @@ The present analysis allows for the following conclusions:
   * **Sensitivity vs. Precision:** Non-parametric regression methods (such as MARS) demonstrated a superior balance between Detection Power and Precision when compared to classic Mixed Models and simple Decision Trees, particularly in complex scenarios with high polygenicity.
   * **Stability (Standard Deviation):** The inclusion of standard deviation in the metrics reveals that while some ML methods achieve high mean performance, their variability across replicates can compromise reproducibility, a critical factor for genomic selection.
   * **False Positives:** Machine Learning methods tend to have a false positive rate controlled by the empirical mean threshold, but often higher than the rigorous Bonferroni criterion used in Mixed Models, highlighting the need for biological validation of candidates selected by ML.
+
+<!-- end list -->
 

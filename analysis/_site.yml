@@ -1,22 +1,36 @@
 name: "Importance-of-markers-for-QTL-detection-by-machine-learning-methods"
 output_dir: ../docs
 navbar:
-  title: "Importance of markers for QTL detection by machine learning methods"
+  title: "Marker Importance for QTL Detection"
   left:
   - text: Home
     href: index.html
-  - text: Map Genetic
-    href: map.html
-  - text: LD decay
-    href: ld_decay.html
-  - text: GWAS - GLM
-    href: gwas-GLM.html
-  - text: Importance markers
-    href: GWAS.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+
+  - text: Genetics & Structure
+    menu:
+    - text: Genetic Map
+      href: map.html
+    - text: Linkage Disequilibrium (LD) Decay
+      href: ld_decay.html
+
+  - text: Association Models
+    menu:
+    - text: GWAS (GAPIT)
+      href: models_gapit_gwas.html
+    - text: Machine Learning (Importance)
+      href: genomic_prediction.html
+
+  - text: Consolidated Analysis
+    icon: fa-bar-chart
+    href: consolidated_analysis.html
+
+  - text: Project Info
+    menu:
+    - text: About
+      href: about.html
+    - text: License
+      href: license.html
+
   right:
   - icon: fa-github
     text: Source code
@@ -28,3 +42,4 @@ output:
     toc_float: true
     theme: flatly
     highlight: haddock
+    code_folding: show

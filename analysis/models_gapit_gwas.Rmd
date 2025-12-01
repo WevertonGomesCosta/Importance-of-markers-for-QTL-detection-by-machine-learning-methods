@@ -1,0 +1,348 @@
+---
+title: "GWAS - Multi-Model Parallel Analysis (GAPIT)"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: TRUE
+    toc_float: TRUE
+    theme: flatly
+    highlight: haddock
+editor_options:
+  chunk_output_type: console
+---
+
+# GWAS - High-Performance Multi-Model Analysis
+
+This script performs a GWAS analysis utilizing multiple models (Single and Multi-Locus) within a cross-validation scheme or independent replicates.
+
+**Objective**: To evaluate the stability of QTL detection.
+
+**Models**: GLM, MLM, CMLM, MLMM, FarmCPU, Blink.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+## 1. Setup and Packages
+
+This section establishes the computational environment required for the analysis. It performs a conditional check to install the **GAPIT** package directly from GitHub if it is not already present. Additionally, it loads essential libraries for data manipulation (`tidyverse`, `gtools`) and high-performance parallel computing (`doParallel`, `foreach`) to optimize the processing of multiple models and folds.
+
+```{r packages, message=FALSE}
+# Check and install GAPIT package from GitHub if not available
+if (!require(GAPIT)) {
+  devtools::install_github("jiabowang/GAPIT", force=TRUE)
+  library(GAPIT)
+}
+
+# Install and load CRAN packages for data management and parallelism
+if(!require(gtools)) install.packages("gtools")
+if(!require(tidyverse)) install.packages("tidyverse")
+if(!require(doParallel)) install.packages("doParallel")
+if(!require(foreach)) install.packages("foreach")
+
+# Load libraries
+library(gtools)     # For natural sorting of filenames
+library(tidyverse)  # For data manipulation
+library(doParallel) # For parallel backend
+library(foreach)    # For parallel looping
+library(GAPIT)      # For GWAS analysis
+```
+
+## 2. Data Preparation
+
+In this step, we identify and list the partitioned files located in the `PHEN_T` (Phenotype) and `GEN_T` (Genotype) directories. We use natural sorting to ensure correct file ordering and perform integrity checks to guarantee that phenotype and genotype files are correctly paired. The genetic map is also loaded and standardized for GAPIT.
+
+```{r load_data}
+# 1. Define File Paths
+pathFenT <- file.path("data/PHEN_T")
+pathGenT <- file.path("data/GEN_T")
+pathMap  <- "data/map.rds"
+
+# 2. File Listing (Natural Numeric Sort)
+# 'mixedsort' ensures that "file10" comes after "file2", rather than after "file1"
+filesFenT <- gtools::mixedsort(list.files(path = pathFenT, pattern = "\\.txt$", full.names = TRUE))
+filesGenT <- gtools::mixedsort(list.files(path = pathGenT, pattern = "\\.txt$", full.names = TRUE))
+
+# Integrity Check
+if(length(filesFenT) == 0 || length(filesGenT) == 0) {
+  stop("CRITICAL ERROR: No phenotype or genotype files found in data/ folders.")
+}
+
+if(length(filesFenT) != length(filesGenT)) {
+  warning("WARNING: Mismatch in number of phenotype and genotype files. Check pairing.")
+}
+
+# 3. Load Genetic Map
+if(file.exists(pathMap)) {
+  GM <- readRDS(pathMap) %>%
+    # Forced standardization for GAPIT format
+    rename(
+      Name = any_of(c("marker", "SNP", "rs")),
+      Chromosome = any_of(c("Chromosome", "Chr", "GL")),
+      Position = any_of(c("Position", "Pos", "Tamanho"))
+    ) %>%
+    mutate(
+      Name = as.character(Name),
+      Chromosome = as.numeric(Chromosome),
+      Position = as.numeric(Position)
+    ) %>%
+    select(Name, Chromosome, Position)
+    
+  cat("Genetic Map loaded:", nrow(GM), "markers.\n")
+} else {
+  stop("Map file 'data/map.rds' not found.")
+}
+```
+
+## 3. Global Parameters and Cluster Setup
+
+We define the core analysis parameters, including the number of cross-validation folds, independent replicates, target traits, and the specific GWAS models to be evaluated. Additionally, we configure the computing cluster for high-performance parallel execution.
+
+```{r grid_setup}
+# --- Experimental Parameters ---
+nfolds <- 5
+n_reps <- 10
+total_traits <- 18
+target_vars <- 1:total_traits 
+
+# Model List (EXCLUDING SUPER)
+models_list <- c("GLM", "MLM", "CMLM", "MLMM", "FarmCPU", "Blink")
+
+# Output Directories
+base_out_dir <- "output/gwas_cv"
+temp_run_dir <- file.path(base_out_dir, "temp_runs") 
+if (!dir.exists(temp_run_dir)) dir.create(temp_run_dir, recursive = TRUE)
+
+# --- Cluster Configuration (High Performance) ---
+# Without the SUPER model, we can maximize CPU usage
+n_cores_total <- parallel::detectCores()
+n_cores_use <- max(1, n_cores_total - 1)
+
+cat("Cluster Configuration: Using", n_cores_use, "cores.\n")
+
+if(exists("cl")) stopCluster(cl)
+cl <- makeCluster(n_cores_use)
+registerDoParallel(cl)
+```
+
+## 4. GWAS Execution (Cross-Validation)
+
+Below, we iterate through all combinations of Replicate, Variable, and Model. Within each task, the 5 Folds are processed sequentially. Execution time is recorded, while the extraction of importance results is deferred to the consolidation stage.
+
+```{r run_parallel, eval=FALSE}
+# 1. Task Grid
+task_grid <- expand.grid(
+  Rep = 1:n_reps,
+  Variable = target_vars,
+  Model = models_list,
+  stringsAsFactors = FALSE
+)
+
+cat(sprintf("Starting GWAS. Total Tasks: %d x %d Folds = %d analyses.\n", 
+            nrow(task_grid), nfolds, nrow(task_grid)*nfolds))
+
+# Global variables
+main_wd <- getwd()
+
+# 2. Parallel Loop
+foreach(task_i = 1:nrow(task_grid), 
+        .packages = c("GAPIT", "tidyverse"),
+        .export = c("GM", "filesFenT", "filesGenT", "base_out_dir", "temp_run_dir", "main_wd", "nfolds")) %dopar% {
+          
+  curr_rep <- task_grid$Rep[task_i]
+  curr_var <- task_grid$Variable[task_i]
+  curr_model <- task_grid$Model[task_i]
+  
+  # Internal Loop over Folds
+  for (fold_k in 1:nfolds) {
+    
+    # A. File Recycling Logic
+    raw_idx <- (curr_rep - 1) * nfolds + fold_k
+    file_idx <- ((raw_idx - 1) %% length(filesFenT)) + 1
+    
+    if (is.na(filesFenT[file_idx])) next 
+    
+    # B. Prepare Directory
+    folder_name <- paste0("R", curr_rep, "_V", curr_var, "_M", curr_model, "_F", fold_k)
+    task_dir <- file.path(main_wd, temp_run_dir, folder_name)
+    
+    # Check if already run
+    if (file.exists(file.path(task_dir, "runtime_info.csv"))) next
+    
+    if (!dir.exists(task_dir)) dir.create(task_dir, recursive = TRUE)
+    setwd(task_dir)
+    
+    tryCatch({
+      # C. Data Loading
+      pheno_path <- filesFenT[file_idx]
+      geno_path  <- filesGenT[file_idx]
+      
+      if (!grepl("^(/|[A-Za-z]:|\\\\)", pheno_path)) {
+         pheno_path <- file.path(main_wd, pheno_path)
+         geno_path <- file.path(main_wd, geno_path)
+      }
+
+      pheno_t <- read.table(pheno_path, header = FALSE)
+      geno_t  <- read.table(geno_path, header = FALSE)
+      
+      # Numeric Adjustment for GAPIT (0,1,2)
+      if(min(geno_t, na.rm=T) < 0) { geno_t <- geno_t + 1 }
+      
+      taxa_ids <- paste0("Ind_", 1:nrow(geno_t))
+      Y <- data.frame(Taxa = taxa_ids, Trait = pheno_t[, curr_var])
+      GD <- data.frame(Taxa = taxa_ids, geno_t)
+      
+      # D. Run GAPIT (Optimized Standard Configuration)
+      start_time <- Sys.time()
+      
+      capture.output({
+        GAPIT(
+          Y = Y, GD = GD, GM = GM,
+          model = curr_model,
+          PCA.total = 3,
+          file.output = TRUE, 
+          group.from = 1,        
+          group.to = nrow(Y),      
+          kinship.algorithm = "VanRaden",
+          SNP.P3D = TRUE # Variance optimization (fast standard)
+        )
+      })
+      
+      end_time <- Sys.time()
+      exec_time <- as.numeric(difftime(end_time, start_time, units = "secs"))
+      
+      # E. Save Runtime
+      write.csv(data.frame(
+        Model = curr_model,
+        Rep = curr_rep,
+        Var = curr_var,
+        Fold = fold_k,
+        Time_Sec = exec_time
+      ), "runtime_info.csv", row.names = FALSE)
+      
+    }, error = function(e) {
+      writeLines(as.character(e), "error.log")
+    })
+    
+    setwd(main_wd)
+  }
+  return(NULL)
+}
+
+stopCluster(cl)
+cat("Parallel Analysis Finished.\n")
+```
+
+## 5. Result Consolidation
+
+We use `map_dfr` logic to recursively read all raw results generated by GAPIT and consolidate them into a single structure. Metadata such as Replicate, Variable, Model, and Fold are extracted directly from the directory names. Special handling is applied to separate Manhattan plot data (NYC) from QQ plot data (Kansas) for multi-locus models like Blink and FarmCPU.
+
+```{r consolidate_split}
+cat("--- Starting Global Consolidation ---\n")
+
+runs_dir <- file.path(base_out_dir, "temp_runs")
+
+if (dir.exists(runs_dir)) {
+  
+  # Search for result files (GAPIT Pattern)
+  files <- list.files(runs_dir, pattern = "GAPIT.Association.GWAS_Results.*\\.csv", recursive = TRUE, full.names = TRUE)
+  
+  if (length(files) > 0) {
+    cat(sprintf("Processing %d files found...\n", length(files)))
+    
+    process_file <- function(f) {
+      tryCatch({
+        # 1. Parse Directory Metadata
+        dir_name <- basename(dirname(f))
+        parts <- strsplit(dir_name, "_")[[1]]
+        
+        rep_val  <- as.numeric(sub("^R", "", parts[1]))
+        var_val  <- as.numeric(sub("^V", "", parts[2]))
+        base_mod <- sub("^M", "", parts[3])
+        fold_val <- as.numeric(sub("^F", "", parts[4]))
+        
+        # 2. Refine Model Name (NYC vs Kansas)
+        file_name <- basename(f)
+        final_model_name <- base_mod
+        
+        if (base_mod %in% c("Blink", "FarmCPU", "BLINK", "FARMCPU")) {
+          if (grepl("NYC", file_name, ignore.case = TRUE)) {
+            final_model_name <- paste0(base_mod, ".NYC")
+          } else if (grepl("Kansas", file_name, ignore.case = TRUE)) {
+            final_model_name <- paste0(base_mod, ".Kansas")
+          }
+        }
+        
+        # 3. Read and Standardize Data
+        df <- read.csv(f, header = TRUE)
+        if (nrow(df) == 0) return(NULL)
+        
+        # Identify P-value column robustly
+        cols <- colnames(df)
+        p_col_idx <- grep("^P\\.val", cols, ignore.case = TRUE)
+        if (length(p_col_idx) > 0) colnames(df)[p_col_idx[1]] <- "P.value" else return(NULL)
+        
+        df %>%
+          select(SNP, P.value) %>%
+          mutate(
+            Model = final_model_name,
+            Replicate = rep_val,
+            Variable = var_val,
+            Fold = fold_val,
+            Marker = as.character(SNP),
+            Overall = -log10(pmax(P.value, 1e-300)) # Avoid log(0)
+          ) %>%
+          select(Model, Replicate, Variable, Fold, Marker, Overall)
+          
+      }, error = function(e) { return(NULL) })
+    }
+    
+    # Execute processing
+    all_results <- map_dfr(files, process_file)
+    
+    # Save Separate Files by Model (Recommended for memory management)
+    if (nrow(all_results) > 0) {
+        unique_models <- unique(all_results$Model)
+        
+        for (m in unique_models) {
+          mod_data <- all_results %>% filter(Model == m)
+          out_name <- file.path(base_out_dir, paste0(m, "_Results_Importance_CONSOLIDATED.csv"))
+          write.csv(mod_data, out_name, row.names = FALSE)
+          cat(sprintf("  -> Model %s saved: %d rows.\n", m, nrow(mod_data)))
+        }
+        
+        # Save Global File (Optional, comment out if memory issues occur)
+        write.csv(all_results, file.path(base_out_dir, "GWAS_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+    }
+    
+  } else {
+    cat("No result files found. Check if the parallel step completed successfully.\n")
+  }
+  
+  # Consolidate Runtime Information
+  time_files <- list.files(runs_dir, pattern = "runtime_info.csv", recursive = TRUE, full.names = TRUE)
+  if (length(time_files) > 0) {
+    time_data <- map_dfr(time_files, read.csv)
+    write.csv(time_data, file.path(base_out_dir, "GWAS_Runtime_Summary.csv"), row.names = FALSE)
+    cat("Runtime summary saved to GWAS_Runtime_Summary.csv\n")
+  }
+}
+```
+
+## 6. Conclusion and Next Steps
+
+With the consolidated results saved in `output/gwas_cv`, we can now proceed to analyze the stability of QTL detection across different models and cross-validation folds.
+
+The generated output files allow for:
+1.  **Visualization:** Creation of Manhattan and QQ plots to assess signal strength and model inflation.
+2.  **Statistical Comparison:** Evaluation of model consistency across replicates.
+3.  **Candidate Selection:** Identification of robust marker associations.
+
+The next phase of this workflow involves estimating marker importance using **[Genomic Prediction by Machine Learning methods](genomic_prediction.html)**.

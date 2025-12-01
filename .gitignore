@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 output/mod.rda
+*.tiff

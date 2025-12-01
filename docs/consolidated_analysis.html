@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Costa, W. G." />
+
+<meta name="date" content="2025-12-01" />
+
+<title>Consolidated Analysis: Performance Metrics (Tutorial)</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Marker Importance for QTL Detection</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Genetics &amp; Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="map.html">Genetic Map</a>
+    </li>
+    <li>
+      <a href="ld_decay.html">Linkage Disequilibrium (LD) Decay</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Association Models
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="models_gapit_gwas.html">GWAS (GAPIT)</a>
+    </li>
+    <li>
+      <a href="genomic_prediction.html">Machine Learning (Importance)</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="consolidated_analysis.html">
+    <span class="fa fa-bar-chart"></span>
+     
+    Consolidated Analysis
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Project Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about.html">About</a>
+    </li>
+    <li>
+      <a href="license.html">License</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Consolidated Analysis: Performance Metrics
+(Tutorial)</h1>
+<h4 class="author">Costa, W. G.</h4>
+<h4 class="date">2025-12-01</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-12-01
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>Importance-of-markers-for-QTL-detection-by-machine-learning-methods/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221222code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221222)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221222code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221222)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstreed54293808314e7fd961b956e188b147cf70fe5detargetblankd542938a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/d54293808314e7fd961b956e188b147cf70fe5de" target="_blank">d542938</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstreed54293808314e7fd961b956e188b147cf70fe5detargetblankd542938a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/d54293808314e7fd961b956e188b147cf70fe5de" target="_blank">d542938</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/GWAS.Rmd
+    Ignored:    analysis/figure/
+    Ignored:    analysis/gwas-GLM.Rmd
+    Ignored:    output/imp.tot.RData
+    Ignored:    output/ml_cv/
+    Ignored:    output/mod.rda
+
+Untracked files:
+    Untracked:  analysis/consolidated_analysis.Rmd
+    Untracked:  analysis/genomic_prediction.Rmd
+    Untracked:  output/BA_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/BO_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/DT_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/MARS 1_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/MARS 2_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/MARS 3_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/ML_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/ML_Results_Metrics_CONSOLIDATED.csv
+    Untracked:  output/RF_Results_Importance_CONSOLIDATED.csv
+    Untracked:  output/bagging/
+    Untracked:  output/boosting/
+    Untracked:  output/dt/
+    Untracked:  output/gwas_cv/
+    Untracked:  output/gwas_multimodel/
+    Untracked:  output/mars/
+    Untracked:  output/rf/
+
+Unstaged changes:
+    Modified:   output/DP_heatmap.png
+    Modified:   output/F1_Score_heatmap.png
+    Modified:   output/FP_heatmap.png
+    Modified:   output/Precision_heatmap.png
+    Modified:   output/Specificity_heatmap.png
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction-and-configuration" class="section level1">
+<h1>1. Introduction and Configuration</h1>
+<p>This document details the computational pipeline designed to
+benchmark <strong>Genome-Wide Association Studies (GWAS)</strong>
+against <strong>Machine Learning (ML)</strong> methods. The process is
+divided into explicit steps to ensure reproducibility.</p>
+<p>The goal is to integrate results from multiple models, standardize
+their importance scores, and calculate key performance metrics
+(Detection Power, Precision, FPR, Specificity, and F1 Score) across 10
+replicates and 50 cross-validation folds.</p>
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Data manipulation (dplyr) and visualization (ggplot2)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(scales)    <span class="co"># Axis scaling and formatting</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># Composition of multi-panel plots</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(stringr)   <span class="co"># String manipulation</span></span></code></pre></div>
+</div>
+</div>
+<div id="data-importation" class="section level1">
+<h1>2. Data Importation</h1>
+<p>In this step, we load the raw result files. We distinguish between
+Machine Learning (ML) and GWAS files and apply column standardization
+immediately upon reading. This is crucial because different software
+outputs may use varying column names (e.g., “SNP” vs. “Marker”,
+“p.value” vs. “Importance”).</p>
+<div id="load-machine-learning-data" class="section level3">
+<h3>2.1. Load Machine Learning Data</h3>
+<p>Machine Learning models (Random Forest, MARS, etc.) output
+<strong>Importance Scores</strong> (e.g., Gini Impurity, RSS reduction).
+Since these scores are on different scales (some range from 0-100,
+others are unbounded), we must load and normalize them.</p>
+<p><strong>Process:</strong> 1. <strong>Identify File:</strong> We
+target the consolidated ML results file generated in the previous
+script. 2. <strong>Standardize:</strong> We rename columns to a common
+format (<code>variable</code>, <code>replicate</code>,
+<code>marker</code>, <code>overall</code>). 3.
+<strong>Normalize:</strong> We apply a Min-Max scaling (0 to 10) within
+each fold/replicate to make scores comparable across different
+algorithms.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># 1. Define the path to the consolidated ML file</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># This file was created in the &#39;genomic_prediction.Rmd&#39; script</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>ml_files <span class="ot">&lt;-</span> <span class="st">&quot;output/ML_Results_Importance_CONSOLIDATED.csv&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># 2. Reading and Cleaning (Explicit Process)</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># We use map_dfr to read the file(s) and apply a consistent cleaning function</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>ml_data <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(ml_files, <span class="cf">function</span>(f) {</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)) <span class="fu">return</span>(<span class="fu">data.frame</span>())</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="co"># Read CSV</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(df)) <span class="co"># Standardize names to lowercase to avoid case-sensitivity issues</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  </span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="co"># Explicitly Select and Rename columns</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="co"># This mapping ensures that &#39;var&#39;, &#39;Variable&#39;, or &#39;TRAIT&#39; all become &#39;variable&#39;</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  df <span class="sc">%&gt;%</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>      <span class="at">variable  =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;variable&quot;</span>)),</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>      <span class="at">replicate =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;rep&quot;</span>, <span class="st">&quot;replicate&quot;</span>)),</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>      <span class="at">marker    =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;marker&quot;</span>, <span class="st">&quot;marker_idx&quot;</span>, <span class="st">&quot;snp&quot;</span>)),</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>      <span class="at">overall   =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;overall&quot;</span>, <span class="st">&quot;importance&quot;</span>, <span class="st">&quot;score&quot;</span>)),</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>      <span class="at">fold      =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;fold&quot;</span>)),</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>      <span class="at">method    =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;method&quot;</span>, <span class="st">&quot;model&quot;</span>))</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>      <span class="co"># Ensure numeric types for merging</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>      <span class="at">variable  =</span> <span class="fu">as.numeric</span>(variable),</span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>      <span class="co"># robustly clean marker names (e.g., remove &quot;M&quot; prefix if present)</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>      <span class="at">marker    =</span> <span class="fu">as.numeric</span>(<span class="fu">str_replace_all</span>(<span class="fu">as.character</span>(marker), <span class="st">&quot;[^0-9]&quot;</span>, <span class="st">&quot;&quot;</span>)),</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>      <span class="at">replicate =</span> <span class="fu">as.numeric</span>(replicate),</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>      <span class="at">fold      =</span> <span class="fu">as.numeric</span>(fold),</span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>      <span class="at">overall   =</span> <span class="fu">as.numeric</span>(overall),</span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>      <span class="at">method    =</span> <span class="fu">as.character</span>(method),</span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>      <span class="at">type      =</span> <span class="st">&quot;ML&quot;</span> <span class="co"># Tag to distinguish from GWAS later</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>    <span class="fu">select</span>(variable, method, marker, replicate, fold, overall, type)</span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>})</span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co"># 3. Normalization (Rescale 0-10) within each Fold</span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co"># Important: Comparison is only valid if scores share a relative scale.</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="co"># We rescale the importance so the maximum importance in any fold is 10.</span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a>ml_data <span class="ot">&lt;-</span> ml_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method, replicate, fold) <span class="sc">%&gt;%</span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>    <span class="at">overall =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(overall, <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">finite =</span> <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a><span class="fu">head</span>(ml_data)</span></code></pre></div>
+<pre><code># A tibble: 6 × 7
+  variable method marker replicate  fold overall type 
+     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;
+1        1 BA          1         1     1   0.815 ML   
+2        1 BA          2         1     1   0.440 ML   
+3        1 BA          3         1     1   0.632 ML   
+4        1 BA          4         1     1   0.534 ML   
+5        1 BA          5         1     1   0.299 ML   
+6        1 BA          6         1     1   0.435 ML   </code></pre>
+</div>
+<div id="load-gwas-data" class="section level3">
+<h3>2.2. Load GWAS Data</h3>
+<p>GWAS models (GLM, FarmCPU, Blink) output <strong>P-values</strong>.
+These represent the statistical probability of the association being
+random.</p>
+<p><strong>Process:</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Identify File:</strong> We target the consolidated GWAS
+results file generated in the GAPIT script.</li>
+<li><strong>Standardize:</strong> Similar to ML, we standardize column
+names.</li>
+<li><strong>No Normalization:</strong> Unlike ML scores, P-values
+(transformed to <span class="math inline">\(-log_{10}(P)\)</span>) have
+a standard statistical interpretation and do not require rescaling.</li>
+</ol>
+<!-- end list -->
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Path to the already unified file from &#39;models_gapit_gwas.Rmd&#39;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>gwas_file <span class="ot">&lt;-</span> <span class="st">&quot;output/gwas_cv/GWAS_Results_Importance_CONSOLIDATED.csv&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(gwas_file)) {</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  </span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="co"># 1. Read single file</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  df_raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(gwas_file)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="co"># 2. Standardize column names (to lowercase)</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="fu">colnames</span>(df_raw) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(df_raw))</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  </span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="co"># 3. Cleaning and Selection</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  gwas_data <span class="ot">&lt;-</span> df_raw <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>      <span class="co"># Map file columns (Variable, Model...) to standard pattern (variable, method...)</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>      <span class="at">variable  =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;variable&quot;</span>, <span class="st">&quot;var&quot;</span>)),</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>      <span class="at">replicate =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;replicate&quot;</span>, <span class="st">&quot;rep&quot;</span>)),</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>      <span class="at">marker    =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;marker&quot;</span>, <span class="st">&quot;snp&quot;</span>)),</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>      <span class="at">overall   =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;overall&quot;</span>, <span class="st">&quot;p.value&quot;</span>, <span class="st">&quot;score&quot;</span>)), </span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>      <span class="at">fold      =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;fold&quot;</span>)),</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>      <span class="at">method    =</span> <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;method&quot;</span>))</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>      <span class="co"># Robust type conversion</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>      <span class="at">variable  =</span> <span class="fu">as.numeric</span>(variable),</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>      <span class="co"># Remove non-numeric characters from marker (e.g., &quot;V1&quot; -&gt; 1)</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>      <span class="at">marker    =</span> <span class="fu">as.numeric</span>(<span class="fu">str_replace_all</span>(<span class="fu">as.character</span>(marker), <span class="st">&quot;[^0-9]&quot;</span>, <span class="st">&quot;&quot;</span>)),</span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>      <span class="at">replicate =</span> <span class="fu">as.numeric</span>(replicate),</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>      <span class="at">fold      =</span> <span class="fu">as.numeric</span>(fold),</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>      <span class="at">overall   =</span> <span class="fu">as.numeric</span>(overall),</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>      <span class="at">method    =</span> <span class="fu">as.character</span>(method),</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>      <span class="at">type      =</span> <span class="st">&quot;GWAS&quot;</span> <span class="co"># Tag to differentiate later</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>    <span class="co"># Safety filter to remove corrupted rows (NAs)</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(marker), <span class="sc">!</span><span class="fu">is.na</span>(variable)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>    <span class="fu">select</span>(variable, method, marker, replicate, fold, overall, type)</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>  </span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;GWAS data loaded successfully.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Total records:&quot;</span>, <span class="fu">nrow</span>(gwas_data), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>  </span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>  <span class="fu">warning</span>(<span class="st">&quot;File &#39;GWAS_Results_Importance_CONSOLIDATED.csv&#39; not found in output/gwas_cv/.&quot;</span>)</span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a>  gwas_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>GWAS data loaded successfully.
+Total records: 31518600 </code></pre>
+</div>
+<div id="unification" class="section level3">
+<h3>2.3. Unification</h3>
+<p>Finally, we stack the two datasets vertically. This creates a master
+dataset containing every tested marker, for every method, variable, and
+replicate, ready for the comparative analysis.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Combine ML and GWAS dataframes</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ml_data, gwas_data)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Total consolidated records:&quot;</span>, <span class="fu">nrow</span>(all_data), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>Total consolidated records: 52013120 </code></pre>
+</div>
+</div>
+<div id="ground-truth-definition-true-qtls" class="section level1">
+<h1>3. Ground Truth Definition (True QTLs)</h1>
+<p>To evaluate the methods, we must define the locations of the true
+simulated QTLs. We load the base simulation file and expand it to cover
+all 18 variables, representing different heritability scenarios (<span
+class="math inline">\(h^2 = 0.3, 0.5, 0.8\)</span>).</p>
+<p>We create two reference structures: 1. <strong>Flat Map
+(<code>region_map</code>):</strong> Used for calculating
+<strong>Precision</strong> and <strong>Specificity</strong>. Overlapping
+windows are merged to prevent double-counting markers as “False
+Positives”. 2. <strong>ID Reference
+(<code>qtl_reference</code>):</strong> Used for calculating
+<strong>Detection Power</strong>. Preserves unique QTL IDs to determine
+how many distinct genetic signals were successfully detected.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Load original file (Contains variables 1 to 6)</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(<span class="st">&quot;data/snpsOfInterest.RData&quot;</span>)) {</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">&quot;data/snpsOfInterest.RData&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;File &#39;snpsOfInterest.RData&#39; not found in data/ folder.&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># Expansion to include different heritability scenarios</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># Variables 1-6  (h2=0.3)</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co"># Variables 7-12 (h2=0.5) - Shifted Copy (+6)</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># Variables 13-18 (h2=0.8) - Shifted Copy (+12)</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>snpsOfInterest <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">bind_rows</span>(snpsOfInterest <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">variable =</span> variable <span class="sc">+</span> <span class="dv">6</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">bind_rows</span>(snpsOfInterest <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">variable =</span> variable <span class="sc">+</span> <span class="dv">12</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co"># Window Parameters</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="dv">5</span> </span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>total_markers_genotype <span class="ot">&lt;-</span> <span class="dv">4010</span> </span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co"># --- A. Flat Map (For Precision/FP/TN) ---</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co"># We use distinct() to merge overlapping windows into a single boolean &quot;target&quot; region</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>region_map <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marker =</span> <span class="fu">list</span>(<span class="fu">seq</span>(marker <span class="sc">-</span> distance, marker <span class="sc">+</span> distance))) <span class="sc">%&gt;%</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> marker) <span class="sc">%&gt;%</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>  <span class="fu">select</span>(variable, marker) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> <span class="co"># REMOVE DUPLICATE markers (merges overlaps)</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>    <span class="at">marker =</span> <span class="fu">as.numeric</span>(marker),</span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a>    <span class="at">is_in_region =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>  )</span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co"># --- B. Reference with ID (For Detection Power) ---</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co"># We keep the QTL_ID to count how many &quot;unique QTLs&quot; were found (Hit Rate)</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>qtl_reference <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">QTL_ID =</span> <span class="fu">paste0</span>(<span class="st">&quot;QTL_&quot;</span>, variable, <span class="st">&quot;_&quot;</span>, marker)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marker =</span> <span class="fu">list</span>(<span class="fu">seq</span>(marker <span class="sc">-</span> distance, marker <span class="sc">+</span> distance))) <span class="sc">%&gt;%</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> marker) <span class="sc">%&gt;%</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a>  <span class="fu">select</span>(variable, marker, QTL_ID)</span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co"># --- C. Denominators (For Rates) ---</span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a>truth_metadata <span class="ot">&lt;-</span> snpsOfInterest <span class="sc">%&gt;%</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a>  <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_QTLs_real =</span> <span class="fu">n_distinct</span>(marker), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a>markers_in_target <span class="ot">&lt;-</span> region_map <span class="sc">%&gt;%</span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a>  <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_target_markers =</span> <span class="fu">n_distinct</span>(marker))</span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a></span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a>truth_metadata <span class="ot">&lt;-</span> <span class="fu">left_join</span>(truth_metadata, markers_in_target, <span class="at">by =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_noise_markers =</span> total_markers_genotype <span class="sc">-</span> total_target_markers)</span></code></pre></div>
+</div>
+<div id="marker-classification" class="section level1">
+<h1>4. Marker Classification</h1>
+<p>In this step, we apply specific selection thresholds to classify
+markers as “Significant” (Selected) or “Not Significant”.</p>
+<ul>
+<li><strong>GWAS:</strong> We apply the rigorous <strong>Bonferroni
+correction</strong> (<span
+class="math inline">\(-\log_{10}(0.05/M)\)</span>) to control the
+family-wise error rate.</li>
+<li><strong>Machine Learning:</strong> We use an <strong>empirical
+threshold</strong> based on the mean importance score within each
+replicate. Markers with importance above the mean are selected.</li>
+</ul>
+<p>Finally, we cross-reference the selected markers with the
+<code>region_map</code> to categorize them into the Confusion Matrix
+classes: True Positives (TP), False Positives (FP), False Negatives
+(FN), and True Negatives (TN).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Identify GWAS methods from the data</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>gwas_methods <span class="ot">&lt;-</span> <span class="fu">unique</span>(gwas_data<span class="sc">$</span>method)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># Calculate Thresholds and Selection Status</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>classified_data <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">group_by</span>(method, variable, replicate, fold) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    <span class="at">threshold_ml =</span> <span class="fu">mean</span>(overall, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>    <span class="at">threshold_gwas =</span> <span class="sc">-</span><span class="fu">log10</span>(<span class="fl">0.05</span><span class="sc">/</span>total_markers_genotype), </span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>    </span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>    <span class="at">is_selected =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>      <span class="co"># GWAS Criteria: &gt; Bonferroni</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>      method <span class="sc">%in%</span> gwas_methods <span class="sc">&amp;</span> overall <span class="sc">&gt;</span> threshold_gwas <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>      <span class="co"># ML Criteria: &gt; Mean Importance</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>      <span class="sc">!</span>(method <span class="sc">%in%</span> gwas_methods) <span class="sc">&amp;</span> overall <span class="sc">&gt;</span> threshold_ml <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">FALSE</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    )</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>  <span class="co"># Join with Flat Map (Left Join to retain all tested markers)</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>  <span class="fu">left_join</span>(region_map, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;variable&quot;</span>, <span class="st">&quot;marker&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>    <span class="co"># Markers not found in region_map are &quot;Noise&quot; (FALSE)</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>    <span class="at">is_in_region =</span> <span class="fu">replace_na</span>(is_in_region, <span class="cn">FALSE</span>),</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>    </span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>    <span class="co"># Final Classification (Confusion Matrix)</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a>    <span class="at">classification =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a>      is_selected <span class="sc">&amp;</span> is_in_region  <span class="sc">~</span> <span class="st">&quot;TP&quot;</span>, <span class="co"># True Positive (Hit)</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a>      is_selected <span class="sc">&amp;</span> <span class="sc">!</span>is_in_region <span class="sc">~</span> <span class="st">&quot;FP&quot;</span>, <span class="co"># False Positive (Noise Selection)</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a>      <span class="sc">!</span>is_selected <span class="sc">&amp;</span> is_in_region <span class="sc">~</span> <span class="st">&quot;FN&quot;</span>, <span class="co"># False Negative (Missed QTL)</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a>      <span class="sc">!</span>is_selected <span class="sc">&amp;</span> <span class="sc">!</span>is_in_region <span class="sc">~</span> <span class="st">&quot;TN&quot;</span> <span class="co"># True Negative (Correct Rejection)</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a>    )</span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="calculation-of-metrics-by-replicate" class="section level1">
+<h1>5. Calculation of Metrics by Replicate</h1>
+<p>In this step, we calculate the raw counts of “hits” and “misses” for
+each cross-validation fold.</p>
+<div id="qtl-hits-for-detection-power-and-precision"
+class="section level3">
+<h3>5.1. QTL Hits (For Detection Power and Precision)</h3>
+<p>We use the <code>qtl_reference</code> table (which contains unique
+QTL IDs) to determine how many distinct QTLs were “tagged” by the
+selected markers.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>hits_calc <span class="ot">&lt;-</span> classified_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">filter</span>(is_selected) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="co"># relationship = &quot;many-to-many&quot; is required because QTL windows may overlap</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">inner_join</span>(qtl_reference, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;variable&quot;</span>, <span class="st">&quot;marker&quot;</span>), <span class="at">relationship =</span> <span class="st">&quot;many-to-many&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method, replicate, fold) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">acerto_qtl =</span> <span class="fu">n_distinct</span>(QTL_ID), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+</div>
+<div id="error-statistics-fp-and-rejections-tn" class="section level3">
+<h3>5.2. Error Statistics (FP) and Rejections (TN)</h3>
+<p>We summarize the marker-level classification to count False Positives
+(Selection of Noise) and True Negatives (Correct Rejection of
+Noise).</p>
+<p>[Image of confusion matrix precision recall]</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>marker_stats <span class="ot">&lt;-</span> classified_data <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method, replicate, fold) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="co"># FP_markers = Error (Selected noise marker)</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="at">FP_markers =</span> <span class="fu">sum</span>(classification <span class="sc">==</span> <span class="st">&quot;FP&quot;</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    <span class="co"># TN_markers = Rejection Hit (Correctly ignored noise marker)</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>    <span class="at">TN_markers =</span> <span class="fu">sum</span>(classification <span class="sc">==</span> <span class="st">&quot;TN&quot;</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+<div id="consolidation-and-calculation-of-means" class="section level1">
+<h1>6. Consolidation and Calculation of Means</h1>
+<p>In this step, we merge all classification data and calculate the
+performance metrics for each replicate. Subsequently, we aggregate the
+results to obtain the Mean (<span class="math inline">\(\mu\)</span>)
+and Standard Deviation (<span class="math inline">\(\sigma\)</span>)
+across the 10 replicates.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Create skeleton to ensure methods with zero selections are included in the stats</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>skeleton <span class="ot">&lt;-</span> classified_data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(variable, method, replicate, fold)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Merge all components</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>coinc_raw <span class="ot">&lt;-</span> skeleton <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">left_join</span>(truth_metadata, <span class="at">by =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">left_join</span>(hits_calc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;variable&quot;</span>, <span class="st">&quot;method&quot;</span>, <span class="st">&quot;replicate&quot;</span>, <span class="st">&quot;fold&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">left_join</span>(marker_stats, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;variable&quot;</span>, <span class="st">&quot;method&quot;</span>, <span class="st">&quot;replicate&quot;</span>, <span class="st">&quot;fold&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>    <span class="co"># Replace NAs with 0 (for methods that selected nothing)</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    <span class="at">acerto_qtl =</span> <span class="fu">replace_na</span>(acerto_qtl, <span class="dv">0</span>),</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    <span class="at">FP_markers =</span> <span class="fu">replace_na</span>(FP_markers, <span class="dv">0</span>), </span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="at">TN_markers =</span> <span class="fu">replace_na</span>(TN_markers, <span class="dv">0</span>),</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>    </span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    <span class="co"># --- METRIC FORMULAS ---</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>    </span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>    <span class="co"># 1. Detection Power (DP)</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>    <span class="co"># (Unique QTLs Found / Total Real QTLs) * 100</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>    <span class="at">DP =</span> (acerto_qtl <span class="sc">/</span> total_QTLs_real) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>    </span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>    <span class="co"># 2. Precision</span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a>    <span class="co"># (True Hits / Total Selected Signals) * 100</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a>    <span class="at">Precision =</span> <span class="fu">ifelse</span>((acerto_qtl <span class="sc">+</span> FP_markers) <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, </span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a>                       (acerto_qtl <span class="sc">/</span> (acerto_qtl <span class="sc">+</span> FP_markers)) <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a>    </span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a>    <span class="co"># 3. False Positive Rate (FP Rate)</span></span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a>    <span class="co"># (False Positives / Total Noise Markers) * 100</span></span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a>    <span class="at">FP_Rate =</span> <span class="fu">ifelse</span>(total_noise_markers <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, </span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a>                     (FP_markers <span class="sc">/</span> total_noise_markers) <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a>    </span>
+<span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a>    <span class="co"># 4. Specificity</span></span>
+<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a>    <span class="co"># (True Negatives / Total Noise Markers) * 100</span></span>
+<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a>    <span class="at">Specificity =</span> <span class="fu">ifelse</span>(total_noise_markers <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb12-34"><a href="#cb12-34" tabindex="-1"></a>                         ((total_noise_markers <span class="sc">-</span> FP_markers) <span class="sc">/</span> total_noise_markers) <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb12-35"><a href="#cb12-35" tabindex="-1"></a>    </span>
+<span id="cb12-36"><a href="#cb12-36" tabindex="-1"></a>    <span class="co"># 5. F1 Score (Harmonic Mean of DP and Precision)</span></span>
+<span id="cb12-37"><a href="#cb12-37" tabindex="-1"></a>    <span class="at">F1_Score =</span> <span class="fu">ifelse</span>((DP <span class="sc">+</span> Precision) <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, </span>
+<span id="cb12-38"><a href="#cb12-38" tabindex="-1"></a>                      <span class="dv">2</span> <span class="sc">*</span> ((DP <span class="sc">*</span> Precision) <span class="sc">/</span> (DP <span class="sc">+</span> Precision)))</span>
+<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a>  )</span>
+<span id="cb12-40"><a href="#cb12-40" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" tabindex="-1"></a><span class="co"># Calculate Means and Standard Deviations across replicates</span></span>
+<span id="cb12-42"><a href="#cb12-42" tabindex="-1"></a>coinc_summary <span class="ot">&lt;-</span> coinc_raw <span class="sc">%&gt;%</span></span>
+<span id="cb12-43"><a href="#cb12-43" tabindex="-1"></a>  <span class="fu">group_by</span>(variable, method) <span class="sc">%&gt;%</span></span>
+<span id="cb12-44"><a href="#cb12-44" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb12-45"><a href="#cb12-45" tabindex="-1"></a>    <span class="at">DP_mean =</span> <span class="fu">mean</span>(DP, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-46"><a href="#cb12-46" tabindex="-1"></a>    <span class="at">DP_sd =</span> <span class="fu">sd</span>(DP, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-47"><a href="#cb12-47" tabindex="-1"></a>    </span>
+<span id="cb12-48"><a href="#cb12-48" tabindex="-1"></a>    <span class="at">Precision_mean =</span> <span class="fu">mean</span>(Precision, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-49"><a href="#cb12-49" tabindex="-1"></a>    <span class="at">Precision_sd =</span> <span class="fu">sd</span>(Precision, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-50"><a href="#cb12-50" tabindex="-1"></a>    </span>
+<span id="cb12-51"><a href="#cb12-51" tabindex="-1"></a>    <span class="at">FP_mean =</span> <span class="fu">mean</span>(FP_Rate, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-52"><a href="#cb12-52" tabindex="-1"></a>    <span class="at">FP_sd =</span> <span class="fu">sd</span>(FP_Rate, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-53"><a href="#cb12-53" tabindex="-1"></a>    </span>
+<span id="cb12-54"><a href="#cb12-54" tabindex="-1"></a>    <span class="at">Specificity_mean =</span> <span class="fu">mean</span>(Specificity, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-55"><a href="#cb12-55" tabindex="-1"></a>    <span class="at">Specificity_sd =</span> <span class="fu">sd</span>(Specificity, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-56"><a href="#cb12-56" tabindex="-1"></a>    </span>
+<span id="cb12-57"><a href="#cb12-57" tabindex="-1"></a>    <span class="at">F1_Score_mean =</span> <span class="fu">mean</span>(F1_Score, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-58"><a href="#cb12-58" tabindex="-1"></a>    <span class="at">F1_Score_sd =</span> <span class="fu">sd</span>(F1_Score, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-59"><a href="#cb12-59" tabindex="-1"></a>    </span>
+<span id="cb12-60"><a href="#cb12-60" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb12-61"><a href="#cb12-61" tabindex="-1"></a>  )</span>
+<span id="cb12-62"><a href="#cb12-62" tabindex="-1"></a></span>
+<span id="cb12-63"><a href="#cb12-63" tabindex="-1"></a><span class="co"># Add Metadata and Classification (MM vs ML)</span></span>
+<span id="cb12-64"><a href="#cb12-64" tabindex="-1"></a>coinc_plot <span class="ot">&lt;-</span> coinc_summary <span class="sc">%&gt;%</span></span>
+<span id="cb12-65"><a href="#cb12-65" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-66"><a href="#cb12-66" tabindex="-1"></a>    <span class="co"># Classify Heritability</span></span>
+<span id="cb12-67"><a href="#cb12-67" tabindex="-1"></a>    <span class="at">herd =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-68"><a href="#cb12-68" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>  <span class="sc">~</span> <span class="st">&quot;h2 = 0.3&quot;</span>,</span>
+<span id="cb12-69"><a href="#cb12-69" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">12</span> <span class="sc">~</span> <span class="st">&quot;h2 = 0.5&quot;</span>,</span>
+<span id="cb12-70"><a href="#cb12-70" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">18</span> <span class="sc">~</span> <span class="st">&quot;h2 = 0.8&quot;</span>,</span>
+<span id="cb12-71"><a href="#cb12-71" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;Unknown&quot;</span></span>
+<span id="cb12-72"><a href="#cb12-72" tabindex="-1"></a>    ),</span>
+<span id="cb12-73"><a href="#cb12-73" tabindex="-1"></a>    <span class="co"># Classify Number of Genes</span></span>
+<span id="cb12-74"><a href="#cb12-74" tabindex="-1"></a>    <span class="at">ngenes =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-75"><a href="#cb12-75" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">13</span>) <span class="sc">~</span> <span class="dv">8</span>,</span>
+<span id="cb12-76"><a href="#cb12-76" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">14</span>) <span class="sc">~</span> <span class="dv">40</span>,</span>
+<span id="cb12-77"><a href="#cb12-77" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">15</span>) <span class="sc">~</span> <span class="dv">80</span>,</span>
+<span id="cb12-78"><a href="#cb12-78" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">16</span>) <span class="sc">~</span> <span class="dv">120</span>,</span>
+<span id="cb12-79"><a href="#cb12-79" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">11</span>, <span class="dv">17</span>) <span class="sc">~</span> <span class="dv">240</span>,</span>
+<span id="cb12-80"><a href="#cb12-80" tabindex="-1"></a>      variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">18</span>) <span class="sc">~</span> <span class="dv">480</span>,</span>
+<span id="cb12-81"><a href="#cb12-81" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">999</span></span>
+<span id="cb12-82"><a href="#cb12-82" tabindex="-1"></a>    ),</span>
+<span id="cb12-83"><a href="#cb12-83" tabindex="-1"></a>    <span class="co"># CORRECTION: Classify GAPIT models as &quot;MM&quot; (Mixed/Statistical Models)</span></span>
+<span id="cb12-84"><a href="#cb12-84" tabindex="-1"></a>    <span class="at">methodology =</span> <span class="fu">ifelse</span>(method <span class="sc">%in%</span> gwas_methods, <span class="st">&quot;MM&quot;</span>, <span class="st">&quot;ML&quot;</span>)</span>
+<span id="cb12-85"><a href="#cb12-85" tabindex="-1"></a>  )</span>
+<span id="cb12-86"><a href="#cb12-86" tabindex="-1"></a></span>
+<span id="cb12-87"><a href="#cb12-87" tabindex="-1"></a><span class="co"># Pre-format plot labels (Mean ± SD)</span></span>
+<span id="cb12-88"><a href="#cb12-88" tabindex="-1"></a>coinc_plot <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span></span>
+<span id="cb12-89"><a href="#cb12-89" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-90"><a href="#cb12-90" tabindex="-1"></a>    <span class="at">label_dp   =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(DP_mean, <span class="dv">1</span>), <span class="st">&quot; ± &quot;</span>, <span class="fu">round</span>(DP_sd, <span class="dv">1</span>)),</span>
+<span id="cb12-91"><a href="#cb12-91" tabindex="-1"></a>    <span class="at">label_prec =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(Precision_mean, <span class="dv">1</span>), <span class="st">&quot; ± &quot;</span>, <span class="fu">round</span>(Precision_sd, <span class="dv">1</span>)),</span>
+<span id="cb12-92"><a href="#cb12-92" tabindex="-1"></a>    <span class="at">label_fp   =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(FP_mean, <span class="dv">2</span>), <span class="st">&quot; ± &quot;</span>, <span class="fu">round</span>(FP_sd, <span class="dv">2</span>)),</span>
+<span id="cb12-93"><a href="#cb12-93" tabindex="-1"></a>    <span class="at">label_spec =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(Specificity_mean, <span class="dv">1</span>), <span class="st">&quot; ± &quot;</span>, <span class="fu">round</span>(Specificity_sd, <span class="dv">1</span>)),</span>
+<span id="cb12-94"><a href="#cb12-94" tabindex="-1"></a>    <span class="at">label_f1   =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(F1_Score_mean, <span class="dv">1</span>), <span class="st">&quot; ± &quot;</span>, <span class="fu">round</span>(F1_Score_sd, <span class="dv">1</span>)),</span>
+<span id="cb12-95"><a href="#cb12-95" tabindex="-1"></a>    </span>
+<span id="cb12-96"><a href="#cb12-96" tabindex="-1"></a>    <span class="co"># Factor Ordering for Plotting</span></span>
+<span id="cb12-97"><a href="#cb12-97" tabindex="-1"></a>    <span class="at">method =</span> <span class="fu">factor</span>(method, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(method)))),</span>
+<span id="cb12-98"><a href="#cb12-98" tabindex="-1"></a>    <span class="at">ngenes_f =</span> <span class="fu">factor</span>(ngenes, <span class="at">levels =</span> <span class="fu">sort</span>(<span class="fu">unique</span>(ngenes)))</span>
+<span id="cb12-99"><a href="#cb12-99" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="visualization-heatmaps" class="section level1">
+<h1>7. Visualization (Heatmaps)</h1>
+<p>Below, we generate comparative heatmaps between <strong>Mixed Models
+(MM)</strong> and <strong>Machine Learning (ML)</strong>.</p>
+<div id="detection-power-dp" class="section level3">
+<h3>7.1. Detection Power (DP)</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Plot MM (Statistical Models)</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;MM&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> DP_mean)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_dp), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;DP (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mixed Models (MM)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co"># Plot ML (Machine Learning)</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;ML&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> DP_mean)) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_dp), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;DP (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Machine Learning (ML)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="at">axis.ticks.y =</span> <span class="fu">element_line</span>())</span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>final_dp <span class="ot">&lt;-</span> (p1 <span class="sc">|</span> p2) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">&quot;Detection Power&quot;</span>, <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">16</span>)))</span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a><span class="fu">print</span>(final_dp)</span></code></pre></div>
+<p><img src="figure/consolidated_analysis.Rmd/plot_dp-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/DP_heatmap.png&quot;</span>, final_dp, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+<div id="precision" class="section level3">
+<h3>7.2. Precision</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;MM&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> Precision_mean)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_prec), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;Precision (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mixed Models (MM)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;ML&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> Precision_mean)) <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_prec), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;Precision (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Machine Learning (ML)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="at">axis.ticks.y =</span> <span class="fu">element_line</span>())</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>final_prec <span class="ot">&lt;-</span> (p1 <span class="sc">|</span> p2) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">&quot;Precision&quot;</span>, <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">16</span>)))</span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a><span class="fu">print</span>(final_prec)</span></code></pre></div>
+<p><img src="figure/consolidated_analysis.Rmd/plot_prec-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/Precision_heatmap.png&quot;</span>, final_prec, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+<div id="false-positive-rate-fpr" class="section level3">
+<h3>7.3. False Positive Rate (FPR)</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;MM&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> FP_mean)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_fp), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;FPR (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mixed Models (MM)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;ML&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> FP_mean)) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_fp), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;FPR (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Machine Learning (ML)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="at">axis.ticks.y =</span> <span class="fu">element_line</span>())</span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>final_fp <span class="ot">&lt;-</span> (p1 <span class="sc">|</span> p2) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">&quot;False Positive Rate (FPR)&quot;</span>, <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">16</span>)))</span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="fu">print</span>(final_fp)</span></code></pre></div>
+<p><img src="figure/consolidated_analysis.Rmd/plot_fp-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/FP_heatmap.png&quot;</span>, final_fp, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+<div id="specificity" class="section level3">
+<h3>7.4. Specificity</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;MM&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> Specificity_mean)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_spec), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;Specificity (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mixed Models (MM)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;ML&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> Specificity_mean)) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_spec), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;Specificity (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Machine Learning (ML)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="at">axis.ticks.y =</span> <span class="fu">element_line</span>())</span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>final_spec <span class="ot">&lt;-</span> (p1 <span class="sc">|</span> p2) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">&quot;Specificity&quot;</span>, <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">16</span>)))</span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="fu">print</span>(final_spec)</span></code></pre></div>
+<p><img src="figure/consolidated_analysis.Rmd/plot_spec-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/Specificity_heatmap.png&quot;</span>, final_spec, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+<div id="f1-score" class="section level3">
+<h3>7.5. F1 Score</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;MM&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> F1_Score_mean)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_f1), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;F1 Score&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mixed Models (MM)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coinc_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(methodology <span class="sc">==</span> <span class="st">&quot;ML&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ngenes_f, <span class="at">y =</span> method, <span class="at">fill =</span> F1_Score_mean)) <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label_f1), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">midpoint =</span> <span class="dv">50</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">name =</span> <span class="st">&quot;F1 Score&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>  <span class="fu">facet_grid</span>(herd <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Machine Learning (ML)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="at">axis.ticks.y =</span> <span class="fu">element_line</span>())</span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>final_f1 <span class="ot">&lt;-</span> (p1 <span class="sc">|</span> p2) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">&quot;F1 Score (Harmonic Mean)&quot;</span>, <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">16</span>)))</span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a><span class="fu">print</span>(final_f1)</span></code></pre></div>
+<p><img src="figure/consolidated_analysis.Rmd/plot_f1-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/F1_Score_heatmap.png&quot;</span>, final_f1, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+<div id="general-conclusion" class="section level2">
+<h2>General Conclusion</h2>
+<p>The present analysis allows for the following conclusions:</p>
+<ul>
+<li><strong>Sensitivity vs. Precision:</strong> Non-parametric
+regression methods (such as MARS) demonstrated a superior balance
+between Detection Power and Precision when compared to classic Mixed
+Models and simple Decision Trees, particularly in complex scenarios with
+high polygenicity.</li>
+<li><strong>Stability (Standard Deviation):</strong> The inclusion of
+standard deviation in the metrics reveals that while some ML methods
+achieve high mean performance, their variability across replicates can
+compromise reproducibility, a critical factor for genomic
+selection.</li>
+<li><strong>False Positives:</strong> Machine Learning methods tend to
+have a false positive rate controlled by the empirical mean threshold,
+but often higher than the rigorous Bonferroni criterion used in Mixed
+Models, highlighting the need for biological validation of candidates
+selected by ML.</li>
+</ul>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] LC_COLLATE=Portuguese_Brazil.utf8  LC_CTYPE=Portuguese_Brazil.utf8   
+[3] LC_MONETARY=Portuguese_Brazil.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Portuguese_Brazil.utf8    
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] patchwork_1.3.2 scales_1.4.0    lubridate_1.9.4 forcats_1.0.1  
+ [5] stringr_1.6.0   dplyr_1.1.4     purrr_1.2.0     readr_2.1.6    
+ [9] tidyr_1.3.1     tibble_3.3.0    ggplot2_4.0.1   tidyverse_2.0.0
+[13] workflowr_1.7.2
+
+loaded via a namespace (and not attached):
+ [1] utf8_1.2.6         sass_0.4.10        generics_0.1.4     stringi_1.8.7     
+ [5] hms_1.1.4          digest_0.6.39      magrittr_2.0.4     timechange_0.3.0  
+ [9] evaluate_1.0.5     grid_4.5.1         RColorBrewer_1.1-3 fastmap_1.2.0     
+[13] rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1     
+[17] ps_1.9.1           promises_1.5.0     httr_1.4.7         textshaping_1.0.4 
+[21] jquerylib_0.1.4    cli_3.6.5          rlang_1.1.6        withr_3.0.2       
+[25] cachem_1.1.0       yaml_2.3.10        otel_0.2.0         tools_4.5.1       
+[29] tzdb_0.5.0         httpuv_1.6.16      vctrs_0.6.5        R6_2.6.1          
+[33] lifecycle_1.0.4    git2r_0.36.2       fs_1.6.6           ragg_1.5.0        
+[37] pkgconfig_2.0.3    callr_3.7.6        pillar_1.11.1      bslib_0.9.0       
+[41] later_1.4.4        gtable_0.3.6       glue_1.8.0         Rcpp_1.1.0        
+[45] systemfonts_1.3.1  xfun_0.54          tidyselect_1.2.1   rstudioapi_0.17.1 
+[49] knitr_1.50         farver_2.1.2       htmltools_0.5.8.1  labeling_0.4.3    
+[53] rmarkdown_2.30     compiler_4.5.1     getPass_0.2-4      S7_0.2.1          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

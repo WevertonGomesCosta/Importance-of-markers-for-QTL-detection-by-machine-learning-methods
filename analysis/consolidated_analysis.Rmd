@@ -1,0 +1,643 @@
+---
+title: "Consolidated Analysis: Performance Metrics (Tutorial)"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: TRUE
+    toc_float: TRUE
+    theme: flatly
+    highlight: haddock
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  fig.align = "center",
+  out.width = "100%",
+  dpi = 300
+)
+```
+
+# 1\. Introduction and Configuration
+
+This document details the computational pipeline designed to benchmark **Genome-Wide Association Studies (GWAS)** against **Machine Learning (ML)** methods. The process is divided into explicit steps to ensure reproducibility.
+
+The goal is to integrate results from multiple models, standardize their importance scores, and calculate key performance metrics (Detection Power, Precision, FPR, Specificity, and F1 Score) across 10 replicates and 50 cross-validation folds.
+
+### Load Packages
+
+```{r package}
+library(tidyverse) # Data manipulation (dplyr) and visualization (ggplot2)
+library(scales)    # Axis scaling and formatting
+library(patchwork) # Composition of multi-panel plots
+library(stringr)   # String manipulation
+```
+
+# 2. Data Importation
+
+In this step, we load the raw result files. We distinguish between Machine Learning (ML) and GWAS files and apply column standardization immediately upon reading. This is crucial because different software outputs may use varying column names (e.g., "SNP" vs. "Marker", "p.value" vs. "Importance").
+
+### 2.1. Load Machine Learning Data
+
+Machine Learning models (Random Forest, MARS, etc.) output **Importance Scores** (e.g., Gini Impurity, RSS reduction). Since these scores are on different scales (some range from 0-100, others are unbounded), we must load and normalize them.
+
+**Process:**
+1.  **Identify File:** We target the consolidated ML results file generated in the previous script.
+2.  **Standardize:** We rename columns to a common format (`variable`, `replicate`, `marker`, `overall`).
+3.  **Normalize:** We apply a Min-Max scaling (0 to 10) within each fold/replicate to make scores comparable across different algorithms.
+
+```{r load_ml}
+# 1. Define the path to the consolidated ML file
+# This file was created in the 'genomic_prediction.Rmd' script
+ml_files <- "output/ML_Results_Importance_CONSOLIDATED.csv"
+
+# 2. Reading and Cleaning (Explicit Process)
+# We use map_dfr to read the file(s) and apply a consistent cleaning function
+ml_data <- map_dfr(ml_files, function(f) {
+  
+  if(!file.exists(f)) return(data.frame())
+
+  # Read CSV
+  df <- read.csv(f)
+  colnames(df) <- tolower(colnames(df)) # Standardize names to lowercase to avoid case-sensitivity issues
+  
+  # Explicitly Select and Rename columns
+  # This mapping ensures that 'var', 'Variable', or 'TRAIT' all become 'variable'
+  df %>%
+    rename(
+      variable  = any_of(c("var", "variable")),
+      replicate = any_of(c("rep", "replicate")),
+      marker    = any_of(c("marker", "marker_idx", "snp")),
+      overall   = any_of(c("overall", "importance", "score")),
+      fold      = any_of(c("fold")),
+      method    = any_of(c("method", "model"))
+    ) %>%
+    mutate(
+      # Ensure numeric types for merging
+      variable  = as.numeric(variable),
+      # robustly clean marker names (e.g., remove "M" prefix if present)
+      marker    = as.numeric(str_replace_all(as.character(marker), "[^0-9]", "")),
+      replicate = as.numeric(replicate),
+      fold      = as.numeric(fold),
+      overall   = as.numeric(overall),
+      method    = as.character(method),
+      type      = "ML" # Tag to distinguish from GWAS later
+    ) %>%
+    select(variable, method, marker, replicate, fold, overall, type)
+})
+
+# 3. Normalization (Rescale 0-10) within each Fold
+# Important: Comparison is only valid if scores share a relative scale.
+# We rescale the importance so the maximum importance in any fold is 10.
+ml_data <- ml_data %>%
+  group_by(variable, method, replicate, fold) %>%
+  mutate(
+    overall = scales::rescale(overall, to = c(0, 10), finite = FALSE)) %>%
+  ungroup()
+
+head(ml_data)
+```
+
+### 2.2. Load GWAS Data
+
+GWAS models (GLM, FarmCPU, Blink) output **P-values**. These represent the statistical probability of the association being random.
+
+**Process:**
+
+1.  **Identify File:** We target the consolidated GWAS results file generated in the GAPIT script.
+2.  **Standardize:** Similar to ML, we standardize column names.
+3.  **No Normalization:** Unlike ML scores, P-values (transformed to $-log_{10}(P)$) have a standard statistical interpretation and do not require rescaling.
+
+<!-- end list -->
+
+```{r load_gwas}
+# Path to the already unified file from 'models_gapit_gwas.Rmd'
+gwas_file <- "output/gwas_cv/GWAS_Results_Importance_CONSOLIDATED.csv"
+
+if (file.exists(gwas_file)) {
+  
+  # 1. Read single file
+  df_raw <- read.csv(gwas_file)
+  
+  # 2. Standardize column names (to lowercase)
+  colnames(df_raw) <- tolower(colnames(df_raw))
+  
+  # 3. Cleaning and Selection
+  gwas_data <- df_raw %>%
+    rename(
+      # Map file columns (Variable, Model...) to standard pattern (variable, method...)
+      variable  = any_of(c("variable", "var")),
+      replicate = any_of(c("replicate", "rep")),
+      marker    = any_of(c("marker", "snp")),
+      overall   = any_of(c("overall", "p.value", "score")), 
+      fold      = any_of(c("fold")),
+      method    = any_of(c("model", "method"))
+    ) %>%
+    mutate(
+      # Robust type conversion
+      variable  = as.numeric(variable),
+      # Remove non-numeric characters from marker (e.g., "V1" -> 1)
+      marker    = as.numeric(str_replace_all(as.character(marker), "[^0-9]", "")),
+      replicate = as.numeric(replicate),
+      fold      = as.numeric(fold),
+      overall   = as.numeric(overall),
+      method    = as.character(method),
+      type      = "GWAS" # Tag to differentiate later
+    ) %>%
+    # Safety filter to remove corrupted rows (NAs)
+    filter(!is.na(marker), !is.na(variable)) %>%
+    select(variable, method, marker, replicate, fold, overall, type)
+  
+  cat("GWAS data loaded successfully.\n")
+  cat("Total records:", nrow(gwas_data), "\n")
+  
+} else {
+  warning("File 'GWAS_Results_Importance_CONSOLIDATED.csv' not found in output/gwas_cv/.")
+  gwas_data <- data.frame()
+}
+```
+
+### 2.3. Unification
+
+Finally, we stack the two datasets vertically. This creates a master dataset containing every tested marker, for every method, variable, and replicate, ready for the comparative analysis.
+
+```{r unify}
+# Combine ML and GWAS dataframes
+all_data <- bind_rows(ml_data, gwas_data)
+cat("Total consolidated records:", nrow(all_data), "\n")
+```
+
+# 3. Ground Truth Definition (True QTLs)
+
+To evaluate the methods, we must define the locations of the true simulated QTLs. We load the base simulation file and expand it to cover all 18 variables, representing different heritability scenarios ($h^2 = 0.3, 0.5, 0.8$).
+
+We create two reference structures:
+1.  **Flat Map (`region_map`):** Used for calculating **Precision** and **Specificity**. Overlapping windows are merged to prevent double-counting markers as "False Positives".
+2.  **ID Reference (`qtl_reference`):** Used for calculating **Detection Power**. Preserves unique QTL IDs to determine how many distinct genetic signals were successfully detected.
+
+```{r ground_truth}
+# Load original file (Contains variables 1 to 6)
+if(file.exists("data/snpsOfInterest.RData")) {
+  load("data/snpsOfInterest.RData")
+} else {
+  stop("File 'snpsOfInterest.RData' not found in data/ folder.")
+}
+
+# Expansion to include different heritability scenarios
+# Variables 1-6  (h2=0.3)
+# Variables 7-12 (h2=0.5) - Shifted Copy (+6)
+# Variables 13-18 (h2=0.8) - Shifted Copy (+12)
+snpsOfInterest <- snpsOfInterest %>%
+  bind_rows(snpsOfInterest %>% mutate(variable = variable + 6)) %>% 
+  bind_rows(snpsOfInterest %>% mutate(variable = variable + 12))
+
+# Window Parameters
+distance <- 5 
+total_markers_genotype <- 4010 
+
+# --- A. Flat Map (For Precision/FP/TN) ---
+# We use distinct() to merge overlapping windows into a single boolean "target" region
+region_map <- snpsOfInterest %>%
+  rowwise() %>%
+  mutate(marker = list(seq(marker - distance, marker + distance))) %>%
+  ungroup() %>%
+  unnest(cols = marker) %>%
+  select(variable, marker) %>% 
+  distinct() %>% # REMOVE DUPLICATE markers (merges overlaps)
+  mutate(
+    marker = as.numeric(marker),
+    is_in_region = TRUE
+  )
+
+# --- B. Reference with ID (For Detection Power) ---
+# We keep the QTL_ID to count how many "unique QTLs" were found (Hit Rate)
+qtl_reference <- snpsOfInterest %>%
+  mutate(QTL_ID = paste0("QTL_", variable, "_", marker)) %>%
+  rowwise() %>%
+  mutate(marker = list(seq(marker - distance, marker + distance))) %>%
+  ungroup() %>%
+  unnest(cols = marker) %>%
+  select(variable, marker, QTL_ID)
+
+# --- C. Denominators (For Rates) ---
+truth_metadata <- snpsOfInterest %>%
+  group_by(variable) %>%
+  summarise(total_QTLs_real = n_distinct(marker), .groups = "drop")
+
+markers_in_target <- region_map %>%
+  group_by(variable) %>%
+  summarise(total_target_markers = n_distinct(marker))
+
+truth_metadata <- left_join(truth_metadata, markers_in_target, by = "variable") %>%
+  mutate(total_noise_markers = total_markers_genotype - total_target_markers)
+```
+
+# 4. Marker Classification
+
+In this step, we apply specific selection thresholds to classify markers as "Significant" (Selected) or "Not Significant".
+
+* **GWAS:** We apply the rigorous **Bonferroni correction** ($-\log_{10}(0.05/M)$) to control the family-wise error rate.
+* **Machine Learning:** We use an **empirical threshold** based on the mean importance score within each replicate. Markers with importance above the mean are selected.
+
+Finally, we cross-reference the selected markers with the `region_map` to categorize them into the Confusion Matrix classes: True Positives (TP), False Positives (FP), False Negatives (FN), and True Negatives (TN).
+
+```{r classification}
+# Identify GWAS methods from the data
+gwas_methods <- unique(gwas_data$method)
+
+# Calculate Thresholds and Selection Status
+classified_data <- all_data %>%
+  group_by(method, variable, replicate, fold) %>%
+  mutate(
+    threshold_ml = mean(overall, na.rm=TRUE),
+    threshold_gwas = -log10(0.05/total_markers_genotype), 
+    
+    is_selected = case_when(
+      # GWAS Criteria: > Bonferroni
+      method %in% gwas_methods & overall > threshold_gwas ~ TRUE,
+      # ML Criteria: > Mean Importance
+      !(method %in% gwas_methods) & overall > threshold_ml ~ TRUE,
+      TRUE ~ FALSE
+    )
+  ) %>%
+  ungroup() %>%
+  # Join with Flat Map (Left Join to retain all tested markers)
+  left_join(region_map, by = c("variable", "marker")) %>%
+  mutate(
+    # Markers not found in region_map are "Noise" (FALSE)
+    is_in_region = replace_na(is_in_region, FALSE),
+    
+    # Final Classification (Confusion Matrix)
+    classification = case_when(
+      is_selected & is_in_region  ~ "TP", # True Positive (Hit)
+      is_selected & !is_in_region ~ "FP", # False Positive (Noise Selection)
+      !is_selected & is_in_region ~ "FN", # False Negative (Missed QTL)
+      !is_selected & !is_in_region ~ "TN" # True Negative (Correct Rejection)
+    )
+  )
+```
+
+# 5. Calculation of Metrics by Replicate
+
+In this step, we calculate the raw counts of "hits" and "misses" for each cross-validation fold.
+
+### 5.1. QTL Hits (For Detection Power and Precision)
+
+We use the `qtl_reference` table (which contains unique QTL IDs) to determine how many distinct QTLs were "tagged" by the selected markers. 
+
+```{r calc_hits}
+hits_calc <- classified_data %>%
+  filter(is_selected) %>% 
+  # relationship = "many-to-many" is required because QTL windows may overlap
+  inner_join(qtl_reference, by = c("variable", "marker"), relationship = "many-to-many") %>%
+  group_by(variable, method, replicate, fold) %>%
+  summarise(acerto_qtl = n_distinct(QTL_ID), .groups = "drop")
+```
+
+### 5.2. Error Statistics (FP) and Rejections (TN)
+
+We summarize the marker-level classification to count False Positives (Selection of Noise) and True Negatives (Correct Rejection of Noise).
+
+[Image of confusion matrix precision recall]
+
+```{r calc_stats}
+marker_stats <- classified_data %>%
+  group_by(variable, method, replicate, fold) %>%
+  summarise(
+    # FP_markers = Error (Selected noise marker)
+    FP_markers = sum(classification == "FP"),
+    # TN_markers = Rejection Hit (Correctly ignored noise marker)
+    TN_markers = sum(classification == "TN"),
+    .groups = "drop"
+  )
+```
+
+# 6. Consolidation and Calculation of Means
+
+In this step, we merge all classification data and calculate the performance metrics for each replicate. Subsequently, we aggregate the results to obtain the Mean ($\mu$) and Standard Deviation ($\sigma$) across the 10 replicates.
+
+```{r consolidation}
+# Create skeleton to ensure methods with zero selections are included in the stats
+skeleton <- classified_data %>% distinct(variable, method, replicate, fold)
+
+# Merge all components
+coinc_raw <- skeleton %>%
+  left_join(truth_metadata, by = "variable") %>%
+  left_join(hits_calc, by = c("variable", "method", "replicate", "fold")) %>%
+  left_join(marker_stats, by = c("variable", "method", "replicate", "fold")) %>%
+  mutate(
+    # Replace NAs with 0 (for methods that selected nothing)
+    acerto_qtl = replace_na(acerto_qtl, 0),
+    FP_markers = replace_na(FP_markers, 0), 
+    TN_markers = replace_na(TN_markers, 0),
+    
+    # --- METRIC FORMULAS ---
+    
+    # 1. Detection Power (DP)
+    # (Unique QTLs Found / Total Real QTLs) * 100
+    DP = (acerto_qtl / total_QTLs_real) * 100,
+    
+    # 2. Precision
+    # (True Hits / Total Selected Signals) * 100
+    Precision = ifelse((acerto_qtl + FP_markers) == 0, 0, 
+                       (acerto_qtl / (acerto_qtl + FP_markers)) * 100),
+    
+    # 3. False Positive Rate (FP Rate)
+    # (False Positives / Total Noise Markers) * 100
+    FP_Rate = ifelse(total_noise_markers == 0, 0, 
+                     (FP_markers / total_noise_markers) * 100),
+    
+    # 4. Specificity
+    # (True Negatives / Total Noise Markers) * 100
+    Specificity = ifelse(total_noise_markers == 0, 0,
+                         ((total_noise_markers - FP_markers) / total_noise_markers) * 100),
+    
+    # 5. F1 Score (Harmonic Mean of DP and Precision)
+    F1_Score = ifelse((DP + Precision) == 0, 0, 
+                      2 * ((DP * Precision) / (DP + Precision)))
+  )
+
+# Calculate Means and Standard Deviations across replicates
+coinc_summary <- coinc_raw %>%
+  group_by(variable, method) %>%
+  summarise(
+    DP_mean = mean(DP, na.rm=TRUE),
+    DP_sd = sd(DP, na.rm=TRUE),
+    
+    Precision_mean = mean(Precision, na.rm=TRUE),
+    Precision_sd = sd(Precision, na.rm=TRUE),
+    
+    FP_mean = mean(FP_Rate, na.rm=TRUE),
+    FP_sd = sd(FP_Rate, na.rm=TRUE),
+    
+    Specificity_mean = mean(Specificity, na.rm=TRUE),
+    Specificity_sd = sd(Specificity, na.rm=TRUE),
+    
+    F1_Score_mean = mean(F1_Score, na.rm=TRUE),
+    F1_Score_sd = sd(F1_Score, na.rm=TRUE),
+    
+    .groups = "drop"
+  )
+
+# Add Metadata and Classification (MM vs ML)
+coinc_plot <- coinc_summary %>%
+  mutate(
+    # Classify Heritability
+    herd = case_when(
+      variable %in% 1:6  ~ "h2 = 0.3",
+      variable %in% 7:12 ~ "h2 = 0.5",
+      variable %in% 13:18 ~ "h2 = 0.8",
+      TRUE ~ "Unknown"
+    ),
+    # Classify Number of Genes
+    ngenes = case_when(
+      variable %in% c(1, 7, 13) ~ 8,
+      variable %in% c(2, 8, 14) ~ 40,
+      variable %in% c(3, 9, 15) ~ 80,
+      variable %in% c(4, 10, 16) ~ 120,
+      variable %in% c(5, 11, 17) ~ 240,
+      variable %in% c(6, 12, 18) ~ 480,
+      TRUE ~ 999
+    ),
+    # CORRECTION: Classify GAPIT models as "MM" (Mixed/Statistical Models)
+    methodology = ifelse(method %in% gwas_methods, "MM", "ML")
+  )
+
+# Pre-format plot labels (Mean ± SD)
+coinc_plot <- coinc_plot %>%
+  mutate(
+    label_dp   = paste0(round(DP_mean, 1), " ± ", round(DP_sd, 1)),
+    label_prec = paste0(round(Precision_mean, 1), " ± ", round(Precision_sd, 1)),
+    label_fp   = paste0(round(FP_mean, 2), " ± ", round(FP_sd, 2)),
+    label_spec = paste0(round(Specificity_mean, 1), " ± ", round(Specificity_sd, 1)),
+    label_f1   = paste0(round(F1_Score_mean, 1), " ± ", round(F1_Score_sd, 1)),
+    
+    # Factor Ordering for Plotting
+    method = factor(method, levels = rev(sort(unique(method)))),
+    ngenes_f = factor(ngenes, levels = sort(unique(ngenes)))
+  )
+```
+
+```{r filter_variables, include=FALSE}
+coinc_plot <- coinc_plot %>%
+  filter(variable %in% c(7:11, 13:17)) # Ensure only valid variables are included
+```
+
+# 7. Visualization (Heatmaps)
+
+Below, we generate comparative heatmaps between **Mixed Models (MM)** and **Machine Learning (ML)**.
+
+### 7.1. Detection Power (DP)
+
+```{r plot_dp, fig.width=14, fig.height=8}
+# Plot MM (Statistical Models)
+p1 <- coinc_plot %>% filter(methodology == "MM") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = DP_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_dp), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "DP (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Mixed Models (MM)", x = NULL, y = NULL) +
+  theme_bw() + 
+  theme(legend.position = "none", axis.text.y = element_text(size = 10))
+
+# Plot ML (Machine Learning)
+p2 <- coinc_plot %>% filter(methodology == "ML") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = DP_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_dp), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "DP (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Machine Learning (ML)", x = NULL, y = NULL) +
+  theme_bw() + 
+  theme(axis.text.y = element_text(size = 10), axis.ticks.y = element_line())
+
+final_dp <- (p1 | p2) + plot_annotation(title = "Detection Power", theme = theme(plot.title = element_text(hjust = 0.5, face="bold", size=16)))
+
+print(final_dp)
+ggsave("output/DP_heatmap.tiff", final_dp, width = 14, height = 8, dpi = 300)
+```
+
+### 7.2. Precision
+
+```{r plot_prec, fig.width=14, fig.height=8}
+p1 <- coinc_plot %>% filter(methodology == "MM") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = Precision_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_prec), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "Precision (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Mixed Models (MM)", x = NULL, y = NULL) +
+  theme_bw() + theme(legend.position = "none", axis.text.y = element_text(size = 10))
+
+p2 <- coinc_plot %>% filter(methodology == "ML") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = Precision_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_prec), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "Precision (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Machine Learning (ML)", x = NULL, y = NULL) +
+  theme_bw() + theme(axis.text.y = element_text(size = 10), axis.ticks.y = element_line())
+
+final_prec <- (p1 | p2) + plot_annotation(title = "Precision", theme = theme(plot.title = element_text(hjust = 0.5, face="bold", size=16)))
+
+print(final_prec)
+ggsave("output/Precision_heatmap.tiff", final_prec, width = 14, height = 8, dpi = 300)
+```
+
+### 7.3. False Positive Rate (FPR)
+
+```{r plot_fp, fig.width=14, fig.height=8}
+p1 <- coinc_plot %>% filter(methodology == "MM") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = FP_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_fp), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "FPR (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Mixed Models (MM)", x = NULL, y = NULL) +
+  theme_bw() + theme(legend.position = "none", axis.text.y = element_text(size = 10))
+
+p2 <- coinc_plot %>% filter(methodology == "ML") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = FP_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_fp), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "FPR (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Machine Learning (ML)", x = NULL, y = NULL) +
+  theme_bw() + theme(axis.text.y = element_text(size = 10), axis.ticks.y = element_line())
+
+final_fp <- (p1 | p2) + plot_annotation(title = "False Positive Rate (FPR)", theme = theme(plot.title = element_text(hjust = 0.5, face="bold", size=16)))
+
+print(final_fp)
+ggsave("output/FP_heatmap.tiff", final_fp, width = 14, height = 8, dpi = 300)
+```
+
+### 7.4. Specificity
+
+```{r plot_spec, fig.width=14, fig.height=8}
+p1 <- coinc_plot %>% filter(methodology == "MM") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = Specificity_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_spec), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "Specificity (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Mixed Models (MM)", x = NULL, y = NULL) +
+  theme_bw() + theme(legend.position = "none", axis.text.y = element_text(size = 10))
+
+p2 <- coinc_plot %>% filter(methodology == "ML") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = Specificity_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_spec), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "Specificity (%)") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Machine Learning (ML)", x = NULL, y = NULL) +
+  theme_bw() + theme(axis.text.y = element_text(size = 10), axis.ticks.y = element_line())
+
+final_spec <- (p1 | p2) + plot_annotation(title = "Specificity", theme = theme(plot.title = element_text(hjust = 0.5, face="bold", size=16)))
+
+print(final_spec)
+ggsave("output/Specificity_heatmap.tiff", final_spec, width = 14, height = 8, dpi = 300)
+```
+
+### 7.5. F1 Score
+
+```{r plot_f1, fig.width=14, fig.height=8}
+p1 <- coinc_plot %>% filter(methodology == "MM") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = F1_Score_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_f1), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "F1 Score") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Mixed Models (MM)", x = NULL, y = NULL) +
+  theme_bw() + theme(legend.position = "none", axis.text.y = element_text(size = 10))
+
+p2 <- coinc_plot %>% filter(methodology == "ML") %>%
+  ggplot(aes(x = ngenes_f, y = method, fill = F1_Score_mean)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = label_f1), color = "black", size = 2.8) +
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 50, limits = c(0, 100), name = "F1 Score") +
+  facet_grid(herd ~ ., scales = "free", space = "free") +
+  labs(title = "Machine Learning (ML)", x = NULL, y = NULL) +
+  theme_bw() + theme(axis.text.y = element_text(size = 10), axis.ticks.y = element_line())
+
+final_f1 <- (p1 | p2) + plot_annotation(title = "F1 Score (Harmonic Mean)", theme = theme(plot.title = element_text(hjust = 0.5, face="bold", size=16)))
+
+print(final_f1)
+ggsave("output/F1_Score_heatmap.tiff", final_f1, width = 14, height = 8, dpi = 300)
+```
+
+# 8. Tabela Detalhada: Acertos e Erros
+
+Abaixo apresentamos a média e o desvio padrão de:
+* **Acertos (TP):** Quantidade de QTLs únicos encontrados.
+* **Erros (FP):** Quantidade de marcadores de ruído selecionados incorretamente.
+
+```{r detailed_table}
+# 1. Preparar os dados brutos
+# Unimos as contagens de Hits (QTLs) e Stats (FP/TN)
+raw_counts <- hits_calc %>%
+  full_join(marker_stats, by = c("variable", "method", "replicate", "fold")) %>%
+  mutate(
+    acerto_qtl = replace_na(acerto_qtl, 0),
+    FP_markers = replace_na(FP_markers, 0)
+  )
+
+# 2. Calcular Média e Desvio Padrão por Variável e Método
+table_summary <- raw_counts %>%
+  group_by(variable, method) %>%
+  summarise(
+    # Acertos (TP)
+    TP_Mean = mean(acerto_qtl),
+    TP_SD   = sd(acerto_qtl),
+    
+    # Erros (FP)
+    FP_Mean = mean(FP_markers),
+    FP_SD   = sd(FP_markers),
+    
+    .groups = "drop"
+  )
+
+# 3. Adicionar Metadados para facilitar a leitura
+table_display <- table_summary %>%
+  mutate(
+    # Formatação "Média ± SD"
+    Hits_Format = paste0(round(TP_Mean, 2), " ± ", round(TP_SD, 2)),
+    Errors_Format = paste0(round(FP_Mean, 2), " ± ", round(FP_SD, 2)),
+    
+    # Informação de Herdabilidade (Opcional, ajuda na filtragem)
+    Heritability = case_when(
+      variable %in% 1:6  ~ "0.3",
+      variable %in% 7:12 ~ "0.5",
+      variable %in% 13:18 ~ "0.8",
+      TRUE ~ "-"
+    ),
+    Methodology = ifelse(method %in% gwas_methods, "MM", "ML")
+  ) %>%
+  select(variable, Heritability, method, Methodology, Hits_Format, Errors_Format) %>%
+  arrange(variable, desc(Methodology), method) %>% 
+  filter(variable %in% c(7:11, 13:17)) # Filtrar apenas variáveis válidas
+
+# 4. Gerar Tabela Interativa
+# Se não tiver o pacote DT instalado: install.packages("DT")
+library(DT)
+
+datatable(table_display, 
+          rownames = FALSE,
+          filter = 'top',
+          options = list(pageLength = 15, autoWidth = TRUE),
+          colnames = c("Var", "h2", "Method", "Type", "Hits (Mean ± SD)", "Errors (Mean ± SD)"))
+```
+## General Conclusion
+
+The present analysis allows for the following conclusions:
+
+  * **Sensitivity vs. Precision:** Non-parametric regression methods (such as MARS) demonstrated a superior balance between Detection Power and Precision when compared to classic Mixed Models and simple Decision Trees, particularly in complex scenarios with high polygenicity.
+  * **Stability (Standard Deviation):** The inclusion of standard deviation in the metrics reveals that while some ML methods achieve high mean performance, their variability across replicates can compromise reproducibility, a critical factor for genomic selection.
+  * **False Positives:** Machine Learning methods tend to have a false positive rate controlled by the empirical mean threshold, but often higher than the rigorous Bonferroni criterion used in Mixed Models, highlighting the need for biological validation of candidates selected by ML.
+

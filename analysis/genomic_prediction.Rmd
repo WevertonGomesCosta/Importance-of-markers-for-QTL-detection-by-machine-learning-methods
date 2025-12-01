@@ -1,0 +1,953 @@
+---
+title: "Genomic Prediction & Marker Importance (Machine Learning)"
+author: "Costa, W. G."
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: TRUE
+    toc_float: TRUE
+    theme: flatly
+    highlight: haddock
+editor_options:
+  chunk_output_type: console
+---
+
+# Machine Learning for QTL Detection
+
+This script performs genomic prediction using various Machine Learning algorithms. The primary goal is to extract **Marker Importance Scores** to evaluate their ability to detect QTLs compared to GWAS methods.
+
+**Models:** Random Forest (RF), Bagging, Boosting (GBM), Decision Tree (DT), MARS.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+## 1\. Setup and Packages
+
+We load the necessary libraries for data manipulation, parallel processing, and specific Machine Learning algorithms.
+
+```{r packages, message=FALSE}
+# Data Manipulation & Parallelism
+library(tidyverse)  # Data handling
+library(gtools)     # Natural sorting of files
+library(doParallel) # Parallel backend
+library(foreach)    # Parallel loops
+
+# Machine Learning Models - Install if missing
+if(!require(randomForest)) install.packages("randomForest") # RF & Bagging
+if(!require(gbm)) install.packages("gbm")                   # Boosting (Gradient Boosting Machine)
+if(!require(earth)) install.packages("earth")               # MARS (Multivariate Adaptive Regression Splines)
+if(!require(rpart)) install.packages("rpart")               # Decision Trees
+
+# Load ML Libraries
+library(randomForest)
+library(gbm)
+library(earth)
+library(rpart)
+```
+
+## 2. Data Preparation
+
+We identify and list the partitioned files located in the `PHEN_T` (Phenotype) and `GEN_T` (Genotype) directories. We use natural sorting to ensure correct file ordering and perform integrity checks to guarantee that phenotype and genotype files are correctly paired.
+
+```{r load_data}
+# 1. Define File Paths
+pathFenT <- file.path("data/PHEN_T")
+pathGenT <- file.path("data/GEN_T")
+
+# 2. File Listing (Natural Numeric Sort)
+# 'mixedsort' ensures that "file10" comes after "file2", rather than after "file1"
+filesFenT <- gtools::mixedsort(list.files(path = pathFenT, pattern = "\\.txt$", full.names = TRUE))
+filesGenT <- gtools::mixedsort(list.files(path = pathGenT, pattern = "\\.txt$", full.names = TRUE))
+
+# Integrity Check
+if(length(filesFenT) == 0 || length(filesGenT) == 0) {
+  stop("CRITICAL ERROR: No phenotype or genotype files found in data/ folders.")
+}
+
+if(length(filesFenT) != length(filesGenT)) {
+  warning("WARNING: Mismatch in number of phenotype and genotype files. Check pairing.")
+}
+
+cat("Files detected: ", length(filesFenT), "pairs (Phenotype/Genotype).\n")
+```
+
+## 3. Global Parameters and Cluster Setup
+
+We define the experimental design (10 replicates, 5 folds) and the list of Machine Learning models to be evaluated. We also configure the parallel backend to utilize available processor cores efficiently.
+
+```{r grid_setup}
+# --- Experimental Parameters ---
+nfolds <- 5
+n_reps <- 10
+total_traits <- 18
+target_vars <- 1:total_traits 
+
+# Machine Learning Models
+# RF = Random Forest, BA = Bagging, BO = Boosting, DT = Decision Tree, MARS = Earth
+ml_models <- c("RF", "BA", "BO", "DT", "MARS")
+
+# Output Directories
+base_out_dir <- "output/ml_cv"
+temp_run_dir <- file.path(base_out_dir, "temp_runs") 
+if (!dir.exists(temp_run_dir)) dir.create(temp_run_dir, recursive = TRUE)
+
+# --- Cluster Configuration ---
+# Detect physical cores to avoid overloading (logical=FALSE is safer for RAM-heavy ML)
+n_cores_total <- parallel::detectCores()
+n_cores_use <- max(1, n_cores_total - 1)
+
+cat("Cluster Configuration: Using", n_cores_use, "cores.\n")
+
+# Restart cluster if it already exists to avoid conflicts
+if(exists("cl")) try(stopCluster(cl), silent=TRUE)
+cl <- makeCluster(n_cores_use)
+registerDoParallel(cl)
+```
+
+## 4\. Machine Learning Execution
+
+### 4.1. Multivariate Adaptive Regression Splines (MARS)
+
+MARS is a non-parametric regression technique that models non-linear relationships by fitting piecewise linear segments (hinge functions). It automatically performs feature selection by "pruning" terms that do not contribute to model stability.
+
+```{r mars_run, eval=FALSE}
+# 1. Setup
+grau_mars <- 1:3 
+grid_mars <- expand.grid(Rep = 1:n_reps, Variable = target_vars, Degree = grau_mars)
+out_mars <- "output/mars"
+if (!dir.exists(out_mars)) dir.create(out_mars, recursive = TRUE)
+
+cat("Iniciando MARS. Total de tarefas:", nrow(grid_mars) * nfolds, "\n")
+
+set.seed(123) 
+
+# 2. Execução
+mars_list <- foreach(task_i = 1:nrow(grid_mars), 
+                     .packages = c('earth', 'caret', 'tidyverse'),
+                     .export = c("filesFenT", "filesGenT", "filesFenV", "filesGenV", "nfolds")) %dopar% {
+  
+  curr_rep <- grid_mars$Rep[task_i]
+  curr_var <- grid_mars$Variable[task_i]
+  curr_deg <- grid_mars$Degree[task_i]
+  
+  # Definir nome composto do modelo
+  model_name_compound <- paste("MARS", curr_deg)
+  
+  # Acumuladores locais (opcional, pois salvamos CSV)
+  fold_metrics_accum <- data.frame()
+  fold_importance_accum <- data.frame()
+  
+  for (fold_k in 1:nfolds) {
+    
+    # A. Lógica de Reciclagem de Arquivos
+    raw_idx <- (curr_rep - 1) * nfolds + fold_k
+    file_idx <- ((raw_idx - 1) %% length(filesFenT)) + 1
+    
+    # Checkpoint: Pula se já existir o arquivo de importância
+    outfile_imp <- sprintf("%s/IMP_Rep%d_Var%d_Deg%d_Fold%d.csv", out_mars, curr_rep, curr_var, curr_deg, fold_k)
+    if(file.exists(outfile_imp)) next
+    
+    tryCatch({
+      # B. Leitura dos Dados (Sem renomear colunas)
+      # O R usará o padrão: V1, V2, V3...
+      dadosTy <- read.table(filesFenT[file_idx], header = FALSE)
+      dadosTx <- read.table(filesGenT[file_idx], header = FALSE)
+      dadosVy <- read.table(filesFenV[file_idx], header = FALSE)
+      dadosVx <- read.table(filesGenV[file_idx], header = FALSE)
+      
+      start_time <- Sys.time()
+      
+      # C. Modelo
+      mars_model <- earth(x = dadosTx, y = dadosTy[, curr_var], degree = curr_deg)
+      
+      exec_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # --- D. CÁLCULO DE MÉTRICAS ---
+      ypred <- predict(mars_model, dadosVx)[,1] # [,1] garante vetor
+      ypred_train <- mars_model$fitted.values[,1]
+      
+      # Validação
+      if (sd(ypred) == 0) { 
+        r2_val <- 0 
+      } else { 
+        rv <- cor(dadosVy[, curr_var], ypred)
+        r2_val <- as.numeric(rv^2)
+      }
+      rmse_val <- as.numeric(sqrt(mean((dadosVy[, curr_var] - ypred)^2)))
+      
+      # Treinamento
+      rt <- cor(dadosTy[, curr_var], ypred_train)
+      r2_train <- as.numeric(rt^2)
+      rmse_train <- as.numeric(sqrt(mean((dadosTy[, curr_var] - ypred_train)^2)))
+      
+      # Salvar Métricas
+      curr_metrics <- data.frame(
+        Model = model_name_compound, 
+        Replicate = curr_rep, 
+        Variable = curr_var, 
+        Degree = curr_deg, 
+        Fold = fold_k, 
+        R2_Train = r2_train, 
+        R2_Val = r2_val, 
+        RMSE_Train = rmse_train, 
+        RMSE_Val = rmse_val, 
+        Time_Sec = exec_time
+      )
+      
+      write.csv(curr_metrics, sprintf("%s/METRICS_Rep%d_Var%d_Deg%d_Fold%d.csv", out_mars, curr_rep, curr_var, curr_deg, fold_k), row.names = FALSE)
+      
+      # --- E. Importância (Código Solicitado) ---
+      
+      imp <- tryCatch({ data.frame(varImp(mars_model, value = "rss")) }, error=function(e) NULL)
+      
+      if (!is.null(imp)) {
+         # --- PADRONIZAÇÃO DE COLUNAS (IMPORTÂNCIA) ---
+         imp$Marker <- rownames(imp)
+         # Se quiser remover o "V" padrão do R (V1 -> 1), descomente abaixo:
+         # imp$Marker <- gsub("V", "", imp$Marker) 
+         
+         colnames(imp)[1] <- "Overall"
+         
+         imp_final <- data.frame(
+           Model = model_name_compound,
+           Replicate = curr_rep,
+           Variable = curr_var,
+           Degree = curr_deg,
+           Fold = fold_k,
+           Marker = imp$Marker,
+           Overall = imp$Overall # Usando "rss" como medida de importância 
+         )
+         
+         write.csv(imp_final, outfile_imp, row.names = FALSE)
+      } else {
+         # Salva placeholder vazio se nenhuma variável for selecionada
+         dummy <- data.frame(Model=model_name_compound, Overall=0)
+         write.csv(dummy, outfile_imp, row.names=FALSE)
+      }
+      
+    }, error = function(e) {
+       writeLines(paste("Erro no MARS:", e$message), file.path(out_mars, "error_log.txt"))
+    })
+    
+    # Limpeza de memória
+    rm(mars_model, dadosTx, dadosVx, dadosTy, dadosVy); gc()
+  }
+  return(NULL)
+}
+
+# 3. Consolidação Final (Executada após o loop paralelo)
+cat("Consolidando resultados do MARS...\n")
+
+# Listar arquivos gerados
+metric_files <- list.files(out_mars, pattern = "METRICS_.*\\.csv", full.names = TRUE)
+imp_files    <- list.files(out_mars, pattern = "IMP_.*\\.csv", full.names = TRUE)
+
+if(length(metric_files) > 0) {
+  mars_metrics <- map_dfr(metric_files, read.csv)
+  write.csv(mars_metrics, paste0(out_mars, "/MARS_Results_Metrics_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+if(length(imp_files) > 0) {
+  mars_imp <- map_dfr(imp_files, read.csv)
+  write.csv(mars_imp, paste0(out_mars, "/MARS_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+cat("MARS finalizado.\n")
+```
+
+### 4.2. Decision Tree (DT)
+
+Decision Trees partition the genetic data into recursive binary splits. The importance of a marker is calculated based on the improvement in the splitting criterion (e.g., ANOVA for regression) summed over all nodes where that marker was used.
+
+```{r dt_run, eval=FALSE}
+# 1. Setup
+grid_dt <- expand.grid(Rep = 1:n_reps, Variable = target_vars, stringsAsFactors = FALSE)
+out_dt <- "output/dt"
+if (!dir.exists(out_dt)) dir.create(out_dt, recursive = TRUE)
+
+cat("Iniciando DT. Total de tarefas:", nrow(grid_dt) * nfolds, "\n")
+
+set.seed(123)
+
+# 2. Execução
+dt_list <- foreach(task_i = 1:nrow(grid_dt), 
+                   .packages = c('rpart', 'caret', 'tidyverse'),
+                   .export = c("filesFenT", "filesGenT", "filesFenV", "filesGenV", "nfolds")) %dopar% {
+  
+  curr_rep <- grid_dt$Rep[task_i]
+  curr_var <- grid_dt$Variable[task_i]
+  
+  # Acumuladores locais (para manter compatibilidade com o snippet, embora salvemos em disco)
+  fold_metrics_accum <- data.frame()
+  fold_importance_accum <- data.frame()
+  
+  for (fold_k in 1:nfolds) {
+    
+    # A. Lógica de Reciclagem de Arquivos
+    raw_idx <- (curr_rep - 1) * nfolds + fold_k
+    file_idx <- ((raw_idx - 1) %% length(filesFenT)) + 1
+    
+    # Checkpoint: Pula se já existir o arquivo de importância
+    outfile_imp <- sprintf("%s/IMP_Rep%d_Var%d_Fold%d.csv", out_dt, curr_rep, curr_var, fold_k)
+    if(file.exists(outfile_imp)) next
+    
+    tryCatch({
+      # B. Leitura dos Dados
+      # O R usará o padrão: V1, V2, V3... para o Genótipo
+      dadosTy <- read.table(filesFenT[file_idx], header = FALSE)
+      dadosTx <- read.table(filesGenT[file_idx], header = FALSE)
+      dadosVy <- read.table(filesFenV[file_idx], header = FALSE)
+      dadosVx <- read.table(filesGenV[file_idx], header = FALSE)
+      
+      start_time <- Sys.time()
+      
+      # C. Modelo (rpart requer dataframe único ou formula)
+      # Criamos um dataframe temporário para treino
+      train_df <- data.frame(y = dadosTy[, curr_var], dadosTx)
+      
+      # Metodo anova para regressão
+      fit_tree <- rpart(y ~ ., data = train_df, method = "anova")
+      
+      exec_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # --- D. CÁLCULO DE MÉTRICAS ---
+      # Para predição, o newdata deve ter as mesmas colunas do treino (V1, V2...)
+      # Como dadosVx já tem essas colunas, podemos passar direto ou como dataframe
+      ypred <- predict(fit_tree, newdata = data.frame(dadosVx))
+      ypred_train <- predict(fit_tree)
+      
+      # Validação
+      if (sd(ypred) == 0) { 
+        r2_val <- 0 
+      } else { 
+        rv <- cor(dadosVy[, curr_var], ypred)
+        r2_val <- as.numeric(rv^2)
+      }
+      rmse_val <- as.numeric(sqrt(mean((dadosVy[, curr_var] - ypred)^2)))
+      
+      # Treinamento
+      rt <- cor(dadosTy[, curr_var], ypred_train)
+      r2_train <- as.numeric(rt^2)
+      rmse_train <- as.numeric(sqrt(mean((dadosTy[, curr_var] - ypred_train)^2)))
+      
+      # Salvar Métricas
+      curr_metrics <- data.frame(
+        Model = "DT", 
+        Replicate = curr_rep, 
+        Variable = curr_var, 
+        Fold = fold_k, 
+        R2_Train = r2_train, 
+        R2_Val = r2_val, 
+        RMSE_Train = rmse_train, 
+        RMSE_Val = rmse_val, 
+        Time_Sec = exec_time
+      )
+      
+      write.csv(curr_metrics, sprintf("%s/METRICS_Rep%d_Var%d_Fold%d.csv", out_dt, curr_rep, curr_var, fold_k), row.names = FALSE)
+      
+      # --- E. IMPORTÂNCIA (Padrão Solicitado) ---
+      
+      imp <- tryCatch({ data.frame(varImp(fit_tree, value = "rss")) }, error=function(e) NULL)
+      
+      if (!is.null(imp)) {
+         # --- PADRONIZAÇÃO DE COLUNAS (IMPORTÂNCIA) ---
+         imp$Marker <- rownames(imp)
+         colnames(imp)[1] <- "Overall"
+         
+         imp_final <- data.frame(
+            Model = "DT",
+            Replicate = curr_rep,
+            Variable = curr_var,
+            Fold = fold_k,
+            Marker = imp$Marker,
+            Overall = imp$Overall
+         )
+         
+         fold_importance_accum <- rbind(fold_importance_accum, imp_final)
+         write.csv(imp_final, outfile_imp, row.names = FALSE)
+      } else {
+         # Salva placeholder vazio
+         dummy <- data.frame(Model="DT", Overall=0)
+         write.csv(dummy, outfile_imp, row.names=FALSE)
+      }
+      
+    }, error = function(e) {
+       writeLines(paste("Erro no DT:", e$message), file.path(out_dt, "error_log.txt"))
+    })
+    
+    # Limpeza de memória
+    rm(fit_tree, train_df, dadosTx, dadosVx, dadosTy, dadosVy); gc()
+  }
+  return(NULL)
+}
+
+# 3. Consolidação Final
+cat("Consolidando resultados do DT...\n")
+
+metric_files <- list.files(out_dt, pattern = "METRICS_.*\\.csv", full.names = TRUE)
+imp_files    <- list.files(out_dt, pattern = "IMP_.*\\.csv", full.names = TRUE)
+
+if(length(metric_files) > 0) {
+  dt_metrics <- map_dfr(metric_files, read.csv)
+  write.csv(dt_metrics, paste0(out_dt, "/DT_Results_Metrics_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+if(length(imp_files) > 0) {
+  dt_imp <- map_dfr(imp_files, read.csv)
+  write.csv(dt_imp, paste0(out_dt, "/DT_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+cat("DT finalizado.\n")
+```
+
+### 4.3. Bagging (BA)
+
+Bagging is essentially a Random Forest where `mtry` (number of variables randomly sampled as candidates at each split) is equal to the total number of predictors (`ncol(X)`). This forces the trees to consider all markers at every split, reducing bias but potentially increasing correlation between trees compared to standard RF.
+
+```{r ba_run, eval = FALSE}
+# 1. Setup
+grid_ba <- expand.grid(Rep = 1:n_reps, Variable = target_vars, stringsAsFactors = FALSE)
+out_ba <- "output/bagging"
+if (!dir.exists(out_ba)) dir.create(out_ba, recursive = TRUE)
+
+cat("Iniciando Bagging. Total de tarefas:", nrow(grid_ba) * nfolds, "\n")
+
+set.seed(123)
+
+# 2. Execução
+ba_list <- foreach(task_i = 1:nrow(grid_ba), 
+                   .packages = c('randomForest', 'caret', 'tidyverse'),
+                   .export = c("filesFenT", "filesGenT", "filesFenV", "filesGenV", "nfolds")) %dopar% {
+  
+  curr_rep <- grid_ba$Rep[task_i]
+  curr_var <- grid_ba$Variable[task_i]
+  
+  # Acumuladores locais
+  fold_metrics_accum <- data.frame()
+  fold_importance_accum <- data.frame()
+  
+  for (fold_k in 1:nfolds) {
+    
+    # A. Lógica de Reciclagem de Arquivos
+    raw_idx <- (curr_rep - 1) * nfolds + fold_k
+    file_idx <- ((raw_idx - 1) %% length(filesFenT)) + 1
+    
+    # Checkpoint
+    outfile_imp <- sprintf("%s/IMP_Rep%d_Var%d_Fold%d.csv", out_ba, curr_rep, curr_var, fold_k)
+    if(file.exists(outfile_imp)) next
+    
+    tryCatch({
+      # B. Leitura dos Dados
+      dadosTy <- read.table(filesFenT[file_idx], header = FALSE)
+      dadosTx <- read.table(filesGenT[file_idx], header = FALSE)
+      dadosVy <- read.table(filesFenV[file_idx], header = FALSE)
+      dadosVx <- read.table(filesGenV[file_idx], header = FALSE)
+      
+      start_time <- Sys.time()
+      
+      # C. Modelo (Bagging = RF com mtry = total de colunas)
+      # ntree = 500 é um padrão robusto
+      bag_model <- randomForest(x = dadosTx, y = dadosTy[, curr_var], 
+                                mtry = ncol(dadosTx), 
+                                ntree = 500, 
+                                importance = TRUE)
+      
+      exec_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # --- D. CÁLCULO DE MÉTRICAS ---
+      ypred <- predict(bag_model, newdata = dadosVx)
+      ypred_train <- predict(bag_model)
+      
+      # Validação
+      if (sd(ypred) == 0) { 
+        r2_val <- 0 
+      } else { 
+        rv <- cor(dadosVy[, curr_var], ypred)
+        r2_val <- as.numeric(rv^2)
+      }
+      rmse_val <- as.numeric(sqrt(mean((dadosVy[, curr_var] - ypred)^2)))
+      
+      # Treinamento
+      rt <- cor(dadosTy[, curr_var], ypred_train)
+      r2_train <- as.numeric(rt^2)
+      rmse_train <- as.numeric(sqrt(mean((dadosTy[, curr_var] - ypred_train)^2)))
+      
+      # Salvar Métricas
+      curr_metrics <- data.frame(
+        Model = "BA", 
+        Replicate = curr_rep, 
+        Variable = curr_var, 
+        Fold = fold_k, 
+        R2_Train = r2_train, 
+        R2_Val = r2_val, 
+        RMSE_Train = rmse_train, 
+        RMSE_Val = rmse_val, 
+        Time_Sec = exec_time
+      )
+      
+      write.csv(curr_metrics, sprintf("%s/METRICS_Rep%d_Var%d_Fold%d.csv", out_ba, curr_rep, curr_var, fold_k), row.names = FALSE)
+      
+      # --- E. IMPORTÂNCIA (Padrão Solicitado) ---
+      
+      # Nota: Para RF/Bagging, varImp pode usar %IncMSE ou IncNodePurity.
+      # O padrão do caret para RF é geralmente IncNodePurity (similar ao RSS em árvores).
+      imp <- tryCatch({ data.frame(varImp(bag_model)) }, error=function(e) NULL)
+      
+      if (!is.null(imp)) {
+         # --- PADRONIZAÇÃO DE COLUNAS (IMPORTÂNCIA) ---
+         imp$Marker <- rownames(imp)
+         colnames(imp)[1] <- "Overall"
+         
+         imp_final <- data.frame(
+            Model = "BA",
+            Replicate = curr_rep,
+            Variable = curr_var,
+            Fold = fold_k,
+            Marker = imp$Marker,
+            Overall = imp$Overall
+         )
+         
+         fold_importance_accum <- rbind(fold_importance_accum, imp_final)
+         write.csv(imp_final, outfile_imp, row.names = FALSE)
+      } else {
+         dummy <- data.frame(Model="BA", Overall=0)
+         write.csv(dummy, outfile_imp, row.names=FALSE)
+      }
+      
+    }, error = function(e) {
+       writeLines(paste("Erro no Bagging:", e$message), file.path(out_ba, "error_log.txt"))
+    })
+    
+    # Limpeza de memória
+    rm(bag_model, dadosTx, dadosVx, dadosTy, dadosVy); gc()
+  }
+  return(NULL)
+}
+
+# 3. Consolidação Final
+cat("Consolidando resultados do Bagging...\n")
+
+metric_files <- list.files(out_ba, pattern = "METRICS_.*\\.csv", full.names = TRUE)
+imp_files    <- list.files(out_ba, pattern = "IMP_.*\\.csv", full.names = TRUE)
+
+if(length(metric_files) > 0) {
+  ba_metrics <- map_dfr(metric_files, read.csv)
+  write.csv(ba_metrics, paste0(out_ba, "/BA_Results_Metrics_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+if(length(imp_files) > 0) {
+  ba_imp <- map_dfr(imp_files, read.csv)
+  write.csv(ba_imp, paste0(out_ba, "/BA_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+cat("Bagging finalizado.\n")
+```
+
+### 4.4. Random Forest (RF)
+
+Unlike Bagging, Random Forest only considers a subset of features (`mtry`) at each split. For regression problems, the standard default is `mtry = p/3` (where `p` is the number of markers). This decorrelates the trees and often improves performance on high-dimensional genomic data.
+
+```{r rf_run, eval = FALSE}
+# 1. Setup
+grid_rf <- expand.grid(Rep = 1:n_reps, Variable = target_vars, stringsAsFactors = FALSE)
+out_rf <- "output/rf"
+if (!dir.exists(out_rf)) dir.create(out_rf, recursive = TRUE)
+
+cat("Iniciando RF. Total de tarefas:", nrow(grid_rf) * nfolds, "\n")
+
+set.seed(123)
+
+# 2. Execução
+rf_list <- foreach(task_i = 1:nrow(grid_rf), 
+                   .packages = c('randomForest', 'caret', 'tidyverse'),
+                   .export = c("filesFenT", "filesGenT", "filesFenV", "filesGenV", "nfolds")) %dopar% {
+  
+  curr_rep <- grid_rf$Rep[task_i]
+  curr_var <- grid_rf$Variable[task_i]
+  
+  # Acumuladores locais
+  fold_metrics_accum <- data.frame()
+  fold_importance_accum <- data.frame()
+  
+  for (fold_k in 1:nfolds) {
+    
+    # A. Lógica de Reciclagem de Arquivos
+    raw_idx <- (curr_rep - 1) * nfolds + fold_k
+    file_idx <- ((raw_idx - 1) %% length(filesFenT)) + 1
+    
+    # Checkpoint
+    outfile_imp <- sprintf("%s/IMP_Rep%d_Var%d_Fold%d.csv", out_rf, curr_rep, curr_var, fold_k)
+    if(file.exists(outfile_imp)) next
+    
+    tryCatch({
+      # B. Leitura dos Dados
+      dadosTy <- read.table(filesFenT[file_idx], header = FALSE)
+      dadosTx <- read.table(filesGenT[file_idx], header = FALSE)
+      dadosVy <- read.table(filesFenV[file_idx], header = FALSE)
+      dadosVx <- read.table(filesGenV[file_idx], header = FALSE)
+      
+      start_time <- Sys.time()
+      
+      # C. Modelo RF Standard
+      # mtry padrão para regressão é p/3
+      rf_model <- randomForest(x = dadosTx, y = dadosTy[, curr_var], 
+                               mtry = floor(ncol(dadosTx)/3), 
+                               ntree = 500,
+                               importance = TRUE)
+      
+      exec_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # --- D. CÁLCULO DE MÉTRICAS ---
+      ypred <- predict(rf_model, newdata = dadosVx)
+      ypred_train <- predict(rf_model)
+      
+      # Validação
+      if (sd(ypred) == 0) { 
+        r2_val <- 0 
+      } else { 
+        rv <- cor(dadosVy[, curr_var], ypred)
+        r2_val <- as.numeric(rv^2)
+      }
+      rmse_val <- as.numeric(sqrt(mean((dadosVy[, curr_var] - ypred)^2)))
+      
+      # Treinamento
+      rt <- cor(dadosTy[, curr_var], ypred_train)
+      r2_train <- as.numeric(rt^2)
+      rmse_train <- as.numeric(sqrt(mean((dadosTy[, curr_var] - ypred_train)^2)))
+      
+      # Salvar Métricas
+      curr_metrics <- data.frame(
+        Model = "RF", 
+        Replicate = curr_rep, 
+        Variable = curr_var, 
+        Fold = fold_k, 
+        R2_Train = r2_train, 
+        R2_Val = r2_val, 
+        RMSE_Train = rmse_train, 
+        RMSE_Val = rmse_val, 
+        Time_Sec = exec_time
+      )
+      
+      write.csv(curr_metrics, sprintf("%s/METRICS_Rep%d_Var%d_Fold%d.csv", out_rf, curr_rep, curr_var, fold_k), row.names = FALSE)
+      
+      # --- E. IMPORTÂNCIA (Padrão Solicitado) ---
+      
+      imp <- tryCatch({ data.frame(varImp(rf_model)) }, error=function(e) NULL)
+      
+      if (!is.null(imp)) {
+         # --- PADRONIZAÇÃO DE COLUNAS (IMPORTÂNCIA) ---
+         imp$Marker <- rownames(imp)
+         colnames(imp)[1] <- "Overall"
+         
+         imp_final <- data.frame(
+            Model = "RF",
+            Replicate = curr_rep,
+            Variable = curr_var,
+            Fold = fold_k,
+            Marker = imp$Marker,
+            Overall = imp$Overall
+         )
+         
+         fold_importance_accum <- rbind(fold_importance_accum, imp_final)
+         write.csv(imp_final, outfile_imp, row.names = FALSE)
+      } else {
+         dummy <- data.frame(Model="RF", Overall=0)
+         write.csv(dummy, outfile_imp, row.names=FALSE)
+      }
+      
+    }, error = function(e) {
+       writeLines(paste("Erro no RF:", e$message), file.path(out_rf, "error_log.txt"))
+    })
+    
+    # Limpeza de memória
+    rm(rf_model, dadosTx, dadosVx, dadosTy, dadosVy); gc()
+  }
+  return(NULL)
+}
+
+# 3. Consolidação Final
+cat("Consolidando resultados do RF...\n")
+
+metric_files <- list.files(out_rf, pattern = "METRICS_.*\\.csv", full.names = TRUE)
+imp_files    <- list.files(out_rf, pattern = "IMP_.*\\.csv", full.names = TRUE)
+
+if(length(metric_files) > 0) {
+  rf_metrics <- map_dfr(metric_files, read.csv)
+  write.csv(rf_metrics, paste0(out_rf, "/RF_Results_Metrics_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+if(length(imp_files) > 0) {
+  rf_imp <- map_dfr(imp_files, read.csv)
+  write.csv(rf_imp, paste0(out_rf, "/RF_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+cat("RF finalizado.\n")
+```
+
+### 4.5. Boosting (BO)
+
+Gradient Boosting Machines (GBM) build an ensemble of weak prediction models (typically shallow trees) sequentially. Each new tree attempts to correct the errors (residuals) of the previous ones. Key parameters are `shrinkage` (learning rate) and `interaction.depth` (tree complexity).
+
+```{r bo_run, eval = FALSE}
+# 1. Setup
+grid_bo <- expand.grid(Rep = 1:n_reps, Variable = target_vars, stringsAsFactors = FALSE)
+out_bo <- "output/boosting"
+if (!dir.exists(out_bo)) dir.create(out_bo, recursive = TRUE)
+
+cat("Iniciando Boosting. Total de tarefas:", nrow(grid_bo) * nfolds, "\n")
+
+set.seed(123)
+
+# 2. Execução
+bo_list <- foreach(task_i = 1:nrow(grid_bo), 
+                   .packages = c('gbm', 'caret', 'tidyverse'),
+                   .export = c("filesFenT", "filesGenT", "filesFenV", "filesGenV", "nfolds")) %dopar% {
+  
+  curr_rep <- grid_bo$Rep[task_i]
+  curr_var <- grid_bo$Variable[task_i]
+  
+  # Local accumulators (optional since we save to disk)
+  fold_metrics_accum <- data.frame()
+  fold_importance_accum <- data.frame()
+  
+  for (fold_k in 1:nfolds) {
+    
+    # A. Lógica de Reciclagem de Arquivos
+    raw_idx <- (curr_rep - 1) * nfolds + fold_k
+    file_idx <- ((raw_idx - 1) %% length(filesFenT)) + 1
+    
+    # Checkpoint
+    outfile_imp <- sprintf("%s/IMP_Rep%d_Var%d_Fold%d.csv", out_bo, curr_rep, curr_var, fold_k)
+    if(file.exists(outfile_imp)) next
+    
+    tryCatch({
+      # B. Leitura dos Dados
+      dadosTy <- read.table(filesFenT[file_idx], header = FALSE)
+      dadosTx <- read.table(filesGenT[file_idx], header = FALSE)
+      dadosVy <- read.table(filesFenV[file_idx], header = FALSE)
+      dadosVx <- read.table(filesGenV[file_idx], header = FALSE)
+      
+      start_time <- Sys.time()
+      
+      # C. Modelo
+      # GBM exige dataframe e formula para funcionar bem com predict depois
+      # Criamos um dataframe unificado para treino
+      df_train <- data.frame(Y_TARGET = dadosTy[, curr_var], dadosTx)
+      
+      # Treinamento (Gaussian para traços contínuos)
+      bo_model <- gbm(Y_TARGET ~ ., 
+                      data = df_train, 
+                      distribution = "gaussian",
+                      n.trees = 500, 
+                      interaction.depth = 2, 
+                      shrinkage = 0.01,
+                      verbose = FALSE)
+      
+      exec_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # --- D. CÁLCULO DE MÉTRICAS ---
+      # Importante: gbm predict exige newdata com mesmas colunas do treino
+      # dadosVx (Genótipo Validação) tem as mesmas colunas de dadosTx (V1, V2...)
+      df_val <- data.frame(dadosVx)
+      
+      ypred <- predict(bo_model, newdata = df_val, n.trees = 500)
+      ypred_train <- predict(bo_model, newdata = df_train, n.trees = 500)
+      
+      # Validação
+      if (sd(ypred) == 0) { 
+        r2_val <- 0 
+      } else { 
+        rv <- cor(dadosVy[, curr_var], ypred)
+        r2_val <- as.numeric(rv^2)
+      }
+      rmse_val <- as.numeric(sqrt(mean((dadosVy[, curr_var] - ypred)^2)))
+      
+      # Treinamento
+      rt <- cor(dadosTy[, curr_var], ypred_train)
+      r2_train <- as.numeric(rt^2)
+      rmse_train <- as.numeric(sqrt(mean((dadosTy[, curr_var] - ypred_train)^2)))
+      
+      # Salvar Métricas
+      curr_metrics <- data.frame(
+        Model = "BO", 
+        Replicate = curr_rep, 
+        Variable = curr_var, 
+        Fold = fold_k, 
+        R2_Train = r2_train, 
+        R2_Val = r2_val, 
+        RMSE_Train = rmse_train, 
+        RMSE_Val = rmse_val, 
+        Time_Sec = exec_time
+      )
+      
+      write.csv(curr_metrics, sprintf("%s/METRICS_Rep%d_Var%d_Fold%d.csv", out_bo, curr_rep, curr_var, fold_k), row.names = FALSE)
+      
+      # --- E. IMPORTÂNCIA (Padrão Solicitado) ---
+      # caret::varImp para gbm usa a redução de erro relativo
+      imp <- tryCatch({ data.frame(varImp(bo_model, numTrees = 500)) }, error=function(e) NULL)
+      
+      if (!is.null(imp)) {
+         # --- PADRONIZAÇÃO DE COLUNAS (IMPORTÂNCIA) ---
+         imp$Marker <- rownames(imp)
+         colnames(imp)[1] <- "Overall"
+         
+         imp_final <- data.frame(
+            Model = "BO",
+            Replicate = curr_rep,
+            Variable = curr_var,
+            Fold = fold_k,
+            Marker = imp$Marker,
+            Overall = imp$Overall
+         )
+         
+         fold_importance_accum <- rbind(fold_importance_accum, imp_final)
+         write.csv(imp_final, outfile_imp, row.names = FALSE)
+      } else {
+         dummy <- data.frame(Model="BO", Overall=0)
+         write.csv(dummy, outfile_imp, row.names=FALSE)
+      }
+      
+    }, error = function(e) {
+       writeLines(paste("Erro no Boosting:", e$message), file.path(out_bo, "error_log.txt"))
+    })
+    
+    # Limpeza de memória
+    rm(bo_model, df_train, df_val, dadosTx, dadosVx, dadosTy, dadosVy); gc()
+  }
+  return(NULL)
+}
+
+# 3. Consolidação Final
+cat("Consolidando resultados do Boosting...\n")
+
+metric_files <- list.files(out_bo, pattern = "METRICS_.*\\.csv", full.names = TRUE)
+imp_files    <- list.files(out_bo, pattern = "IMP_.*\\.csv", full.names = TRUE)
+
+if(length(metric_files) > 0) {
+  bo_metrics <- map_dfr(metric_files, read.csv)
+  write.csv(bo_metrics, paste0(out_bo, "/BO_Results_Metrics_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+if(length(imp_files) > 0) {
+  bo_imp <- map_dfr(imp_files, read.csv)
+  write.csv(bo_imp, paste0(out_bo, "/BO_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+}
+
+cat("Boosting finalizado.\n")
+```
+
+## 5\. Result Consolidation
+
+This step recursively searches for all individual result files generated by the Machine Learning models. It consolidates them into unified datasets, ensuring **strict data type consistency** and **cleaning Marker IDs** (removing prefixes like "V" or "M") to prevent merging errors.
+
+```{r consolidate_ml}
+cat("--- Starting Global ML Consolidation ---\n")
+
+# Define root directory to search
+ml_root_dir <- "output"
+
+if (dir.exists(ml_root_dir)) {
+  
+  # ==============================================================================
+  # 1. CONSOLIDATE IMPORTANCE SCORES (For QTL Detection)
+  # ==============================================================================
+  
+  # Recursive search for all Importance files (IMP_*.csv)
+  imp_files <- list.files(path = ml_root_dir, pattern = "IMP_.*\\.csv", recursive = TRUE, full.names = TRUE)
+  
+  # Filter out any previously consolidated files
+  imp_files <- imp_files[!grepl("CONSOLIDATED", imp_files)]
+  
+  if (length(imp_files) > 0) {
+    cat(sprintf("Processing %d Importance files...\n", length(imp_files)))
+    
+    # Read and bind all files with TYPE SAFETY & CLEANING
+    all_imp <- map_dfr(imp_files, function(f) {
+      tryCatch({ 
+        df <- read.csv(f)
+        
+        # --- LIMPEZA CRÍTICA DE MARCADORES ---
+        if("Marker" %in% names(df)) {
+          # 1. Forçar para texto (evita erro de integer vs character)
+          df$Marker <- as.character(df$Marker)
+          
+          # 2. Remover letras/prefixos (Ex: "V100" -> "100", "M5" -> "5")
+          # Mantém apenas os dígitos (0-9)
+          df$Marker <- gsub("[^0-9]", "", df$Marker)
+        }
+        
+        return(df)
+      }, error = function(e) return(NULL))
+    })
+    
+    # Standardize column names (Rep -> Replicate, Var -> Variable)
+    if("Rep" %in% names(all_imp)) all_imp <- rename(all_imp, Replicate = Rep)
+    if("Var" %in% names(all_imp)) all_imp <- rename(all_imp, Variable = Var)
+    
+    # Save Consolidated File (All Models)
+    write.csv(all_imp, file.path(ml_root_dir, "ML_Results_Importance_CONSOLIDATED.csv"), row.names = FALSE)
+    
+    # Save Separate Files by Model
+    if (nrow(all_imp) > 0) {
+      unique_models <- unique(all_imp$Model)
+      for (m in unique_models) {
+        mod_data <- all_imp %>% filter(Model == m)
+        out_name <- file.path(ml_root_dir, paste0(m, "_Results_Importance_CONSOLIDATED.csv"))
+        write.csv(mod_data, out_name, row.names = FALSE)
+        cat(sprintf("  -> Model %s Importance saved: %d rows.\n", m, nrow(mod_data)))
+      }
+    }
+  } else {
+    cat("No Importance files found.\n")
+  }
+  
+  # ==============================================================================
+  # 2. CONSOLIDATE PERFORMANCE METRICS (R2, RMSE)
+  # ==============================================================================
+  
+  # Recursive search for all Metrics files (METRICS_*.csv)
+  metric_files <- list.files(path = ml_root_dir, pattern = "METRICS_.*\\.csv", recursive = TRUE, full.names = TRUE)
+  metric_files <- metric_files[!grepl("CONSOLIDATED", metric_files)]
+  
+  if (length(metric_files) > 0) {
+    cat(sprintf("\nProcessing %d Metric files...\n", length(metric_files)))
+    
+    all_metrics <- map_dfr(metric_files, function(f) {
+      tryCatch({ read.csv(f) }, error = function(e) return(NULL))
+    })
+    
+    # Standardize columns
+    if("Rep" %in% names(all_metrics)) all_metrics <- rename(all_metrics, Replicate = Rep)
+    if("Var" %in% names(all_metrics)) all_metrics <- rename(all_metrics, Variable = Var)
+    
+    # Save Consolidated Metrics
+    write.csv(all_metrics, file.path(ml_root_dir, "ML_Results_Metrics_CONSOLIDATED.csv"), row.names = FALSE)
+    cat(sprintf("Global Metrics saved: %d rows.\n", nrow(all_metrics)))
+    
+  } else {
+    cat("No Metric files found.\n")
+  }
+  
+} else {
+  cat("Output directory not found.\n")
+}
+
+cat("--- Consolidation Finished ---\n")
+```
+
+## 6\. Next Steps
+
+With the Machine Learning results consolidated, the computational pipeline is complete.
+
+The next step is the **[Consolidated Analysis](consolidated_analysis.html)**, where we will:
+
+1.  Load the results from both GWAS and ML.
+2.  Calculate **Detection Power**, **Precision**, and **F1 Scores**.
+3.  Generate the final heatmaps comparing all methodologies.

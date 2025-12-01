@@ -11,11 +11,11 @@
 
 <meta name="author" content="Costa, W. G." />
 
-<meta name="date" content="2025-07-29" />
+<meta name="date" content="2025-12-01" />
 
 <title>License</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -32,6 +32,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -65,8 +66,9 @@ div.section {
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -77,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -124,6 +126,15 @@ code span.va { } /* Variable */
 code span.vs { color: #008080; } /* VerbatimString */
 code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -315,6 +326,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -337,30 +351,64 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Importance of markers for QTL detection by machine learning methods</a>
+      <a class="navbar-brand" href="index.html">Marker Importance for QTL Detection</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="map.html">Map Genetic</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Genetics &amp; Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="map.html">Genetic Map</a>
+    </li>
+    <li>
+      <a href="ld_decay.html">Linkage Disequilibrium (LD) Decay</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Association Models
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="models_gapit_gwas.html">GWAS (GAPIT)</a>
+    </li>
+    <li>
+      <a href="genomic_prediction.html">Machine Learning (Importance)</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="ld_decay.html">LD decay</a>
+  <a href="consolidated_analysis.html">
+    <span class="fa fa-bar-chart"></span>
+     
+    Consolidated Analysis
+  </a>
 </li>
-<li>
-  <a href="gwas-GLM.html">GWAS - GLM</a>
-</li>
-<li>
-  <a href="GWAS.html">Importance markers</a>
-</li>
-<li>
-  <a href="about.html">About</a>
-</li>
-<li>
-  <a href="license.html">License</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Project Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about.html">About</a>
+    </li>
+    <li>
+      <a href="license.html">License</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -378,11 +426,19 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">License</h1>
 <h4 class="author">Costa, W. G.</h4>
-<h4 class="date">2025-07-29</h4>
+<h4 class="date">2025-12-01</h4>
 
 </div>
 
@@ -411,7 +467,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-07-29
+<strong>Last updated:</strong> 2025-12-01
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -430,7 +486,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+1.7.2). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -546,15 +602,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstreeccb004f37e3f5f55ed423cba089e8bb366eb5e84targetblankccb004fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree27e9067dd22bbf6afe37fc875aacc09931ca76a6targetblank27e9067a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/ccb004f37e3f5f55ed423cba089e8bb366eb5e84" target="_blank">ccb004f</a>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/27e9067dd22bbf6afe37fc875aacc09931ca76a6" target="_blank">27e9067</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstreeccb004f37e3f5f55ed423cba089e8bb366eb5e84targetblankccb004fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaImportanceofmarkersforQTLdetectionbymachinelearningmethodstree27e9067dd22bbf6afe37fc875aacc09931ca76a6targetblank27e9067a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -564,7 +620,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/ccb004f37e3f5f55ed423cba089e8bb366eb5e84" target="_blank">ccb004f</a>.
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/tree/27e9067dd22bbf6afe37fc875aacc09931ca76a6" target="_blank">27e9067</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -582,16 +638,31 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    analysis/figure/
     Ignored:    output/imp.tot.RData
-    Ignored:    output/lddecay.tiff
     Ignored:    output/mod.rda
 
+Untracked files:
+    Untracked:  Importance-of-markers-for-QTL-detection-by-machine-learning-methods.zip
+    Untracked:  analysis/consolidated_analysis.Rmd
+    Untracked:  analysis/genomic_prediction.Rmd
+    Untracked:  analysis/models_gapit_gwas.Rmd
+    Untracked:  output/DP_heatmap.png
+    Untracked:  output/F1_Score_heatmap.png
+    Untracked:  output/FP_heatmap.png
+    Untracked:  output/Precision_heatmap.png
+    Untracked:  output/Specificity_heatmap.png
+    Untracked:  output/acerto_erro_resumo.xlsx
+    Untracked:  output/bagging/
+    Untracked:  output/boosting/
+    Untracked:  output/dt/
+    Untracked:  output/gwas_cv/
+    Untracked:  output/gwas_multimodel/
+    Untracked:  output/mars/
+    Untracked:  output/rf/
+
 Unstaged changes:
-    Modified:   analysis/GWAS.Rmd
     Modified:   analysis/about.Rmd
-    Modified:   analysis/gwas-GLM.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/license.Rmd
-    Modified:   analysis/map.Rmd
+    Modified:   output/acerto_erro.xlsx
 
 </code></pre>
 <p>
@@ -636,6 +707,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/blob/a9960e15736cbb5dfb62c73599c7053ad2c09dfb/analysis/license.Rmd" target="_blank">a9960e1</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-07-29
+</td>
+<td>
+add license .rmd and .html
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/a9960e15736cbb5dfb62c73599c7053ad2c09dfb/docs/license.html" target="_blank">a9960e1</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2025-07-29
+</td>
+<td>
+add license .rmd and .html
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -694,86 +799,95 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="licença-creative-commons" class="section level1">
-<h1>Licença Creative Commons</h1>
-<div
-id="atribuição-nãocomercial-compartilhaigual-4.0-internacional-cc-by-nc-sa-4.0"
-class="section level2">
-<h2>Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional (CC
-BY-NC-SA 4.0)</h2>
-<p>Você é livre para:</p>
+<center>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+</a>
+</center>
+<p><br></p>
+<div id="licença-license" class="section level1">
+<h1>Licença / License</h1>
+<p>Este trabalho está licenciado sob uma Licença Internacional
+<strong>Creative Commons Atribuição-NãoComercial-CompartilhaIgual
+4.0</strong> (CC BY-NC-SA 4.0).</p>
+<p>This work is licensed under a <strong>Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0</strong> International License
+(CC BY-NC-SA 4.0).</p>
+<hr />
+<div id="português" class="section level2">
+<h2>Português</h2>
+<p>Você tem o direito de:</p>
 <ul>
-<li><strong>Compartilhar</strong> - copiar e redistribuir o material em
-qualquer suporte ou formato</li>
-<li><strong>Adaptar</strong> - remixar, transformar e criar a partir do
-material</li>
+<li><strong>Compartilhar</strong> — copiar e redistribuir o material em
+qualquer suporte ou formato.</li>
+<li><strong>Adaptar</strong> — remixar, transformar, e criar a partir do
+material.</li>
 </ul>
-<p>Sob os seguintes termos:</p>
+<p>De acordo com os termos seguintes:</p>
 <ul>
-<li><p><strong>Atribuição</strong> - Você deve dar o crédito apropriado,
+<li><strong>Atribuição</strong> — Você deve dar o crédito apropriado,
 prover um link para a licença e indicar se mudanças foram feitas. Você
 deve fazê-lo em qualquer circunstância razoável, mas de maneira alguma
-que sugira que o licenciante apoia você ou o seu uso.</p></li>
-<li><p><strong>Não Comercial</strong> - Você não pode usar o material
-para fins comerciais.</p></li>
-<li><p><strong>CompartilhaIgual</strong> - Se você remixar, transformar
-ou criar a partir do material, tem de distribuir as suas contribuições
-sob a mesma licença que o original.</p></li>
+que sugira que o licenciante apoia você ou o seu uso.</li>
+<li><strong>Não Comercial</strong> — Você não pode usar o material para
+fins comerciais.</li>
+<li><strong>CompartilhaIgual</strong> — Se você remixar, transformar, ou
+criar a partir do material, tem de distribuir as suas contribuições sob
+a mesma licença que o original.</li>
 </ul>
-<p><strong>Licença completa</strong>:<br />
-<a
-href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt">https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt</a></p>
+<p><a
+href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt">Visualizar
+o texto legal completo (PT-BR)</a></p>
 <hr />
 </div>
-</div>
-<div id="creative-commons-license" class="section level1">
-<h1>Creative Commons License</h1>
-<div
-id="attribution-noncommercial-sharealike-4.0-international-cc-by-nc-sa-4.0"
-class="section level2">
-<h2>Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA
-4.0)</h2>
+<div id="english" class="section level2">
+<h2>English</h2>
 <p>You are free to:</p>
 <ul>
-<li><strong>Share</strong> - copy and redistribute the material in any
-medium or format</li>
-<li><strong>Adapt</strong> - remix, transform, and build upon the
-material</li>
+<li><strong>Share</strong> — copy and redistribute the material in any
+medium or format.</li>
+<li><strong>Adapt</strong> — remix, transform, and build upon the
+material.</li>
 </ul>
 <p>Under the following terms:</p>
 <ul>
-<li><p><strong>Attribution</strong> - You must give appropriate credit,
+<li><strong>Attribution</strong> — You must give appropriate credit,
 provide a link to the license, and indicate if changes were made. You
 may do so in any reasonable manner, but not in any way that suggests the
-licensor endorses you or your use.</p></li>
-<li><p><strong>NonCommercial</strong> - You may not use the material for
-commercial purposes.</p></li>
-<li><p><strong>ShareAlike</strong> - If you remix, transform, or build
-upon the material, you must distribute your contributions under the same
-license as the original.</p></li>
+licensor endorses you or your use.</li>
+<li><strong>NonCommercial</strong> — You may not use the material for
+commercial purposes.</li>
+<li><strong>ShareAlike</strong> — If you remix, transform, or build upon
+the material, you must distribute your contributions under the same
+license as the original.</li>
 </ul>
-<p><strong>Full License</strong>:<br />
-<a
-href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode</a></p>
+<p><a
+href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">View
+full legal text (EN)</a></p>
 <hr />
 </div>
-<div id="autoresprincipal-authors" class="section level2">
-<h2>Autores/Principal Authors</h2>
-<p>Weverton Gomes da Costa¹, Cosme Damião Cruz2, Moyses
-Nascimento¹*<br />
-¹UFV, ²UNICAMP, ³UNIR, ⁴UFV, ⁵Idata/UFV<br />
-<em>Correspondência/Correspondence: <a
-href="mailto:weverton.costa@ufv.br">weverton.costa@ufv.br</a></em></p>
+<div id="autores-authors" class="section level2">
+<h2>Autores / Authors</h2>
+<p><strong>Weverton Gomes da Costa</strong> [1], <strong>Cosme Damião
+Cruz</strong> [2], <strong>Moyses Nascimento</strong> [1]*</p>
+<ol style="list-style-type: decimal">
+<li>Departamento de Estatística, Universidade Federal de Viçosa
+(UFV)</li>
+<li>Instituto de Inteligência Artificial e Computacional (Idata),
+UFV</li>
+</ol>
+<p><em>*Autor para correspondência / Corresponding Author:</em> <a
+href="mailto:moysesnascim@ufv.br">moysesnascim@ufv.br</a></p>
 </div>
-<div id="instituiçõesinstitutions" class="section level2">
-<h2>Instituições/Institutions</h2>
+<div id="instituições-institutions" class="section level2">
+<h2>Instituições / Institutions</h2>
 <ul>
-<li><a href="https://www.ufv.br/">Universidade Federal de
-Viçosa</a></li>
+<li><a href="https://www.ufv.br/">Universidade Federal de Viçosa
+(UFV)</a></li>
 <li><a href="https://www.licae.ufv.br/">Laboratório de Inteligência
 Computacional e Aprendizado Estatístico (LICAE)</a></li>
 <li><a href="https://www.idata.ufv.br/">Instituto de Inteligência
-Artificial e Computacional</a></li>
+Artificial e Computacional (Idata)</a></li>
 </ul>
 <br>
 <p>
@@ -784,12 +898,12 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
-Running under: Windows 11 x64 (build 26100)
+Running under: Windows 11 x64 (build 26200)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=Portuguese_Brazil.utf8  LC_CTYPE=Portuguese_Brazil.utf8   
@@ -804,15 +918,15 @@ attached base packages:
 
 loaded via a namespace (and not attached):
  [1] vctrs_0.6.5       cli_3.6.5         knitr_1.50        rlang_1.1.6      
- [5] xfun_0.52         stringi_1.8.7     promises_1.3.3    jsonlite_2.0.0   
- [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.36.2     
-[13] htmltools_0.5.8.1 httpuv_1.6.16     sass_0.4.10       rmarkdown_2.29   
-[17] evaluate_1.0.4    jquerylib_0.1.4   tibble_3.3.0      fastmap_1.2.0    
-[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
-[25] compiler_4.4.1    fs_1.6.6          Rcpp_1.1.0        pkgconfig_2.0.3  
-[29] rstudioapi_0.17.1 later_1.4.2       digest_0.6.37     R6_2.6.1         
-[33] pillar_1.11.0     magrittr_2.0.3    bslib_0.9.0       tools_4.4.1      
-[37] cachem_1.1.0     </code></pre>
+ [5] xfun_0.54         stringi_1.8.7     otel_0.2.0        promises_1.5.0   
+ [9] jsonlite_2.0.0    workflowr_1.7.2   glue_1.8.0        rprojroot_2.1.1  
+[13] git2r_0.36.2      htmltools_0.5.8.1 httpuv_1.6.16     sass_0.4.10      
+[17] rmarkdown_2.30    evaluate_1.0.5    jquerylib_0.1.4   tibble_3.3.0     
+[21] fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1    
+[25] stringr_1.6.0     compiler_4.5.1    fs_1.6.6          Rcpp_1.1.0       
+[29] pkgconfig_2.0.3   rstudioapi_0.17.1 later_1.4.4       digest_0.6.39    
+[33] R6_2.6.1          pillar_1.11.1     magrittr_2.0.4    bslib_0.9.0      
+[37] tools_4.5.1       cachem_1.1.0     </code></pre>
 </div>
 </div>
 </div>
@@ -869,6 +983,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

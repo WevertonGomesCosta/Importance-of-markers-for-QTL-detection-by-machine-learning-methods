@@ -3,70 +3,86 @@ title: "About"
 author: "Costa, W. G."
 date: "`r Sys.Date()`"
 site: workflowr::wflow_site
-url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
 output:
   workflowr::wflow_html:
     toc: FALSE
-  highlight: github
+    theme: flatly
+    highlight: haddock
 editor_options:
   chunk_output_type: console
-github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
 # Sobre o Projeto
 
-Este projeto investiga métodos computacionais inovadores para identificação de QTLs (Quantitative Trait Loci) utilizando técnicas de machine learning em estudos de associação genômica ampla (GWAS). Nosso objetivo principal é desenvolver e validar abordagens que superem as limitações dos métodos estatísticos tradicionais na detecção de marcadores moleculares associados a características complexas.
+Este projeto investiga a aplicação de métodos computacionais avançados para a identificação de QTLs (*Quantitative Trait Loci*) em estudos de associação genômica ampla (GWAS). 
+
+Nosso objetivo principal é realizar um *benchmark* rigoroso comparando a eficácia de algoritmos de **Aprendizado de Máquina (Machine Learning)** contra modelos estatísticos clássicos e modernos (como FarmCPU e BLINK) na detecção de marcadores moleculares, especialmente em cenários de epistasia e arquiteturas genéticas complexas.
 
 A pesquisa combina:
-- Algoritmos de aprendizado de máquina (Random Forest, SVM, XGBoost)
-- Análise de importância de marcadores genômicos
-- Desenvolvimento de mapas genéticos interativos
-- Fluxos de trabalho reprodutíveis para análise genômica
+- **Algoritmos de ML:** Random Forest, Bagging, Boosting, Árvores de Decisão e MARS (Multivariate Adaptive Regression Splines).
+- **Modelos GWAS:** GLM, MLM, CMLM, MLMM, SUPER, FarmCPU e BLINK.
+- **Análise Estatística:** Avaliação de Poder de Detecção, Precisão, Falsos Positivos e F1 Score via validação cruzada (10 repetições).
+- **Reprodutibilidade:** Fluxos de trabalho automatizados utilizando R e `workflowr`.
 
-O estudo foi desenvolvido em colaboração multidisciplinar entre especialistas em genética estatística, melhoramento vegetal e inteligência computacional do LICAE/UFV e instituições parceiras.
+O estudo foi desenvolvido em colaboração multidisciplinar entre especialistas em genética estatística, melhoramento vegetal e inteligência computacional da Universidade Federal de Viçosa (UFV).
 
 ---
 
 # About the Project
 
-This project investigates innovative computational methods for QTL (Quantitative Trait Loci) identification using machine learning techniques in genome-wide association studies (GWAS). Our main objective is to develop and validate approaches that overcome the limitations of traditional statistical methods in detecting molecular markers associated with complex traits.
+This project investigates the application of advanced computational methods for QTL (*Quantitative Trait Loci*) identification in genome-wide association studies (GWAS).
+
+Our main objective is to perform a rigorous benchmark comparing the efficacy of **Machine Learning** algorithms against classic and modern statistical models (such as FarmCPU and BLINK) in detecting molecular markers, particularly in scenarios involving epistasis and complex genetic architectures.
 
 The research combines:
-- Machine learning algorithms (Random Forest, SVM, XGBoost)
-- Genomic marker importance analysis
-- Interactive genetic map development
-- Reproducible workflows for genomic analysis
+- **ML Algorithms:** Random Forest, Bagging, Boosting, Decision Trees, and MARS (Multivariate Adaptive Regression Splines).
+- **GWAS Models:** GLM, MLM, CMLM, MLMM, SUPER, FarmCPU, and BLINK.
+- **Statistical Analysis:** Evaluation of Detection Power, Precision, False Positive Rate, and F1 Score via cross-validation (10 replicates).
+- **Reproducibility:** Automated workflows using R and `workflowr`.
 
-The study was developed through multidisciplinary collaboration between experts in statistical genetics, plant breeding, and computational intelligence from LICAE/UFV and partner institutions.
+The study was developed through a multidisciplinary collaboration between experts in statistical genetics, plant breeding, and computational intelligence at the Federal University of Viçosa (UFV).
 
 ---
 
 ## Equipe de Pesquisa / Research Team
 
-**Weverton Gomes da Costa**  
-Pesquisador Pós-Doutoral  
-Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)  
-Departamento de Estatística - UFV  
-[weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)
+<div class="row">
+<div class="col-sm-4">
+**Weverton Gomes da Costa**<br>
+Pesquisador Pós-Doutoral<br>
+LICAE / Depto. de Estatística - UFV<br>
+<a href="mailto:weverton.costa@ufv.br"><i class="fa fa-envelope"></i> weverton.costa@ufv.br</a>
+</div>
 
-**Cosme Damião Cruz**  
-Coordenador Científico  
-Instituto de Inteligência Artificial e Computacional (Idata) - UFV  
-[cdcruz@ufv.br](mailto:cdcruz@ufv.br)
+<div class="col-sm-4">
+**Moyses Nascimento**<br>
+Professor Orientador<br>
+LICAE / Depto. de Estatística - UFV<br>
+<a href="mailto:moysesnascim@ufv.br"><i class="fa fa-envelope"></i> moysesnascim@ufv.br</a>
+</div>
 
-**Moyses Nascimento**  
-Professor Orientador (Correspondência)  
-LICAE/Departamento de Estatística - UFV  
-[moysesnascim@ufv.br](mailto:moysesnascim@ufv.br)
+<div class="col-sm-4">
+**Cosme Damião Cruz**<br>
+Coordenador Científico<br>
+Bioagro / Idata - UFV<br>
+<a href="mailto:cdcruz@ufv.br"><i class="fa fa-envelope"></i> cdcruz@ufv.br</a>
+</div>
+</div>
+
+<br>
 
 ---
 
-## Instituições/Institutions
-- [Universidade Federal de Viçosa (UFV)](https://www.ufv.br/)
-- [Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)](https://www.licae.ufv.br/)
-- [Instituto de Inteligência Artificial e Computacional (Idata)](https://www.idata.ufv.br/)
+## Instituições / Institutions
+
+* [**UFV** - Universidade Federal de Viçosa](https://www.ufv.br/)
+* [**LICAE** - Laboratório de Inteligência Computacional e Aprendizado Estatístico](https://www.licae.ufv.br/)
+* [**Idata** - Instituto de Inteligência Artificial e Computacional](https://www.idata.ufv.br/)
 
 ---
 
-## Licença / License  
-Este trabalho está licenciado sob [CC BY-NC-SA 4.0](license.html). Para uso comercial ou colaborações, entre em contato com os autores.
+## Licença / License
+
+Este trabalho está licenciado sob [CC BY-NC-SA 4.0](license.html). O código fonte está disponível no [GitHub](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods).
+
+*This work is licensed under [CC BY-NC-SA 4.0](license.html). Source code is available on [GitHub](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods).*

@@ -3,66 +3,76 @@ title: "License"
 author: "Costa, W. G."
 date: "`r Sys.Date()`"
 site: workflowr::wflow_site
-url: https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/
 output:
   workflowr::wflow_html:
     toc: FALSE
-  highlight: github
+    theme: flatly
+    highlight: haddock
 editor_options:
   chunk_output_type: console
-github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods
 ---
 
-# Licença Creative Commons
+<center>
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+  </a>
+</center>
 
-## Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional (CC BY-NC-SA 4.0)
+<br>
 
-Você é livre para:
+# Licença / License
 
-- **Compartilhar** - copiar e redistribuir o material em qualquer suporte ou formato
-- **Adaptar** - remixar, transformar e criar a partir do material
+Este trabalho está licenciado sob uma Licença Internacional **Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0** (CC BY-NC-SA 4.0).
 
-Sob os seguintes termos:
-
-- **Atribuição** - Você deve dar o crédito apropriado, prover um link para a licença e indicar se mudanças foram feitas. Você deve fazê-lo em qualquer circunstância razoável, mas de maneira alguma que sugira que o licenciante apoia você ou o seu uso.
-  
-- **Não Comercial** - Você não pode usar o material para fins comerciais.
-
-- **CompartilhaIgual** - Se você remixar, transformar ou criar a partir do material, tem de distribuir as suas contribuições sob a mesma licença que o original.
-
-**Licença completa**:  
-[https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt)
+This work is licensed under a **Creative Commons Attribution-NonCommercial-ShareAlike 4.0** International License (CC BY-NC-SA 4.0).
 
 ---
 
-# Creative Commons License
+## Português
 
-## Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+Você tem o direito de:
+
+* **Compartilhar** — copiar e redistribuir o material em qualquer suporte ou formato.
+* **Adaptar** — remixar, transformar, e criar a partir do material.
+
+De acordo com os termos seguintes:
+
+* **Atribuição** — Você deve dar o crédito apropriado, prover um link para a licença e indicar se mudanças foram feitas. Você deve fazê-lo em qualquer circunstância razoável, mas de maneira alguma que sugira que o licenciante apoia você ou o seu uso.
+* **Não Comercial** — Você não pode usar o material para fins comerciais.
+* **CompartilhaIgual** — Se você remixar, transformar, ou criar a partir do material, tem de distribuir as suas contribuições sob a mesma licença que o original.
+
+[Visualizar o texto legal completo (PT-BR)](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt)
+
+---
+
+## English
 
 You are free to:
 
-- **Share** - copy and redistribute the material in any medium or format
-- **Adapt** - remix, transform, and build upon the material
+* **Share** — copy and redistribute the material in any medium or format.
+* **Adapt** — remix, transform, and build upon the material.
 
 Under the following terms:
 
-- **Attribution** - You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-  
-- **NonCommercial** - You may not use the material for commercial purposes.
+* **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+* **NonCommercial** — You may not use the material for commercial purposes.
+* **ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 
-- **ShareAlike** - If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-
-**Full License**:  
-[https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
+[View full legal text (EN)](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
 
 ---
 
-## Autores/Principal Authors
-Weverton Gomes da Costa¹, Cosme Damião Cruz2, Moyses Nascimento¹*  
-¹UFV, ²UNICAMP, ³UNIR, ⁴UFV, ⁵Idata/UFV  
-*Correspondência/Correspondence: [weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)*
+## Autores / Authors
 
-## Instituições/Institutions
-- [Universidade Federal de Viçosa](https://www.ufv.br/)
-- [Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)](https://www.licae.ufv.br/)
-- [Instituto de Inteligência Artificial e Computacional](https://www.idata.ufv.br/)
+**Weverton Gomes da Costa** [1], **Cosme Damião Cruz** [2], **Moyses Nascimento** [1]*
+
+1.  Departamento de Estatística, Universidade Federal de Viçosa (UFV)
+2.  Instituto de Inteligência Artificial e Computacional (Idata), UFV
+
+*\*Autor para correspondência / Corresponding Author:* [moysesnascim@ufv.br](mailto:moysesnascim@ufv.br)
+
+## Instituições / Institutions
+
+* [Universidade Federal de Viçosa (UFV)](https://www.ufv.br/)
+* [Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE)](https://www.licae.ufv.br/)
+* [Instituto de Inteligência Artificial e Computacional (Idata)](https://www.idata.ufv.br/)

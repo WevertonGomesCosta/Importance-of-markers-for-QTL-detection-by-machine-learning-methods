@@ -99,6 +99,7 @@ ml_data <- map_dfr(ml_files, function(f) {
 # 3. Normalization (Rescale 0-10) within each Fold
 # Important: Comparison is only valid if scores share a relative scale.
 # We rescale the importance so the maximum importance in any fold is 10.
+# With the 'complete' step above, markers with 0 importance stay at 0 (min), while max scales to 10.
 ml_data <- ml_data %>%
   group_by(variable, method, replicate, fold) %>%
   mutate(
@@ -132,7 +133,7 @@ if (file.exists(gwas_file)) {
   # 2. Standardize column names (to lowercase)
   colnames(df_raw) <- tolower(colnames(df_raw))
   
-  # 3. Cleaning and Selection
+  # 3. Cleaning, Selection, and Filtering
   gwas_data <- df_raw %>%
     rename(
       # Map file columns (Variable, Model...) to standard pattern (variable, method...)
@@ -154,24 +155,28 @@ if (file.exists(gwas_file)) {
       method    = as.character(method),
       type      = "MM" # Tag to differentiate later
     ) %>%
+    # --- MODEL FILTERING AND RENAMING ---
+    # 1. Remove NYC versions (Keep Kansas and SUPER)
+    filter(!str_detect(method, "NYC")) %>%
+    # 2. Clean names: Remove ".Kansas" suffix so they appear just as "Blink" or "FarmCPU"
+    mutate(method = str_replace_all(method, "\\.Kansas", "")) %>%
+    # ------------------------------------
     # Safety filter to remove corrupted rows (NAs)
     filter(!is.na(marker), !is.na(variable)) %>%
     select(variable, method, marker, replicate, fold, overall, type)
-  
+   
   cat("GWAS data loaded successfully.\n")
-  cat("Total records:", nrow(gwas_data), "\n")
   
+  # Check which models remained
+  cat("Models included:", unique(gwas_data$method), "\n")
+  cat("Total records:", nrow(gwas_data), "\n")
+   
 } else {
   warning("File 'GWAS_Results_Importance_CONSOLIDATED.csv' not found in output/gwas_cv/.")
   gwas_data <- data.frame()
 }
 
 head(gwas_data)
-```
-
-```{r filter_super, include=FALSE}
-gwas_data <- gwas_data %>% 
-  filter(method != "SUPER")
 ```
 
 ### 2.3. Unification
@@ -184,7 +189,7 @@ all_data <- bind_rows(ml_data, gwas_data)
 cat("Total consolidated records:", nrow(all_data), "\n")
 ```
 
-```{r}
+```{r filter_variables_all, include=FALSE}
 all_data <- all_data %>% 
   filter(variable %in% c(7:11, 13:17))
 ```
@@ -442,6 +447,8 @@ coinc_plot <- coinc_summary %>%
     methodology = ifelse(method %in% gwas_methods, "MM", "ML")
   )
 
+write.csv(coinc_plot, "output/Consolidated_Performance_Metrics.csv", row.names = FALSE)
+
 # Pre-format plot labels (Mean ± SD)
 coinc_plot <- coinc_plot %>%
   mutate(
@@ -455,13 +462,54 @@ coinc_plot <- coinc_plot %>%
     method = factor(method, levels = rev(sort(unique(method)))),
     ngenes_f = factor(ngenes, levels = sort(unique(ngenes)))
   )
-
 head(coinc_plot[,15:20])
 ```
 
 ```{r filter_variables, include=FALSE}
 coinc_plot <- coinc_plot %>%
   filter(variable %in% c(7:11, 13:17)) # Ensure only valid variables are included
+```
+
+```{r check_labels, include=FALSE, eval=FALSE}
+coinc_plot %>% 
+  filter(methodology == "ML") %>%
+  select(variable, method, ngenes, herd, label_dp) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "MM") %>%
+  select(variable, method, ngenes, herd, label_dp) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "ML") %>%
+  select(variable, method, ngenes, herd, label_prec) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "MM") %>%
+  select(variable, method, ngenes, herd, label_prec) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "ML") %>%
+  select(variable, method, ngenes, herd, label_fp) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "MM") %>%
+  select(variable, method, ngenes, herd, label_fp) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "ML") %>%
+  select(variable, method, ngenes, herd, label_spec) %>% 
+  as.data.frame()
+
+coinc_plot %>% 
+  filter(methodology == "MM") %>%
+  select(variable, method, ngenes, herd, label_spec) %>% 
+  as.data.frame()
 ```
 
 # 7. Visualization (Heatmaps)
@@ -663,6 +711,8 @@ datatable(table_display,
           filter = 'top',
           options = list(pageLength = 15, autoWidth = TRUE),
           colnames = c("Var", "h2", "Method", "Type", "Hits (Mean ± SD)", "Errors (Mean ± SD)"))
+
+write.csv(table_display, "output/Hits_Errors_Detailed_Table.csv", row.names = FALSE)
 ```
 
 # 9\. Computational Efficiency (Runtime)
@@ -715,7 +765,7 @@ head(time_data)
 
 ```{r}
 time_data <- time_data %>%
-  filter(Variable %in% c(7:11, 13:17) & Model != "SUPER")
+  filter(Variable %in% c(7:11, 13:17))
 ```
 
 ```{r runtime_analysis2, fig.width=12, fig.height=6}
@@ -730,8 +780,7 @@ if(nrow(time_data) > 0) {
       method = as.factor(method),
       # Order by median time
       method = reorder(method, time_sec, FUN = median)
-    ) %>% 
-    filter(method != "SUPER") # Remove SUPER if it was not fully executed
+    )
 
   # 3. Visualization (Logarithmic Boxplot)
   # Log10 scale is used because ML methods can be orders of magnitude slower than MM
@@ -754,7 +803,7 @@ if(nrow(time_data) > 0) {
   
   # 4. Summary Table
   time_summary <- time_clean %>%
-    group_by(method, variable, type) %>%
+    group_by(method, type) %>%
     summarise(
       Mean_Sec = mean(time_sec, na.rm=TRUE),
       SD_Sec   = sd(time_sec, na.rm=TRUE),
@@ -766,9 +815,9 @@ if(nrow(time_data) > 0) {
     mutate(
       Time_Format = paste0(round(Mean_Sec, 2), " ± ", round(SD_Sec, 2), " s")
     ) %>%
-    select(method, variable, type, Time_Format, Min_Sec, Max_Sec)
+    select(method, type, Time_Format, Min_Sec, Max_Sec)
   
-  write.csv(time_summary, "output/Runtime_Summary_Table.csv", row.names = FALSE)
+  write.csv(time_summary, "output/Runtime_Summary_Table_mean.csv", row.names = FALSE)
 
     datatable(time_summary, 
           caption = "Table 9.1: Runtime Statistics by Method (Seconds)",

@@ -16,7 +16,7 @@ github-repo: WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machi
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, out.width = "100%")
 ```
 
-# Creating Genetic Map Chart
+# Creating Genetic Map Chart 1
 
 Este documento tem como objetivo criar um gráfico genético para as características do experimento. O gráfico será dividido em cinco partes, cada uma representando uma característica diferente.
 
@@ -507,5 +507,155 @@ print(maps)
 
 ```{r save_maps, echo=FALSE, eval=FALSE, include=FALSE}
 # Save the maps plot to a file
-ggsave("output/genetic_map.png", plot = maps, width = 12, height = 8, dpi = 300)
+ggsave("output/genetic_map.tiff", plot = maps, width = 12, height = 8, dpi = 300)
+```
+
+# Creating Genetic Map Chart 2
+
+Este documento tem como objetivo criar um gráfico genético (Ideograma) para as características do experimento, atendendo às solicitações de visualização de densidade e distribuição dos QTLs.
+
+```{r libraries2}
+library(tidyverse)
+library(data.table)
+library(metan)
+library(ggthemes)
+library(ggrepel)
+library(ggpubr)
+library(cowplot)
+```
+
+## Genetic map preparation
+
+Primeiro, carregamos os SNPs de interesse.
+
+```{r load_snps2}
+# Certifique-se de que o arquivo existe neste caminho
+if(file.exists("data/snpsOfInterest.RData")){
+  load("data/snpsOfInterest.RData")
+} else {
+  # Dados simulados apenas para o exemplo rodar caso o arquivo não exista
+  # (Remova este bloco else quando for rodar com seus dados reais)
+  snpsOfInterest <- data.frame(
+    variable = rep(1:5, each=5),
+    marker = sample(1:4010, 25)
+  )
+}
+```
+
+Vamos criar o mapa base (Backbone) de forma mais eficiente, gerando os 10 grupos de ligação e os 4010 marcadores automaticamente.
+
+```{r create_map_efficient}
+# Criação automática do mapa com 10 LGs, 401 marcadores cada
+map_list <- lapply(1:10, function(i) {
+  start_marker <- (i - 1) * 401 + 1
+  end_marker <- i * 401
+  data.frame(
+    marker = seq(start_marker, end_marker),
+    LG = factor(paste0("LG ", i), levels = paste0("LG ", 1:10)), # Garante ordem correta
+    Size = seq(0, 200, length.out = 401)
+  )
+})
+
+map_base <- do.call(rbind, map_list)
+```
+
+Agora, vamos processar os dados para plotagem. Em vez de criar 5 plots separados, vamos criar um único *dataframe* consolidado com uma coluna chamada `Scenario`. Isso permite usar o `facet_wrap` do ggplot2, garantindo alinhamento perfeito.
+
+```{r process_data}
+# Definir os labels dos cenários (Baseado na descrição do seu artigo)
+scenario_labels <- c(
+  "1" = "A) T1 & T6",
+  "2" = "B) T2 & T7",
+  "3" = "C) T3 & T8",
+  "4" = "D) T4 & T9",
+  "5" = "E) T5 & T10"
+)
+
+# Preparar dados dos QTLs (SNPs de interesse)
+# Vamos expandir para ter um mapa para cada cenário
+plot_data <- list()
+
+for (var_code in 1:5) {
+  # Filtra SNPs deste cenário
+  current_snps <- snpsOfInterest %>% filter(variable == var_code)
+  
+  # Cria uma cópia do mapa base e marca os QTLs
+  temp_map <- map_base %>%
+    mutate(
+      Scenario = scenario_labels[as.character(var_code)],
+      Type = case_when(
+        marker %in% current_snps$marker ~ "QTL",
+        TRUE ~ "Marker"
+      ),
+      Label = ifelse(Type == "QTL", as.character(marker), NA)
+    )
+  
+  plot_data[[var_code]] <- temp_map
+}
+
+final_df <- do.call(rbind, plot_data)
+
+# Calcular tamanho máximo de cada cromossomo para desenhar o corpo arredondado
+chrom_sizes <- map_base %>%
+  group_by(LG) %>%
+  summarise(max_size = max(Size))
+```
+
+## Plotting the Ideogram
+
+Agora geramos o gráfico unificado. Usamos:
+
+1.  `geom_segment` grosso e cinza claro para fazer o corpo do cromossomo.
+2.  `geom_segment` fino e cinza escuro para mostrar a **densidade** de todos os marcadores.
+3.  `geom_point` colorido para os QTLs.
+
+<!-- end list -->
+
+```{r plot_ideogram, fig.width=14, fig.height=8, dpi=300}
+ideogram <- ggplot() +
+  # 1. Corpo do Cromossomo (Barra arredondada)
+  geom_segment(data = chrom_sizes,
+               aes(x = LG, xend = LG, y = 0, yend = max_size),
+               lineend = "round", color = "gray90", size = 6) +
+  
+  # 2. Densidade de Marcadores (Mostra distribuição - Pedido do Revisor)
+  # Usamos o map_base para desenhar a densidade em todos os painéis
+  geom_segment(data = final_df %>% filter(Type == "Marker"),
+               aes(x = as.numeric(LG) - 0.25, xend = as.numeric(LG) + 0.25, 
+                   y = Size, yend = Size),
+               color = "gray70", size = 0.1, alpha = 0.5) +
+  
+  # 3. QTLs (Pontos de destaque)
+  geom_point(data = final_df %>% filter(Type == "QTL"),
+             aes(x = LG, y = Size),
+             color = "#E64B35", size = 2.5) + # Cor Vermelho Sci-Fi (Lancet/Nature style)
+  
+  # 4. Labels dos QTLs (opcional, use ggrepel se quiser nomes)
+  # geom_text_repel(data = final_df %>% filter(Type == "QTL"),
+  #                 aes(x = LG, y = Size, label = marker),
+  #                 nudge_x = 0.4, direction = "y", size = 2, segment.size = 0.2) +
+  
+  # 5. Facetamento por Cenário
+  facet_wrap(~Scenario, ncol = 5) + 
+  
+  # 6. Estética
+  scale_y_reverse(breaks = seq(0, 200, 50), name = "Position (cM)") + # Inverte Y para o 0 ficar no topo
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),     # Remove grades de fundo
+    axis.title.x = element_blank(),   # Remove título X (LG)
+    axis.text.x = element_text(face = "bold", size = 6),
+    axis.text.y = element_text(size = 8),
+    strip.text = element_text(face = "bold", size = 12), # Títulos dos Cenários
+    plot.background = element_rect(fill = "white", color = NA),
+    legend.position = "none"
+  )
+
+print(ideogram)
+```
+
+```{r save_plot, echo=FALSE}
+# Salva em alta resolução
+ggsave("output/Figure1_Ideogram.tiff", plot = ideogram, width = 12, height = 8, dpi = 300, compression = "lzw")
+ggsave("output/Figure1_Ideogram.png", plot = ideogram, width = 12, height = 8, dpi = 300)
 ```

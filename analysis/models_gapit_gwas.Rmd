@@ -113,7 +113,7 @@ total_traits <- 18
 target_vars <- 1:total_traits 
 
 # Model List (EXCLUDING SUPER)
-models_list <- c("GLM", "MLM", "CMLM", "MLMM", "FarmCPU", "Blink")
+models_list <- c("GLM", "MLM", "CMLM", "MLMM", "FarmCPU", "Blink", "SUPER")
 
 # Output Directories
 base_out_dir <- "output/gwas_cv"

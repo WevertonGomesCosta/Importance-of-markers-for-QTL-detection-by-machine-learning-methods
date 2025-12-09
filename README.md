@@ -5,7 +5,9 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)
 ![GitHub last commit](https://img.shields.io/github/last-commit/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)
 [![Website](https://img.shields.io/badge/Project%20Site-online-brightgreen)](https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/)
-> **Note:** This repository contains the source code and reproducible pipeline for the research article: *"Benchmarking Machine Learning and Modern GWAS Methods for QTL Detection in Complex Traits"*.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17866542.svg)](https://doi.org/10.5281/zenodo.17866542)
+
+> **Note:** This repository contains the source code and reproducible pipeline for the research article: *"Comparison of Machine Learning Methods for Marker Identification in GWAS: A Simulation Study for Complex Traits"*.
 
 ---
 
@@ -31,6 +33,8 @@ O pipeline integra computação de alto desempenho (HPC) para processar cenário
 **Afiliações** ¹ Laboratório de Inteligência Computacional e Aprendizado Estatístico (LICAE), Dep. de Estatística - UFV  
 ² Instituto de Inteligência Artificial e Computacional (Idata) - UFV
 
+*\*Autor para correspondência: weverton.costa@ufv.br*
+*\*Autor para correspondência: cdcruz@ufv.br*
 *\*Autor para correspondência: moysesnascim@ufv.br*
 
 ### 🧭 Como Navegar no Site do Projeto
@@ -61,7 +65,7 @@ renv::restore()
 
 # 3. Compilar o site e análises
 workflowr::wflow_build()
-````
+```
 
 -----
 
@@ -87,6 +91,8 @@ The pipeline integrates high-performance computing (HPC) to process complex scen
 **Affiliations** ¹ Computational Intelligence and Statistical Learning Laboratory (LICAE), Statistics Dept. - UFV  
 ² Institute of Artificial and Computational Intelligence (Idata) - UFV
 
+*\*Corresponding author: weverton.costa@ufv.br*
+*\*Corresponding author: cdcruz@ufv.br*
 *\*Corresponding author: moysesnascim@ufv.br*
 
 ### 🧭 Navigation Guide
@@ -120,6 +126,22 @@ workflowr::wflow_build()
 ```
 
 -----
+
+## ✏️ Citation / Citação
+
+If you use this code or data, please cite:
+
+```bibtex
+@misc{costa2025importance,
+  author = {Costa, Weverton Gomes and Cruz, Cosme Damião and Nascimento, Moyses},
+  title = {Importance of markers for QTL detection by machine learning methods},
+  year = {2025},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{[https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods](https://github.com/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)}},
+  doi = {10.5281/zenodo.17866542}
+}
+```
 
 ## 📄 License / Licença
 

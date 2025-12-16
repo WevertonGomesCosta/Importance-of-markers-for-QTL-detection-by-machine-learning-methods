@@ -1,0 +1,881 @@
+Regiao_Global_ID,Gene_ID,Chr,Start,End,Function
+Chr0_R1,GSCOCG00036099001,chr0,391364,394445,putative B3 domain-containing protein At5g60142
+Chr0_R1,GSCOCG00036100001,chr0,415795,418044,putative b3 domain-containing protein OS=Nicotiana attenuata OX=49451 GN=A4A49
+Chr0_R1,GSCOCG00036101001,chr0,439641,442080,Glycosyltransferase
+Chr0_R1,GSCOCG00036102001,chr0,450156,450290,putative UDP-glycosyltransferase 86A1
+Chr0_R1,GSCOCG00036104001,chr0,465429,472028,conserved hypothetical protein
+Chr0_R1,GSCOCG00036105001,chr0,479121,480784,putative Nucleotide-diphospho-sugar transferase family protein
+Chr0_R1,GSCOCG00036106001,chr0,485790,490706,conserved hypothetical protein
+Chr0_R1,GSCOCG00036108001,chr0,512771,513397,putative Cytochrome P450 76C3
+Chr0_R1,GSCOCG00036110001,chr0,523233,532915,conserved hypothetical protein
+Chr0_R1,GSCOCG00036111001,chr0,532986,533381,putative protein phosphatase 2C 68
+Chr0_R1,GSCOCG00036113001,chr0,536886,537056,putative inactive receptor kinase At5g58300
+Chr0_R1,GSCOCG00036114001,chr0,546230,550053,Flavin-containing monooxygenase
+Chr0_R1,GSCOCG00036115001,chr0,550745,581830,Flavin-containing monooxygenase
+Chr0_R1,GSCOCG00036116001,chr0,590385,606625,L-arabinokinase
+Chr0_R1,GSCOCG00036117001,chr0,611366,611584,putative polyol transporter 4
+Chr0_R1,GSCOCG00036120001,chr0,668626,669176,conserved hypothetical protein
+Chr0_R1,GSCOCG00036122001,chr0,670715,671570,conserved hypothetical protein
+Chr0_R1,GSCOCG00036123001,chr0,683265,683780,conserved hypothetical protein
+Chr0_R1,GSCOCG00036124001,chr0,689102,689920,conserved hypothetical protein
+Chr0_R1,GSCOCG00036126001,chr0,706769,709670,Mediator of RNA polymerase II transcription subunit 21
+Chr0_R1,GSCOCG00036127001,chr0,716344,720569,arginine decarboxylase-like
+Chr0_R1,GSCOCG00036128001,chr0,728679,730155,putative protein kinase superfamily protein
+Chr0_R1,GSCOCG00036129001,chr0,730209,731795,putative Tudor/PWWP/MBT superfamily protein
+Chr0_R3,GSCOCG00002031001,chr0,29235496,29237223,RNase H domain-containing protein
+Chr0_R3,GSCOCG00002032001,chr0,29237410,29238936,AAA domain-containing protein
+Chr0_R4,GSCOCG00003940001,chr0,103966888,103969853,putative Cytochrome P450 CYP72A219
+Chr0_R4,GSCOCG00010745001,chr0,104004231,104009589,putative protein LAZY 1
+Chr0_R4,GSCOCG00010746001,chr0,104012317,104012955,conserved hypothetical protein
+Chr0_R4,GSCOCG00010747001,chr0,104022955,104023389,putative Loganic acid O-methyltransferase
+Chr0_R4,GSCOCG00010749001,chr0,104048860,104051087,7-deoxyloganic acid hydroxylase
+Chr0_R4,GSCOCG00012536001,chr0,104113402,104121349,C-CAP/cofactor C-like domain-containing protein
+Chr0_R4,GSCOCG00012537001,chr0,104121429,104124983,Rhodanese domain-containing protein
+Chr0_R4,GSCOCG00012538001,chr0,104125532,104128428,"putative Outer envelope pore protein 16-3, chloroplastic/mitochondrial"
+Chr0_R4,GSCOCG00012539001,chr0,104129516,104134692,CDK5RAP3-like protein
+Chr0_R4,GSCOCG00012540001,chr0,104135233,104139752,Protein kinase domain-containing protein
+Chr0_R4,GSCOCG00012541001,chr0,104141622,104144457,G-patch domain-containing protein
+Chr0_R4,GSCOCG00012542001,chr0,104145045,104151849,SBP-type domain-containing protein
+Chr0_R4,GSCOCG00008132001,chr0,104269366,104272253,Protein kinase domain-containing protein
+Chr0_R4,GSCOCG00008133001,chr0,104275516,104276004,PHB domain-containing protein
+Chr0_R5,GSCOCG00005362001,chr0,135669564,135671347,"putative cytochrome P450, family 72, subfamily A, polypeptide 8"
+Chr0_R5,GSCOCG00013475001,chr0,135753503,135754177,putative protein COP1 SUPPRESSOR 2 isoform C
+Chr0_R5,GSCOCG00006902001,chr0,135964970,135970965,UvrD-helicase domain-containing protein
+Chr0_R5,GSCOCG00006903001,chr0,135971379,135972857,putative UvrD-like helicase ATP-binding domain-containing protein
+Chr0_R5,GSCOCG00006904001,chr0,135973021,135975569,putative helicase MAGATAMA 3
+Chr0_R6,GSCOCG00009491001,chr0,143919517,143919738,putative Delta(7)-sterol-C5(6)-desaturase
+Chr0_R6,GSCOCG00013803001,chr0,143969721,143970246,conserved hypothetical protein
+Chr0_R6,GSCOCG00011338001,chr0,144032063,144032403,BURP domain-containing protein
+Chr0_R6,GSCOCG00013292001,chr0,144055803,144056332,putative protein cornichon
+Chr1_R1,GSCOCG00030128001,chr1,24687315,24689112,Protein of Unknown Function (DUF239)
+Chr1_R1,GSCOCG00030131001,chr1,24707889,24710992,EF1_GNE domain-containing protein
+Chr1_R1,GSCOCG00030133001,chr1,24732277,24736253,THO complex subunit 7A
+Chr1_R1,GSCOCG00030134001,chr1,24747236,24749385,zinc_ribbon_9 domain-containing protein
+Chr1_R1,GSCOCG00030135001,chr1,24751691,24756409,Magnesium transporter
+Chr1_R1,GSCOCG00030138001,chr1,24762575,24770559,Tryptophan/tyrosine permease
+Chr1_R1,GSCOCG00030139001,chr1,24789842,24796984,GHMP_kinases_N domain-containing protein
+Chr1_R1,GSCOCG00030140001,chr1,24797670,24802028,UBA domain-containing protein
+Chr1_R1,GSCOCG00030141001,chr1,24828256,24832400,CBFD_NFYB_HMF domain-containing protein
+Chr1_R1,GSCOCG00030143001,chr1,24833586,24835085,Cysteine proteinase inhibitor
+Chr1_R1,GSCOCG00030144001,chr1,24837903,24846218,"Protein DGS1, mitochondrial"
+Chr1_R1,GSCOCG00030145001,chr1,24875724,24876347,ANK_REP_REGION domain-containing protein
+Chr1_R1,GSCOCG00030147001,chr1,24990637,24992205,ANK_REP_REGION domain-containing protein
+Chr1_R1,GSCOCG00030149001,chr1,25005621,25007417,conserved hypothetical protein
+Chr1_R1,GSCOCG00030150001,chr1,25043479,25045040,PGG domain-containing protein
+Chr1_R1,GSCOCG00030152001,chr1,25047088,25047928,ANK_REP_REGION domain-containing protein
+Chr1_R2,GSCOCG00028475001,chr1,32698584,32710742,K18270 - Rab3 GTPase-activating protein catalytic subunit (RAB3GAP1)  (1 of 2)
+Chr1_R2,GSCOCG00028476001,chr1,32723388,32725387,ALOG domain-containing protein
+Chr1_R2,GSCOCG00028478001,chr1,32732538,32736663,Thioredoxin superfamily protein
+Chr1_R2,GSCOCG00028479001,chr1,32737131,32740720,Epimerase domain-containing protein
+Chr1_R2,GSCOCG00028481001,chr1,32747810,32757411,"Glucan endo-1,3-beta-glucosidase 9 (Fragment) OS=Mucuna pruriens OX=157652 GN=CR513"
+Chr1_R2,GSCOCG00028482001,chr1,32760427,32764709,putative protein FLX-like 1
+Chr1_R2,GSCOCG00028483001,chr1,32769249,32772643,conserved hypothetical protein
+Chr1_R2,GSCOCG00028484001,chr1,32776652,32777544,LOB domain-containing protein
+Chr1_R2,GSCOCG00028485001,chr1,32782556,32784307,CCT domain-containing protein
+Chr1_R2,GSCOCG00028486001,chr1,32787675,32789888,UDP-glycosyltransferase 87A1
+Chr1_R2,GSCOCG00028487001,chr1,32790447,32792916,UDP-glycosyltransferase 87A2
+Chr1_R2,GSCOCG00028488001,chr1,32793717,32798053,putative Mitochondrial substrate carrier family protein
+Chr1_R2,GSCOCG00028489001,chr1,32798433,32801499,Protein phosphatase
+Chr1_R2,GSCOCG00028491001,chr1,32801770,32802575,putative AT1G07020.1
+Chr1_R2,GSCOCG00028492001,chr1,32802805,32805606,PKS_AT domain-containing protein
+Chr1_R2,GSCOCG00028495001,chr1,32807412,32812287,Metallophos domain-containing protein
+Chr1_R2,GSCOCG00028499001,chr1,32837060,32839737,Na_H_Exchanger domain-containing protein
+Chr1_R2,GSCOCG00028500001,chr1,32841343,32845458,Laccase
+Chr1_R2,GSCOCG00028501001,chr1,32846332,32862058,Laccase
+Chr1_R2,GSCOCG00028502001,chr1,32866362,32872518,PX domain-containing protein
+Chr1_R2,GSCOCG00028506001,chr1,32874157,32874801,PRA1 family protein
+Chr1_R2,GSCOCG00028507001,chr1,32877453,32880890,Exocyst subunit Exo70 family protein
+Chr1_R2,GSCOCG00028508001,chr1,32881526,32885498,Lipase_GDSL domain-containing protein (Fragment) OS=Cephalotus follicularis OX=3775 GN=CFOL_v3
+Chr1_R2,GSCOCG00028511001,chr1,32896252,32900468,Na_H_Exchanger domain-containing protein
+Chr1_R2,GSCOCG00028512001,chr1,32901209,32909879,putative Cation/H(+) antiporter 15
+Chr1_R2,GSCOCG00028513001,chr1,32912453,32913903,"putative protein TIC110, chloroplastic"
+Chr1_R2,GSCOCG00028514001,chr1,32913966,32919789,"putative protein TIC110, chloroplastic"
+Chr1_R2,GSCOCG00016623001,chr1,32945437,32946005,"putative protein TIC110, chloroplastic"
+Chr1_R2,GSCOCG00016622001,chr1,32955392,32958564,WRKY10
+Chr1_R2,GSCOCG00016621001,chr1,32960739,32966031,F-box/LRR-repeat protein 3
+Chr1_R2,GSCOCG00016620001,chr1,32967277,32969614,RRM domain-containing protein
+Chr1_R2,GSCOCG00016619001,chr1,32983112,32983459,putative Senescence associated gene 20
+Chr1_R2,GSCOCG00016618001,chr1,32986369,32990158,mitochondrial 28S ribosomal protein S29-related
+Chr1_R2,GSCOCG00016617001,chr1,32990843,33006178,RING-type domain-containing protein
+Chr1_R2,GSCOCG00016615001,chr1,33014111,33018295,Protein LURP-one-related like
+Chr1_R2,GSCOCG00016614001,chr1,33018382,33019791,spermidine coumaroyl-CoA acyltransferase-like
+Chr1_R2,GSCOCG00016613001,chr1,33021906,33025588,"Alanine--glyoxylate aminotransferase 2, mitochondrial"
+Chr1_R2,GSCOCG00016612001,chr1,33029004,33033103,Iwr1 domain-containing protein
+Chr1_R2,GSCOCG00016611001,chr1,33036612,33038638,Nodulin-like domain-containing protein
+Chr1_R2,GSCOCG00016610001,chr1,33043243,33048339,PseudoU_synth_1 domain-containing protein
+Chr1_R2,GSCOCG00016608001,chr1,33057154,33065355,"Protein TIC110, chloroplastic"
+Chr1_R2,GSCOCG00016607001,chr1,33067135,33069540,Peroxidase
+Chr1_R2,GSCOCG00016606001,chr1,33070947,33072160,Peroxidase
+Chr1_R2,GSCOCG00016605001,chr1,33086259,33087302,FANCI_S4 domain-containing protein
+Chr1_R2,GSCOCG00016604001,chr1,33098254,33100732,Peroxidase
+Chr1_R2,GSCOCG00016603001,chr1,33107978,33108848,LOB domain-containing protein
+Chr1_R3,GSCOCG00016367001,chr1,34489554,34492314,Cyclin-dependent kinase inhibitor 3
+Chr1_R3,GSCOCG00016366001,chr1,34498086,34498234,N/A
+Chr1_R3,GSCOCG00016365001,chr1,34498304,34502129,E3 ubiquitin-protein like
+Chr1_R3,GSCOCG00016364001,chr1,34504761,34508884,E3 ubiquitin-protein like
+Chr1_R3,GSCOCG00016363001,chr1,34510371,34518230,Transcriptional corepressor LEUNIG_HOMOLOG
+Chr1_R3,GSCOCG00016362001,chr1,34521783,34524907,DUF862 domain-containing protein
+Chr1_R3,GSCOCG00016361001,chr1,34525636,34529649,EamA-like transporter family
+Chr1_R3,GSCOCG00016360001,chr1,34530567,34533930,Protein kinase domain-containing protein
+Chr1_R3,GSCOCG00016359001,chr1,34535279,34536004,Phytocyanin domain-containing protein
+Chr1_R3,GSCOCG00016358001,chr1,34537589,34539816,pentatricopeptide repeat-containing protein At3g22690-like
+Chr1_R3,GSCOCG00016357001,chr1,34540483,34546749,putative NHL domain-containing protein
+Chr1_R3,GSCOCG00016356001,chr1,34548200,34548787,conserved hypothetical protein
+Chr1_R3,GSCOCG00016355001,chr1,34550738,34552666,CLAVATA3/ESR (CLE)-related protein TDIF
+Chr1_R3,GSCOCG00016354001,chr1,34559241,34565753,putative AT5G48830.1
+Chr1_R3,GSCOCG00016353001,chr1,34570578,34574658,CP-type G domain-containing protein
+Chr1_R3,GSCOCG00016352001,chr1,34577337,34580756,vesicle-associated membrane protein 722
+Chr1_R3,GSCOCG00016351001,chr1,34581363,34584220,Pantoate--beta-alanine ligase
+Chr1_R3,GSCOCG00016350001,chr1,34585159,34588000,Protein SULFUR DEFICIENCY-INDUCED 1
+Chr1_R3,GSCOCG00016349001,chr1,34589588,34593033,Alba domain-containing protein
+Chr1_R3,GSCOCG00016348001,chr1,34594447,34596569,conserved hypothetical protein
+Chr1_R3,GSCOCG00016347001,chr1,34597670,34601890,Sm-like protein LSM5
+Chr1_R3,GSCOCG00016346001,chr1,34602740,34606125,Protein of unknown function (DUF1644)
+Chr1_R3,GSCOCG00016344001,chr1,34607179,34612644,"3-ketoacyl-CoA thiolase 2, peroxisomal"
+Chr1_R3,GSCOCG00016343001,chr1,34615159,34616561,conserved hypothetical protein
+Chr1_R3,GSCOCG00016342001,chr1,34622197,34631708,Glyco_transf_28 domain-containing protein
+Chr1_R3,GSCOCG00016339001,chr1,34641441,34645607,Pectate lyase
+Chr1_R3,GSCOCG00016338001,chr1,34645706,34649679,Protein kinase domain-containing protein
+Chr1_R3,GSCOCG00016337001,chr1,34654112,34660375,TPT domain-containing protein
+Chr1_R3,GSCOCG00016336001,chr1,34661772,34664598,Alcohol dehydrogenase 1
+Chr1_R3,GSCOCG00016335001,chr1,34664713,34668111,AT4G13220.1
+Chr1_R3,GSCOCG00016334001,chr1,34670548,34674090,Protein kinase domain-containing protein
+Chr1_R3,GSCOCG00016333001,chr1,34675481,34676372,conserved hypothetical protein
+Chr1_R3,GSCOCG00016331001,chr1,34687698,34694995,TF-B3 domain-containing protein
+Chr1_R3,GSCOCG00016329001,chr1,34698051,34699092,glycine-rich protein 5-like
+Chr1_R3,GSCOCG00016328001,chr1,34699642,34703649,26S proteasome regulatory subunit 4
+Chr1_R3,GSCOCG00016327001,chr1,34710420,34710953,putative Methylthioribose kinase
+Chr1_R3,GSCOCG00016326001,chr1,34711497,34714276,HIT-type domain-containing protein
+Chr1_R3,GSCOCG00016325001,chr1,34715076,34721090,BHLH domain-containing protein
+Chr1_R3,GSCOCG00016324001,chr1,34728043,34733271,"Chaperonin CPN60-2, mitochondrial"
+Chr1_R3,GSCOCG00016323001,chr1,34739421,34751250,CLIP-associated protein
+Chr1_R3,GSCOCG00016322001,chr1,34753311,34755816,Lipase_GDSL domain-containing protein
+Chr1_R3,GSCOCG00016321001,chr1,34764722,34766528,putative Tetraspanin-18
+Chr1_R3,GSCOCG00016320001,chr1,34766816,34768233,putative Tetraspanin/Peripherin
+Chr1_R3,GSCOCG00016318001,chr1,34770240,34776496,Protein of unknown function (DUF3741)
+Chr1_R3,GSCOCG00016317001,chr1,34787256,34788523,"Photosystem I reaction center subunit IV B, chloroplastic"
+Chr1_R3,GSCOCG00016315001,chr1,34789655,34792876,PF11998 - Protein of unknown function (DUF3493) (DUF3493)  (1 of 2)
+Chr1_R3,GSCOCG00016314001,chr1,34793655,34796499,Glutaredoxin domain-containing protein
+Chr1_R3,GSCOCG00016313001,chr1,34801375,34803126,Flavin-containing monooxygenase
+Chr1_R3,GSCOCG00016310001,chr1,34819373,34836628,Myosin-6
+Chr1_R3,GSCOCG00016308001,chr1,34853337,34856396,C2 calcium/lipid-binding plant phosphoribosyltransferase family protein
+Chr1_R3,GSCOCG00016307001,chr1,34856667,34859166,PfkB domain-containing protein
+Chr1_R3,GSCOCG00016306001,chr1,34859349,34862551,PfkB domain-containing protein
+Chr1_R3,GSCOCG00016304001,chr1,34865560,34869570,C2 domain-containing protein
+Chr1_R3,GSCOCG00016303001,chr1,34871030,34871734,PRT_C domain-containing protein
+Chr1_R3,GSCOCG00016302001,chr1,34872030,34873954,PfkB domain-containing protein
+Chr1_R3,GSCOCG00016301001,chr1,34874106,34877790,PfkB domain-containing protein
+Chr1_R3,GSCOCG00016300001,chr1,34878198,34884480,Protein kinase domain-containing protein
+Chr1_R3,GSCOCG00016299001,chr1,34892687,34898202,WD repeat-containing protein WDS
+Chr1_R3,GSCOCG00016298001,chr1,34898707,34903572,WD_REPEATS_REGION domain-containing protein
+Chr1_R4,GSCOCG00016109001,chr1,36031137,36034639,PPM-type phosphatase domain-containing protein
+Chr1_R4,GSCOCG00016108001,chr1,36035275,36041227,ETO1-like protein 1
+Chr1_R4,GSCOCG00016107001,chr1,36047060,36052578,Tify domain-containing protein
+Chr1_R4,GSCOCG00016106001,chr1,36059374,36063147,ANK_REP_REGION domain-containing protein
+Chr1_R4,GSCOCG00016105001,chr1,36064086,36066108,Chlorophyllase
+Chr1_R4,GSCOCG00016103001,chr1,36069850,36071625,Protein LIFEGUARD 2
+Chr1_R4,GSCOCG00016102001,chr1,36071680,36076131,VAN3-binding protein
+Chr1_R4,GSCOCG00016101001,chr1,36080346,36081992,Fe2OG dioxygenase domain-containing protein
+Chr1_R4,GSCOCG00016100001,chr1,36082473,36088118,Protein kinase domain-containing protein
+Chr1_R4,GSCOCG00016099001,chr1,36099293,36105659,STAS domain-containing protein
+Chr1_R4,GSCOCG00016098001,chr1,36107929,36111697,Protein kinase domain-containing protein
+Chr1_R4,GSCOCG00016097001,chr1,36116121,36119974,Hcy-binding domain-containing protein
+Chr1_R4,GSCOCG00016096001,chr1,36120300,36121852,PTHR31833:SF2 - UPF0690 PROTEIN C1ORF52 (1 of 1)
+Chr1_R4,GSCOCG00016095001,chr1,36123535,36124264,Proliferating cell nuclear antigen
+Chr1_R4,GSCOCG00016094001,chr1,36125211,36126231,OB domain-containing protein
+Chr1_R4,GSCOCG00016092001,chr1,36129948,36132360,IPPc domain-containing protein
+Chr1_R4,GSCOCG00016091001,chr1,36132455,36132917,"putative type I inositol 1,4,5-trisphosphate 5-phosphatase CVP2-like"
+Chr1_R4,GSCOCG00016090001,chr1,36133003,36133274,conserved hypothetical protein
+Chr1_R4,GSCOCG00016089001,chr1,36133329,36134350,conserved hypothetical protein
+Chr1_R4,GSCOCG00016088001,chr1,36145228,36146964,AAI domain-containing protein
+Chr1_R4,GSCOCG00016087001,chr1,36150856,36151641,AAI domain-containing protein
+Chr1_R4,GSCOCG00016086001,chr1,36153845,36154775,AAI domain-containing protein
+Chr1_R4,GSCOCG00016085001,chr1,36160012,36164943,F-box domain-containing protein
+Chr1_R4,GSCOCG00016084001,chr1,36165172,36168749,tRNA (guanine-N(7)-)-methyltransferase non-catalytic subunit
+Chr1_R4,GSCOCG00016082001,chr1,36173851,36174660,protein MARD1
+Chr1_R4,GSCOCG00016080001,chr1,36176874,36179886,PF15365 - Proline-rich nuclear receptor coactivator (PNRC)  (1 of 2)
+Chr1_R4,GSCOCG00016079001,chr1,36186160,36186663,AT3G22530.1
+Chr1_R4,GSCOCG00016076001,chr1,36194565,36196877,Phenazine biosynthesis PhzC/PhzF protein
+Chr1_R4,GSCOCG00016075001,chr1,36196956,36201116,putative AT1G03250.1
+Chr1_R4,GSCOCG00016072001,chr1,36202687,36203028,SMP domain-containing protein
+Chr1_R4,GSCOCG00016071001,chr1,36207066,36207809,OVATE domain-containing protein
+Chr1_R4,GSCOCG00016069001,chr1,36216489,36217391,Plant protein of unknown function (DUF868)
+Chr1_R4,GSCOCG00016067001,chr1,36218154,36219263,fasciclin-like arabinogalactan protein 21
+Chr1_R4,GSCOCG00016066001,chr1,36219526,36220229,NAC domain-containing protein
+Chr1_R4,GSCOCG00016065001,chr1,36222240,36223319,conserved hypothetical protein
+Chr1_R4,GSCOCG00016063001,chr1,36226546,36229470,N-terminal acetyltransferase B complex catalytic subunit NAA20
+Chr1_R4,GSCOCG00016062001,chr1,36232113,36239469,Copalyl diphosphate synthase
+Chr1_R4,GSCOCG00016061001,chr1,36251445,36253935,Chalcone_isomerase domain-containing protein
+Chr1_R4,GSCOCG00016060001,chr1,36253994,36258117,RRF domain-containing protein
+Chr1_R4,GSCOCG00016058001,chr1,36265776,36267813,Patatin
+Chr1_R4,GSCOCG00016057001,chr1,36280011,36286788,BTB domain-containing protein
+Chr1_R4,GSCOCG00016056001,chr1,36288775,36291316,Cyclin
+Chr1_R4,GSCOCG00016054001,chr1,36293500,36297727,WPP domain-containing protein
+Chr1_R4,GSCOCG00016053001,chr1,36298756,36301167,Epimerase domain-containing protein
+Chr1_R4,GSCOCG00016052001,chr1,36302415,36304543,AT4G02800.1
+Chr1_R4,GSCOCG00016051001,chr1,36304618,36309143,conserved hypothetical protein
+Chr1_R4,GSCOCG00016050001,chr1,36310543,36319929,FZO-like
+Chr1_R4,GSCOCG00016049001,chr1,36322771,36323817,putative protein FANTASTIC FOUR 1
+Chr1_R4,GSCOCG00016047001,chr1,36342805,36345689,"Pentatricopeptide repeat-containing protein At4g02820, mitochondrial"
+Chr1_R4,GSCOCG00016046001,chr1,36347968,36348810,conserved hypothetical protein
+Chr1_R4,GSCOCG00016045001,chr1,36350407,36358977,"Preprotein translocase subunit SCY2, chloroplastic"
+Chr1_R4,GSCOCG00016044001,chr1,36360237,36363048,PTHR15681:SF1 - MAD2L1-BINDING PROTEIN (1 of 1)
+Chr1_R4,GSCOCG00016043001,chr1,36363790,36369981,Helicase ATP-binding domain-containing protein
+Chr1_R4,GSCOCG00016042001,chr1,36374063,36380152,BHLH domain-containing protein
+Chr1_R4,GSCOCG00016041001,chr1,36394848,36397174,Aluminum-activated malate transporter like
+Chr1_R4,GSCOCG00016040001,chr1,36397753,36398304,Gnk2-homologous domain-containing protein
+Chr1_R4,GSCOCG00016039001,chr1,36399607,36403609,PMR5N domain-containing protein
+Chr1_R4,GSCOCG00016037001,chr1,36412386,36414543,putative F-box protein At2g27310
+Chr1_R4,GSCOCG00016035001,chr1,36417425,36418071,putative Outer envelope membrane protein 7
+Chr1_R4,GSCOCG00016034001,chr1,36418765,36421993,Small nuclear ribonucleoprotein Sm D1
+Chr1_R4,GSCOCG00016033001,chr1,36423021,36423831,Peptidase A1 domain-containing protein
+Chr1_R4,GSCOCG00016031001,chr1,36432716,36433379,Peptidase A1 domain-containing protein
+Chr1_R4,GSCOCG00016030001,chr1,36436342,36437673,Peptidase A1 domain-containing protein
+Chr1_R5,GSCOCG00016020001,chr1,36482673,36488858,CUE domain-containing protein
+Chr1_R5,GSCOCG00016018001,chr1,36491413,36495141,Glutathione peroxidase
+Chr1_R5,GSCOCG00016016001,chr1,36505767,36517389,Protein HUA2-LIKE like
+Chr1_R5,GSCOCG00016015001,chr1,36521608,36528135,CSC1-like protein At4g02900
+Chr1_R5,GSCOCG00016014001,chr1,36528721,36538532,Mediator of RNA polymerase II transcription subunit 33A
+Chr1_R5,GSCOCG00016013001,chr1,36539088,36542872,Exonuclease domain-containing protein
+Chr1_R5,GSCOCG00016012001,chr1,36542938,36544093,putative ovule protein
+Chr1_R5,GSCOCG00016010001,chr1,36547853,36550714,Sm-like protein LSM2
+Chr1_R5,GSCOCG00016009001,chr1,36552561,36558129,BTB/POZ and MATH domain-containing protein 2
+Chr1_R5,GSCOCG00016007001,chr1,36559919,36564023,putative AT4G02920.1
+Chr1_R5,GSCOCG00016006001,chr1,36564726,36570175,Elongation factor Tu
+Chr1_R5,GSCOCG00016005001,chr1,36570967,36575997,RING-type domain-containing protein
+Chr1_R5,GSCOCG00016004001,chr1,36576295,36577715,conserved hypothetical protein
+Chr1_R5,GSCOCG00016003001,chr1,36588093,36594718,RNA demethylase ALKBH10B
+Chr1_R5,GSCOCG00016002001,chr1,36594947,36597430,BSD domain-containing protein
+Chr1_R5,GSCOCG00016000001,chr1,36601891,36602703,Hexosyltransferase
+Chr1_R5,GSCOCG00015999001,chr1,36644526,36648029,Endo/exonuclease/phosphatase domain-containing protein
+Chr1_R5,GSCOCG00015998001,chr1,36653095,36659389,MFS domain-containing protein
+Chr1_R5,GSCOCG00015997001,chr1,36665251,36665882,conserved hypothetical protein
+Chr1_R5,GSCOCG00015996001,chr1,36665945,36669548,Protein kinase domain-containing protein
+Chr1_R5,GSCOCG00015995001,chr1,36673600,36677477,Protein kinase domain-containing protein
+Chr1_R5,GSCOCG00015994001,chr1,36683089,36685936,HPt domain-containing protein
+Chr1_R5,GSCOCG00015993001,chr1,36686077,36687265,conserved hypothetical protein
+Chr1_R5,GSCOCG00015991001,chr1,36692065,36693288,LRRNT_2 domain-containing protein
+Chr1_R5,GSCOCG00015990001,chr1,36693518,36694075,conserved hypothetical protein
+Chr1_R5,GSCOCG00015989001,chr1,36695789,36702374,WD_REPEATS_REGION domain-containing protein
+Chr1_R5,GSCOCG00015988001,chr1,36705259,36707824,Pentatricopeptide repeat-containing protein At2g30780
+Chr1_R5,GSCOCG00015985001,chr1,36713472,36716809,Abhydrolase_3 domain-containing protein
+Chr1_R5,GSCOCG00015984001,chr1,36734112,36735500,conserved hypothetical protein
+Chr1_R5,GSCOCG00015983001,chr1,36736280,36737228,Histone H2A
+Chr1_R5,GSCOCG00015982001,chr1,36738573,36739588,Histone H2AX
+Chr1_R5,GSCOCG00015981001,chr1,36741122,36744493,Aldo_ket_red domain-containing protein
+Chr1_R5,GSCOCG00015980001,chr1,36744704,36746940,Aldo_ket_red domain-containing protein
+Chr1_R5,GSCOCG00015978001,chr1,36749136,36757308,Serine/threonine-protein phosphatase
+Chr1_R5,GSCOCG00015977001,chr1,36757769,36759048,"Nucleic acid-binding, OB-fold-like protein"
+Chr1_R5,GSCOCG00015976001,chr1,36759415,36771931,Homeobox domain-containing protein
+Chr1_R5,GSCOCG00015975001,chr1,36787044,36788669,WD_REPEATS_REGION domain-containing protein
+Chr1_R5,GSCOCG00015973001,chr1,36793680,36805395,SCD domain-containing protein
+Chr1_R5,GSCOCG00015972001,chr1,36805643,36809805,MPN domain-containing protein
+Chr1_R5,GSCOCG00015971001,chr1,36813096,36817071,GTPase-activator protein OS=Handroanthus impetiginosus OX=429701 GN=CDL12
+Chr1_R5,GSCOCG00015970001,chr1,36817469,36818557,conserved hypothetical protein
+Chr1_R5,GSCOCG00015968001,chr1,36823828,36829788,RNA-binding protein BRN1
+Chr1_R5,GSCOCG00015967001,chr1,36835671,36839258,Mitochondrial substrate carrier family protein
+Chr1_R5,GSCOCG00015965001,chr1,36844621,36847712,U1 small nuclear ribonucleoprotein C
+Chr1_R5,GSCOCG00015964001,chr1,36847880,36851775,DCD domain-containing protein
+Chr1_R5,GSCOCG00015963001,chr1,36854099,36857951,BRCT domain-containing protein
+Chr1_R5,GSCOCG00015962001,chr1,36859568,36863547,putative Secoisolariciresinol dehydrogenase
+Chr1_R5,GSCOCG00015961001,chr1,36863622,36871714,"Bifunctional 3-dehydroquinate dehydratase/shikimate dehydrogenase, chloroplastic"
+Chr1_R5,GSCOCG00015960001,chr1,36877571,36880115,Flavin-containing monooxygenase
+Chr1_R5,GSCOCG00015959001,chr1,36881132,36883676,conserved hypothetical protein
+Chr2_R1,GSCOCG00039228001,chr2,5360637,5363399,60S acidic ribosomal protein P0
+Chr2_R1,GSCOCG00039229001,chr2,5374402,5376182,Nematode resistance protein-like HSPRO2
+Chr2_R1,GSCOCG00039230001,chr2,5384449,5388299,TPR_REGION domain-containing protein
+Chr2_R1,GSCOCG00039231001,chr2,5388434,5393610,Glyco_transf_64 domain-containing protein
+Chr2_R1,GSCOCG00039233001,chr2,5398658,5400687,plasma membrane intrinsic protein 1C
+Chr2_R1,GSCOCG00039234001,chr2,5402650,5406782,Eukaryotic translation initiation factor 3 subunit F
+Chr2_R1,GSCOCG00039236001,chr2,5412651,5413317,Homeobox domain-containing protein
+Chr2_R1,GSCOCG00039237001,chr2,5418066,5423315,MPN domain-containing protein
+Chr2_R1,GSCOCG00039238001,chr2,5423370,5425050,FAS1 domain-containing protein
+Chr2_R1,GSCOCG00039240001,chr2,5431740,5433155,HXXXD-type acyl-transferase family protein
+Chr2_R1,GSCOCG00039242001,chr2,5453010,5453957,C2 domain-containing protein
+Chr2_R1,GSCOCG00039243001,chr2,5455072,5463003,Peroxisomal nicotinamide adenine dinucleotide carrier
+Chr2_R1,GSCOCG00039244001,chr2,5463378,5464285,putative Signal peptidase complex subunit 2
+Chr2_R1,GSCOCG00039245001,chr2,5464407,5467892,putative signal peptidase complex subunit 2
+Chr2_R1,GSCOCG00039246001,chr2,5472983,5479094,AT2G39950.1
+Chr2_R1,GSCOCG00039247001,chr2,5495669,5501421,Coronatine-insensitive protein 1
+Chr2_R1,GSCOCG00039248001,chr2,5506610,5509645,Transcription factor DIVARICATA
+Chr2_R1,GSCOCG00039249001,chr2,5511174,5514837,Laccase
+Chr2_R1,GSCOCG00039252001,chr2,5518632,5521067,FBPase domain-containing protein
+Chr2_R1,GSCOCG00039253001,chr2,5524599,5528214,putative Acid phosphatase 1
+Chr2_R1,GSCOCG00039254001,chr2,5529794,5531005,Glycosyl hydrolase superfamily protein
+Chr2_R1,GSCOCG00039255001,chr2,5532421,5536469,ARM repeat superfamily protein
+Chr2_R1,GSCOCG00039256001,chr2,5537641,5541178,LIM domain-containing protein WLIM2b
+Chr2_R1,GSCOCG00039257001,chr2,5542265,5544648,Proliferating cell nuclear antigen
+Chr2_R1,GSCOCG00039258001,chr2,5545045,5549569,TPT domain-containing protein
+Chr2_R1,GSCOCG00039259001,chr2,5554692,5557057,60S ribosomal protein L35a-3
+Chr2_R1,GSCOCG00039260001,chr2,5559431,5562242,immediate early response 3-interacting protein 1-like
+Chr2_R1,GSCOCG00039261001,chr2,5562363,5567541,Aa
+Chr2_R1,GSCOCG00039262001,chr2,5573637,5574407,putative serine/threonine-protein phosphatase 6 regulatory subunit 3-like
+Chr2_R1,GSCOCG00039264001,chr2,5576392,5577438,Lectin_legB domain-containing protein
+Chr2_R1,GSCOCG00039267001,chr2,5585961,5588012,conserved hypothetical protein
+Chr2_R1,GSCOCG00039268001,chr2,5599944,5602848,transcription factor MYB122-like
+Chr2_R1,GSCOCG00009472001,chr2,5607466,5611432,RING-CH-type domain-containing protein
+Chr2_R1,GSCOCG00009473001,chr2,5616236,5619282,Protein of unknown function (DUF620)
+Chr2_R1,GSCOCG00009474001,chr2,5622059,5623096,SHSP domain-containing protein
+Chr2_R1,GSCOCG00009475001,chr2,5624037,5624519,SHSP domain-containing protein
+Chr2_R1,GSCOCG00009477001,chr2,5633022,5633495,SHSP domain-containing protein
+Chr2_R1,GSCOCG00009480001,chr2,5635828,5636310,18.1 kDa class I heat shock protein-like
+Chr2_R1,GSCOCG00009481001,chr2,5638205,5639778,Glycosyltransferase
+Chr2_R1,GSCOCG00009484001,chr2,5650437,5653772,Glycosyltransferase
+Chr2_R1,GSCOCG00009485001,chr2,5659010,5663566,putative 7-deoxyloganetic acid glucosyl transferase
+Chr2_R1,GSCOCG00009486001,chr2,5668901,5672223,putative AT2G39870.1
+Chr2_R1,GSCOCG00029975001,chr2,5683450,5692004,Guanylyl cyclase 1
+Chr2_R1,GSCOCG00029974001,chr2,5700073,5709541,PRONE domain-containing protein
+Chr2_R1,GSCOCG00029972001,chr2,5710799,5711858,AAI domain-containing protein
+Chr2_R1,GSCOCG00029971001,chr2,5712432,5715099,AT3G55646.1
+Chr2_R1,GSCOCG00029969001,chr2,5725235,5729603,Cucumisin
+Chr2_R1,GSCOCG00029968001,chr2,5732923,5734692,ras-related protein RABA2b-like
+Chr2_R1,GSCOCG00029967001,chr2,5735931,5738884,mitochondrial substrate carrier family protein B-like
+Chr2_R1,GSCOCG00029965001,chr2,5741502,5746594,LIM zinc-binding domain-containing protein
+Chr2_R1,GSCOCG00029963001,chr2,5765998,5768925,Serine/threonine-protein phosphatase PP1 isozyme 4
+Chr3_R1,GSCOCG00000043001,chr3,15685218,15694493,Protein ARV 2
+Chr3_R1,GSCOCG00000042001,chr3,15702290,15702709,putative GPI-anchored protein
+Chr3_R1,GSCOCG00000040001,chr3,15718477,15726671,S-adenosyl-L-methionine-dependent methyltransferase superfamily protein
+Chr3_R1,GSCOCG00000037001,chr3,15740678,15752839,Alkaline-phosphatase-like family protein
+Chr3_R1,GSCOCG00000035001,chr3,15813020,15826560,Purine permease 3
+Chr3_R1,GSCOCG00019332001,chr3,15865695,15870237,"50S ribosomal protein HLP, mitochondrial"
+Chr3_R1,GSCOCG00019333001,chr3,15894869,15897443,"Red chlorophyll catabolite reductase, chloroplastic"
+Chr3_R1,GSCOCG00019335001,chr3,15900302,15902535,G6PD_C domain-containing protein
+Chr3_R1,GSCOCG00019337001,chr3,15904951,15905127,conserved hypothetical protein
+Chr3_R1,GSCOCG00019338001,chr3,15928609,15934465,Glucose-6-phosphate 1-dehydrogenase
+Chr3_R1,GSCOCG00019339001,chr3,15936403,15937010,ABC transporter domain-containing protein
+Chr3_R1,GSCOCG00019340001,chr3,15976059,15976986,conserved hypothetical protein
+Chr3_R1,GSCOCG00019341001,chr3,15977396,15984732,conserved hypothetical protein
+Chr3_R1,GSCOCG00019342001,chr3,15985759,15993191,putative AT1G05950.1
+Chr3_R1,GSCOCG00019343001,chr3,16067657,16070025,"putative Beta-glucosidase-like SFR2, chloroplastic"
+Chr3_R1,GSCOCG00000043001,chr3,15685218,15694493,Protein ARV 2
+Chr3_R1,GSCOCG00000042001,chr3,15702290,15702709,putative GPI-anchored protein
+Chr3_R1,GSCOCG00000040001,chr3,15718477,15726671,S-adenosyl-L-methionine-dependent methyltransferase superfamily protein
+Chr3_R1,GSCOCG00000037001,chr3,15740678,15752839,Alkaline-phosphatase-like family protein
+Chr3_R1,GSCOCG00000035001,chr3,15813020,15826560,Purine permease 3
+Chr3_R1,GSCOCG00019332001,chr3,15865695,15870237,"50S ribosomal protein HLP, mitochondrial"
+Chr3_R1,GSCOCG00019333001,chr3,15894869,15897443,"Red chlorophyll catabolite reductase, chloroplastic"
+Chr3_R1,GSCOCG00019335001,chr3,15900302,15902535,G6PD_C domain-containing protein
+Chr3_R1,GSCOCG00019337001,chr3,15904951,15905127,conserved hypothetical protein
+Chr3_R1,GSCOCG00019338001,chr3,15928609,15934465,Glucose-6-phosphate 1-dehydrogenase
+Chr3_R1,GSCOCG00019339001,chr3,15936403,15937010,ABC transporter domain-containing protein
+Chr3_R1,GSCOCG00019340001,chr3,15976059,15976986,conserved hypothetical protein
+Chr3_R1,GSCOCG00019341001,chr3,15977396,15984732,conserved hypothetical protein
+Chr3_R1,GSCOCG00019342001,chr3,15985759,15993191,putative AT1G05950.1
+Chr3_R1,GSCOCG00019343001,chr3,16067657,16070025,"putative Beta-glucosidase-like SFR2, chloroplastic"
+Chr3_R2,GSCOCG00015311001,chr3,18496342,18498412,putative Histone-lysine N-methyltransferase
+Chr3_R2,GSCOCG00015310001,chr3,18505526,18508704,Histone-lysine N-methyltransferase
+Chr3_R2,GSCOCG00015309001,chr3,18518093,18520488,BED-type domain-containing protein
+Chr3_R2,GSCOCG00015308001,chr3,18559473,18562184,ABC transporter domain-containing protein
+Chr3_R2,GSCOCG00015306001,chr3,18569131,18573844,Aldolase_II domain-containing protein
+Chr3_R2,GSCOCG00015305001,chr3,18577272,18577472,putative protein RALF-like 22
+Chr3_R2,GSCOCG00015304001,chr3,18579824,18581284,Phytocyanin domain-containing protein
+Chr3_R2,GSCOCG00015302001,chr3,18681555,18681887,conserved hypothetical protein
+Chr3_R2,GSCOCG00015300001,chr3,18737942,18745422,RING-type domain-containing protein
+Chr3_R2,GSCOCG00015297001,chr3,18774546,18781868,Flowering time control protein fpa
+Chr4_R1,GSCOCG00022037001,chr4,2522892,2523800,OVATE domain-containing protein
+Chr4_R1,GSCOCG00022038001,chr4,2524079,2534732,Helicase ATP-binding domain-containing protein
+Chr4_R1,GSCOCG00022039001,chr4,2539489,2544884,Heat shock 70 kDa protein 15
+Chr4_R1,GSCOCG00022040001,chr4,2545454,2548949,Pentatricopeptide repeat-containing protein At3g16010
+Chr4_R1,GSCOCG00022041001,chr4,2549498,2551492,Myb-like domain-containing protein
+Chr4_R1,GSCOCG00022042001,chr4,2556320,2558395,FLZ-type domain-containing protein
+Chr4_R1,GSCOCG00022043001,chr4,2559235,2564305,MAR-binding filament-like protein 1-1
+Chr4_R1,GSCOCG00022044001,chr4,2565266,2568997,protein SYS1
+Chr4_R1,GSCOCG00022045001,chr4,2569817,2574799,STAS domain-containing protein
+Chr4_R1,GSCOCG00022046001,chr4,2582989,2594223,Coatomer subunit beta'
+Chr4_R1,GSCOCG00022047001,chr4,2594311,2595480,conserved hypothetical protein
+Chr4_R1,GSCOCG00022048001,chr4,2597523,2601466,RanBD1 domain-containing protein
+Chr4_R1,GSCOCG00022049001,chr4,2609478,2610299,putative Thionin-like protein 2
+Chr4_R1,GSCOCG00022050001,chr4,2616430,2624775,Btz domain-containing protein
+Chr4_R1,GSCOCG00022051001,chr4,2632303,2637408,Glycos_transf_1 domain-containing protein
+Chr4_R1,GSCOCG00022052001,chr4,2637623,2638693,F-box/kelch-repeat protein At1g80440
+Chr4_R1,GSCOCG00022053001,chr4,2644096,2650313,putative Centromere protein C
+Chr4_R1,GSCOCG00022054001,chr4,2651294,2656022,BRCT domain-containing protein
+Chr4_R1,GSCOCG00022055001,chr4,2656550,2669360,TPR_REGION domain-containing protein
+Chr4_R1,GSCOCG00022056001,chr4,2674095,2676837,Auxin-responsive protein
+Chr4_R1,GSCOCG00022057001,chr4,2681995,2684814,Auxin-responsive protein
+Chr4_R1,GSCOCG00022059001,chr4,2688414,2690400,putative protein CDI
+Chr4_R1,GSCOCG00022061001,chr4,2692796,2697067,"D-glycerate 3-kinase, chloroplastic"
+Chr4_R1,GSCOCG00022062001,chr4,2698068,2702822,Cyclin-A2-1
+Chr4_R1,GSCOCG00022063001,chr4,2707978,2713180,Aminotran_1_2 domain-containing protein
+Chr4_R1,GSCOCG00022064001,chr4,2714387,2719156,Katanin p60 ATPase-containing subunit A1
+Chr4_R1,GSCOCG00022065001,chr4,2723563,2724872,Fe2OG dioxygenase domain-containing protein
+Chr4_R1,GSCOCG00022066001,chr4,2726401,2727694,2-oxoglutarate (2OG) and Fe(II)-dependent oxygenase superfamily protein
+Chr4_R1,GSCOCG00022067001,chr4,2736426,2737890,Fe2OG dioxygenase domain-containing protein
+Chr4_R1,GSCOCG00022068001,chr4,2742092,2743612,Fe2OG dioxygenase domain-containing protein
+Chr4_R1,GSCOCG00022069001,chr4,2748632,2750455,Fe2OG dioxygenase domain-containing protein
+Chr4_R1,GSCOCG00022071001,chr4,2754667,2761703,Pleiotropic drug resistance protein 1
+Chr4_R1,GSCOCG00022073001,chr4,2783035,2790364,Pleiotropic drug resistance protein 1
+Chr4_R1,GSCOCG00022079001,chr4,2806966,2808408,Molybdate transporter 2
+Chr4_R1,GSCOCG00022081001,chr4,2812010,2815892,"PTHR33427:SF2 - GENOMIC DNA, CHROMOSOME 3, P1 CLONE:MQD17 (1 of 1)"
+Chr4_R1,GSCOCG00022083001,chr4,2816810,2818966,DYW_deaminase domain-containing protein
+Chr4_R1,GSCOCG00022084001,chr4,2819016,2820031,conserved hypothetical protein
+Chr4_R1,GSCOCG00022085001,chr4,2820181,2822630,NPH3 domain-containing protein
+Chr4_R1,GSCOCG00022087001,chr4,2823359,2827219,"ADP,ATP carrier protein"
+Chr4_R1,GSCOCG00022088001,chr4,2833989,2837220,V-type proton ATPase subunit c''2
+Chr4_R1,GSCOCG00022090001,chr4,2838601,2840131,Hydrolase_4 domain-containing protein
+Chr4_R1,GSCOCG00022092001,chr4,2855297,2860382,AB hydrolase-1 domain-containing protein
+Chr4_R1,GSCOCG00022094001,chr4,2862185,2864435,Histone H2A
+Chr4_R1,GSCOCG00022100001,chr4,2919096,2923125,putative F-box domain-containing protein
+Chr4_R2,GSCOCG00018885001,chr4,16126658,16127824,S10_plectin domain-containing protein
+Chr4_R2,GSCOCG00018886001,chr4,16240469,16245429,UDP-glycosyltransferase 83A1-like
+Chr4_R2,GSCOCG00018887001,chr4,16251306,16254190,conserved hypothetical protein
+Chr4_R2,GSCOCG00018889001,chr4,16348328,16349703,conserved hypothetical protein
+Chr4_R2,GSCOCG00018890001,chr4,16350466,16354857,AT5G07950.1
+Chr4_R2,GSCOCG00018891001,chr4,16358910,16369550,putative dentin sialophosphoprotein-related
+Chr5_R1,GSCOCG00016782001,chr5,22498881,22502405,C2H2-type domain-containing protein
+Chr5_R1,GSCOCG00016783001,chr5,22513502,22519988,putative AT5G44150.1
+Chr5_R1,GSCOCG00016784001,chr5,22522343,22523104,Glutaredoxin domain-containing protein
+Chr5_R1,GSCOCG00016786001,chr5,22530246,22535445,PHB domain-containing protein
+Chr5_R1,GSCOCG00016787001,chr5,22540166,22541196,FAS1 domain-containing protein
+Chr5_R1,GSCOCG00016788001,chr5,22543228,22548085,putative ovule protein
+Chr5_R1,GSCOCG00016789001,chr5,22549886,22551244,Tabersonine 16-O-methyltransferase
+Chr5_R1,GSCOCG00016790001,chr5,22555293,22556195,Flavin-containing monooxygenase
+Chr5_R1,GSCOCG00016791001,chr5,22558654,22560311,Trans-resveratrol di-O-methyltransferase
+Chr5_R1,GSCOCG00016792001,chr5,22561529,22562377,Flavin-containing monooxygenase
+Chr5_R1,GSCOCG00016793001,chr5,22639859,22641778,Trans-resveratrol di-O-methyltransferase
+Chr5_R1,GSCOCG00016794001,chr5,22644241,22648565,Optic atrophy 3 protein (OPA3)
+Chr5_R1,GSCOCG00016795001,chr5,22650181,22653450,putative disease resistance protein RGA3
+Chr5_R1,GSCOCG00016796001,chr5,22654711,22656761,putative Smr domain-containing protein
+Chr5_R1,GSCOCG00016797001,chr5,22657396,22663371,Acyl-coenzyme A oxidase
+Chr5_R1,GSCOCG00016799001,chr5,22671111,22673757,Ras-related protein RABA1f
+Chr5_R1,GSCOCG00016800001,chr5,22675358,22679831,EFG_C domain-containing protein
+Chr5_R1,GSCOCG00016801001,chr5,22679936,22688630,Tr-type G domain-containing protein
+Chr5_R1,GSCOCG00016803001,chr5,22693999,22696803,PRKCSH-like domain-containing protein
+Chr5_R1,GSCOCG00016804001,chr5,22698802,22700136,Pentatricopeptide repeat-containing protein At1g06270
+Chr5_R1,GSCOCG00016805001,chr5,22700988,22702405,Senescence-specific cysteine protease SAG12
+Chr5_R1,GSCOCG00016806001,chr5,22707627,22711257,BZIP domain-containing protein
+Chr5_R1,GSCOCG00016808001,chr5,22713917,22716380,conserved hypothetical protein
+Chr5_R1,GSCOCG00016809001,chr5,22716688,22717987,putative AT3G58110.2
+Chr5_R1,GSCOCG00016811001,chr5,22723598,22724254,putative PMEI domain-containing protein OS=Handroanthus impetiginosus OX=429701 GN=CDL12
+Chr5_R1,GSCOCG00016812001,chr5,22729494,22731551,X8 domain-containing protein
+Chr5_R1,GSCOCG00016813001,chr5,22735110,22735883,RING-type domain-containing protein
+Chr5_R1,GSCOCG00016815001,chr5,22753072,22755512,TCP domain-containing protein
+Chr5_R1,GSCOCG00016816001,chr5,22773276,22775743,Pentatricopeptide repeat-containing protein At3g58590
+Chr5_R1,GSCOCG00016818001,chr5,22823781,22827097,Transcription factor gte4
+Chr5_R1,GSCOCG00016820001,chr5,22829922,22833227,Protein of unknown function DUF455
+Chr5_R1,GSCOCG00016821001,chr5,22833533,22834399,Signaling peptide TAXIMIN 1
+Chr5_R1,GSCOCG00016822001,chr5,22834476,22836162,putative Late embryogenesis abundant protein At3g53040
+Chr5_R1,GSCOCG00016823001,chr5,22837308,22843014,PMR5N domain-containing protein
+Chr5_R1,GSCOCG00016824001,chr5,22849095,22853124,putative AT2G31130.1
+Chr5_R1,GSCOCG00016826001,chr5,22855720,22860477,DUF1681 domain-containing protein
+Chr5_R1,GSCOCG00016827001,chr5,22861349,22862147,conserved hypothetical protein
+Chr5_R1,GSCOCG00016828001,chr5,22862215,22864682,Methyltransf_11 domain-containing protein
+Chr5_R1,GSCOCG00016829001,chr5,22866806,22870079,putative disease resistance protein RGA3
+Chr5_R1,GSCOCG00016832001,chr5,22880446,22880893,conserved hypothetical protein
+Chr5_R1,GSCOCG00016833001,chr5,22880961,22883455,Methyltransf_11 domain-containing protein
+Chr5_R1,GSCOCG00016835001,chr5,22884410,22888404,putative disease resistance protein RGA3
+Chr5_R1,GSCOCG00016837001,chr5,22894078,22895895,ABC transporter domain-containing protein
+Chr5_R1,GSCOCG00016839001,chr5,22898405,22900115,BHLH domain-containing protein
+Chr5_R2,GSCOCG00038623001,chr5,28676303,28682330,"DNA repair protein recA, chloroplastic"
+Chr5_R2,GSCOCG00038622001,chr5,28682559,28684712,conserved hypothetical protein
+Chr5_R2,GSCOCG00038621001,chr5,28687828,28691965,NAC domain-containing protein
+Chr5_R2,GSCOCG00038620001,chr5,28699096,28705577,Methyltranfer_dom domain-containing protein
+Chr5_R2,GSCOCG00038619001,chr5,28712649,28714644,AT1G79060.1
+Chr5_R2,GSCOCG00038617001,chr5,28722054,28725371,"Pentatricopeptide repeat-containing protein At1g79080, chloroplastic"
+Chr5_R2,GSCOCG00038616001,chr5,28725706,28732746,Transducin/WD40 repeat-like superfamily protein
+Chr5_R2,GSCOCG00038615001,chr5,28734930,28740947,BTB domain-containing protein
+Chr5_R2,GSCOCG00038614001,chr5,28741028,28747511,Protein PAT1
+Chr5_R2,GSCOCG00038613001,chr5,28753324,28762259,Peptidyl-prolyl cis-trans isomerase
+Chr5_R2,GSCOCG00038612001,chr5,28762863,28768015,Obg-like ATPase 1
+Chr5_R2,GSCOCG00038610001,chr5,28772058,28777223,Protein NARROW LEAF 1
+Chr5_R2,GSCOCG00038609001,chr5,28777629,28782179,RRM domain-containing protein
+Chr5_R2,GSCOCG00038608001,chr5,28782736,28787161,2-oxoglutarate (2OG) and Fe(II)-dependent oxygenase superfamily protein
+Chr5_R2,GSCOCG00038607001,chr5,28787327,28790405,"putative protein Iojap, chloroplastic"
+Chr5_R2,GSCOCG00038606001,chr5,28793521,28798172,"Porphobilinogen deaminase, chloroplastic"
+Chr5_R2,GSCOCG00038605001,chr5,28802567,28804243,RING-type domain-containing protein
+Chr5_R2,GSCOCG00038604001,chr5,28806537,28808045,Protein kinase domain-containing protein
+Chr5_R2,GSCOCG00038603001,chr5,28811706,28812633,conserved hypothetical protein
+Chr5_R2,GSCOCG00038602001,chr5,28812712,28815588,PORR domain-containing protein
+Chr5_R2,GSCOCG00038601001,chr5,28815675,28818253,HORMA domain-containing protein
+Chr5_R2,GSCOCG00038600001,chr5,28818424,28822010,KRR1 small subunit processome component
+Chr5_R2,GSCOCG00038599001,chr5,28822152,28823111,Os02g0519900 protein
+Chr5_R2,GSCOCG00038598001,chr5,28823163,28825068,Tr-type G domain-containing protein
+Chr5_R2,GSCOCG00038597001,chr5,28827231,28831612,Post-GPI attachment to proteins factor 3
+Chr5_R2,GSCOCG00038595001,chr5,28838561,28840730,NAC domain-containing protein
+Chr5_R2,GSCOCG00038593001,chr5,28848933,28860144,Molybdenum cofactor sulfurase
+Chr5_R2,GSCOCG00038591001,chr5,28868602,28868952,putative LOB domain-containing protein
+Chr5_R2,GSCOCG00038590001,chr5,28873414,28875387,CCT domain-containing protein
+Chr5_R2,GSCOCG00038588001,chr5,28879103,28882249,AT1G16520.1
+Chr5_R2,GSCOCG00038587001,chr5,28883047,28886643,TPR_REGION domain-containing protein
+Chr5_R2,GSCOCG00038585001,chr5,28898430,28898855,Auxin-responsive protein SAUR72
+Chr5_R2,GSCOCG00038584001,chr5,28903856,28911820,binding
+Chr5_R2,GSCOCG00038583001,chr5,28921243,28924429,PTHR33177:SF6 - F3O9.30 (1 of 2)
+Chr5_R2,GSCOCG00038582001,chr5,28932797,28936433,Ubiquitin-NEDD8-like protein RUB1
+Chr5_R2,GSCOCG00038580001,chr5,28940998,28943878,Transcription factor MYB63
+Chr5_R2,GSCOCG00038578001,chr5,28945553,28955539,ARM repeat superfamily protein
+Chr5_R2,GSCOCG00038577001,chr5,28964314,28970315,Sulfurtransferase
+Chr5_R2,GSCOCG00038576001,chr5,28970619,28972694,Phosphatidylinositol transfer protein SEC14 OS=Handroanthus impetiginosus OX=429701 GN=CDL12
+Chr5_R2,GSCOCG00038575001,chr5,28972986,28974887,putative S-adenosyl-L-methionine-dependent methyltransferase superfamily protein
+Chr5_R2,GSCOCG00038574001,chr5,28974985,28975796,conserved hypothetical protein
+Chr5_R2,GSCOCG00038573001,chr5,28975879,28979943,Phosphoglycerate kinase
+Chr5_R2,GSCOCG00038572001,chr5,28980272,28988483,Phosphoglycerate kinase
+Chr5_R2,GSCOCG00038571001,chr5,28990291,28993825,Phosphoglycerate kinase family protein
+Chr5_R2,GSCOCG00038570001,chr5,28995947,28999610,AT1G56180.1
+Chr5_R2,GSCOCG00038568001,chr5,29002054,29015295,MIF4G domain-containing protein
+Chr5_R2,GSCOCG00038566001,chr5,29016629,29017912,Aa
+Chr5_R2,GSCOCG00038564001,chr5,29018947,29019414,Ribosomal protein L11
+Chr5_R2,GSCOCG00038563001,chr5,29019601,29022212,conserved hypothetical protein
+Chr5_R2,GSCOCG00038562001,chr5,29022408,29026377,"Peroxisomal 2,4-dienoyl-CoA reductase"
+Chr5_R2,GSCOCG00038561001,chr5,29026507,29030730,DEAD-box ATP-dependent RNA helicase 36
+Chr5_R2,GSCOCG00038559001,chr5,29032099,29039574,Protein kinase domain-containing protein
+Chr5_R2,GSCOCG00038557001,chr5,29041160,29046933,PF01464 - Transglycosylase SLT domain (SLT)  (1 of 1)
+Chr5_R2,GSCOCG00038556001,chr5,29047023,29049421,putative PF01464 - Transglycosylase SLT domain (SLT)  (1 of 1)
+Chr5_R2,GSCOCG00038554001,chr5,29050422,29055057,Glyceraldehyde-3-phosphate dehydrogenase
+Chr5_R2,GSCOCG00038552001,chr5,29056052,29062053,Defective in cullin neddylation protein
+Chr5_R2,GSCOCG00038551001,chr5,29063835,29068063,ZT
+Chr5_R2,GSCOCG00038549001,chr5,29071301,29073254,Uncharacterized conserved protein (DUF2358)
+Chr5_R2,GSCOCG00038548001,chr5,29073520,29080050,Cyclin-B3-1 like
+Chr5_R2,GSCOCG00038547001,chr5,29081609,29083737,X8 domain-containing protein
+Chr5_R2,GSCOCG00038546001,chr5,29085348,29090867,PUA domain-containing protein
+Chr6_R1,GSCOCG00023165001,chr6,4237,8743,Hexosyltransferase
+Chr6_R1,GSCOCG00023166001,chr6,8877,13046,putative galacturonosyltransferase 7
+Chr6_R1,GSCOCG00023167001,chr6,14719,24529,GOLD domain-containing protein
+Chr6_R1,GSCOCG00023168001,chr6,35634,46365,Ethanolamine-phosphate cytidylyltransferase
+Chr6_R1,GSCOCG00023169001,chr6,46671,48017,putative protein LURP-one-related 5
+Chr6_R1,GSCOCG00023170001,chr6,53237,60156,MLO-like protein
+Chr6_R1,GSCOCG00023171001,chr6,60305,65691,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023174001,chr6,71721,72239,conserved hypothetical protein
+Chr6_R1,GSCOCG00023175001,chr6,72314,72721,Response regulatory domain-containing protein
+Chr6_R1,GSCOCG00023176001,chr6,72779,73328,conserved hypothetical protein
+Chr6_R1,GSCOCG00023178001,chr6,78180,79312,LEA_2 domain-containing protein
+Chr6_R1,GSCOCG00023179001,chr6,79767,81491,conserved hypothetical protein
+Chr6_R1,GSCOCG00023180001,chr6,81954,83692,putative WEB family protein At5g55860
+Chr6_R1,GSCOCG00023181001,chr6,84931,85830,Calcium-binding protein CAST
+Chr6_R1,GSCOCG00023182001,chr6,86737,94263,Protein PIN-LIKES 6
+Chr6_R1,GSCOCG00023184001,chr6,110753,112628,Bromo domain-containing protein
+Chr6_R1,GSCOCG00023186001,chr6,116506,119892,AT5G01970.1
+Chr6_R1,GSCOCG00023187001,chr6,121841,129731,RING-type domain-containing protein
+Chr6_R1,GSCOCG00023188001,chr6,130507,133568,Protein of unknown function (DUF1191)
+Chr6_R1,GSCOCG00023191001,chr6,135328,135914,Nadh dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 1 OS=Nicotiana attenuata OX=49451 GN=A4A49
+Chr6_R1,GSCOCG00023192001,chr6,142771,147481,KH domain-containing protein
+Chr6_R1,GSCOCG00023193001,chr6,149893,152171,"protein RETICULATA-RELATED 3, chloroplastic-like"
+Chr6_R1,GSCOCG00023194001,chr6,152241,165148,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023196001,chr6,173658,177643,N-acetyltransferase domain-containing protein
+Chr6_R1,GSCOCG00023197001,chr6,182092,186979,AT3G08670.1
+Chr6_R1,GSCOCG00023198001,chr6,188251,190959,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023199001,chr6,191132,197895,putative Mitochondrial ATP synthase D chain-related protein
+Chr6_R1,GSCOCG00023200001,chr6,200923,204774,Thioredoxin
+Chr6_R1,GSCOCG00023201001,chr6,204952,208870,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023203001,chr6,210242,213988,conserved hypothetical protein
+Chr6_R1,GSCOCG00023205001,chr6,216338,220270,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023206001,chr6,221206,223765,Cellulase domain-containing protein
+Chr6_R1,GSCOCG00023207001,chr6,223848,225410,conserved hypothetical protein
+Chr6_R1,GSCOCG00023208001,chr6,237095,238012,conserved hypothetical protein
+Chr6_R1,GSCOCG00023209001,chr6,238399,240579,PhoLip_ATPase_N domain-containing protein
+Chr6_R1,GSCOCG00023210001,chr6,240789,248529,Phospholipid-transporting ATPase
+Chr6_R1,GSCOCG00023212001,chr6,249224,250841,"Protein of unknown function, DUF599"
+Chr6_R1,GSCOCG00023213001,chr6,255079,261640,EGF_CA domain-containing protein
+Chr6_R1,GSCOCG00023214001,chr6,261981,266052,"putative protein FATTY ACID EXPORT 3, chloroplastic"
+Chr6_R1,GSCOCG00023216001,chr6,269144,273680,elongation factor P (EF-P) family protein
+Chr6_R1,GSCOCG00023217001,chr6,275251,283413,B3 domain-containing protein Os07g0679700
+Chr6_R1,GSCOCG00023218001,chr6,284011,288150,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023219001,chr6,295913,297218,conserved hypothetical protein
+Chr6_R1,GSCOCG00023220001,chr6,297756,303312,MACPF domain-containing protein
+Chr6_R1,GSCOCG00023222001,chr6,304999,309179,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023224001,chr6,319090,320397,Protein DETOXIFICATION 53
+Chr6_R1,GSCOCG00023226001,chr6,327987,333604,AT3G51610.1
+Chr6_R1,GSCOCG00023227001,chr6,339787,347226,PAP/OAS1 substrate-binding domain superfamily
+Chr6_R1,GSCOCG00023228001,chr6,360525,364732,Protein kinase domain-containing protein
+Chr6_R1,GSCOCG00023229001,chr6,372332,373711,OVATE domain-containing protein
+Chr6_R1,GSCOCG00023230001,chr6,378821,381112,RING-type E3 ubiquitin transferase
+Chr6_R2,GSCOCG00041321001,chr6,11675168,11678731,ANK_REP_REGION domain-containing protein
+Chr6_R2,GSCOCG00041319001,chr6,11682269,11690318,E3 ubiquitin-protein ligase XBAT32
+Chr6_R2,GSCOCG00041317001,chr6,11696277,11706262,PIN domain-like family protein
+Chr6_R2,GSCOCG00041313001,chr6,11712758,11716556,N-acetyltransferase domain-containing protein
+Chr6_R2,GSCOCG00041312001,chr6,11717852,11723496,Mannosyltransferase
+Chr6_R2,GSCOCG00041311001,chr6,11724799,11728233,Plant protein of unknown function (DUF828) with plant pleckstrin homology-like region
+Chr6_R2,GSCOCG00041310001,chr6,11749990,11755016,Aa
+Chr6_R2,GSCOCG00041308001,chr6,11854425,11854866,putative protein of unknown function (DUF1399)
+Chr6_R2,GSCOCG00041307001,chr6,11857713,11858340,Aa
+Chr6_R2,GSCOCG00041306001,chr6,11868286,11869325,putative Transcription factor IBH1-like 1
+Chr6_R2,GSCOCG00041304001,chr6,11881857,11885445,putative AT5G57790.2
+Chr6_R2,GSCOCG00041303001,chr6,11886522,11892151,Very-long-chain aldehyde decarbonylase CER3
+Chr6_R2,GSCOCG00041302001,chr6,11906995,11910021,WAT1-related protein
+Chr6_R2,GSCOCG00041301001,chr6,11911500,11913755,putative WAT1-related protein At4g30420
+Chr6_R2,GSCOCG00041300001,chr6,11915520,11918979,putative Tetraspanin-8
+Chr6_R2,GSCOCG00041299001,chr6,11922155,11927106,Cytochrome c oxidase subunit
+Chr6_R2,GSCOCG00041298001,chr6,11928949,11930441,putative Tetraspanin-15
+Chr6_R2,GSCOCG00041297001,chr6,11931125,11934900,Protein FLX-like
+Chr6_R2,GSCOCG00041294001,chr6,11949021,11949788,glycine-rich protein
+Chr6_R2,GSCOCG00041293001,chr6,11952023,11952943,cell wall protein IFF6-like
+Chr6_R2,GSCOCG00041292001,chr6,11987664,11993468,HD_domain domain-containing protein
+Chr6_R2,GSCOCG00041290001,chr6,12025493,12031228,HD_domain domain-containing protein
+Chr6_R3,GSCOCG00034091001,chr6,27712302,27713345,"putative Ferric reduction oxidase 7, chloroplastic"
+Chr6_R3,GSCOCG00034090001,chr6,27823030,27825162,HMA domain-containing protein
+Chr6_R3,GSCOCG00034089001,chr6,27826772,27834981,Protein PLANT CADMIUM RESISTANCE 10
+Chr6_R3,GSCOCG00034088001,chr6,27836166,27838115,PF03745 - Domain of unknown function (DUF309) (DUF309)  (1 of 1)
+Chr6_R3,GSCOCG00034084001,chr6,27900387,27902287,YjeF N-terminal domain-containing protein
+Chr6_R3,GSCOCG00034082001,chr6,27919669,27920982,DNA-directed RNA polymerase subunit
+Chr6_R3,GSCOCG00034079001,chr6,27927676,27928835,NB-ARC domain-containing protein
+Chr6_R3,GSCOCG00034078001,chr6,27981466,27984647,"putative K14774 - U3 small nucleolar RNA-associated protein 25 (UTP25, DEF)  (1 of 1)"
+Chr6_R3,GSCOCG00034077001,chr6,27986383,28010043,"putative K14774 - U3 small nucleolar RNA-associated protein 25 (UTP25, DEF)  (1 of 1)"
+Chr6_R4,GSCOCG00003214001,chr6,30063846,30077367,RT_RNaseH domain-containing protein
+Chr6_R4,GSCOCG00003215001,chr6,30238195,30239717,Q
+Chr6_R4,GSCOCG00003216001,chr6,30269899,30286419,transcription regulator NOT2/NOT3/NOT5 family protein
+Chr6_R4,GSCOCG00008008001,chr6,30378098,30388092,AAA domain-containing protein
+Chr6_R5,GSCOCG00001549001,chr6,31249792,31253905,Trigger_N domain-containing protein
+Chr6_R5,GSCOCG00001548001,chr6,31255048,31263837,Trigger_N domain-containing protein
+Chr6_R5,GSCOCG00001547001,chr6,31287108,31292743,DEAD-box ATP-dependent RNA helicase 10
+Chr6_R5,GSCOCG00001546001,chr6,31293668,31297677,AB hydrolase-1 domain-containing protein
+Chr6_R5,GSCOCG00001545001,chr6,31298755,31303019,"putative Zinc finger protein VAR3, chloroplastic"
+Chr6_R5,GSCOCG00001543001,chr6,31380000,31386169,AA_permease_C domain-containing protein
+Chr6_R5,GSCOCG00001539001,chr6,31391416,31397682,AT3G15395.1
+Chr6_R6,GSCOCG00040615001,chr6,36090088,36091533,Sod_Cu domain-containing protein
+Chr6_R6,GSCOCG00040612001,chr6,36104961,36106003,conserved hypothetical protein
+Chr6_R6,GSCOCG00040611001,chr6,36108507,36111874,putative disease resistance protein At1g50180
+Chr6_R6,GSCOCG00040610001,chr6,36123506,36126693,Superoxide dismutase [Cu-Zn]
+Chr6_R6,GSCOCG00040609001,chr6,36144822,36148509,Tubulin alpha-5 chain
+Chr6_R6,GSCOCG00040608001,chr6,36149171,36150094,AP2/ERF domain-containing protein
+Chr6_R6,GSCOCG00040607001,chr6,36154907,36157571,Ribosomal_S7 domain-containing protein
+Chr6_R6,GSCOCG00040605001,chr6,36165716,36167307,40S ribosomal protein S28-2
+Chr6_R6,GSCOCG00040604001,chr6,36168669,36174216,"Homogentisate solanesyltransferase, chloroplastic"
+Chr6_R6,GSCOCG00040603001,chr6,36175329,36179348,IQ domain-containing protein IQM6
+Chr6_R6,GSCOCG00040600001,chr6,36208951,36209953,AB hydrolase-1 domain-containing protein
+Chr6_R6,GSCOCG00040598001,chr6,36210325,36239430,rRNA biogenesis protein RRP5
+Chr6_R6,GSCOCG00040597001,chr6,36251375,36266635,conserved hypothetical protein
+Chr6_R6,GSCOCG00040595001,chr6,36290638,36292141,F-box domain-containing protein
+Chr6_R6,GSCOCG00040594001,chr6,36305569,36306840,"Photosystem II 5 kDa protein, chloroplastic"
+Chr6_R6,GSCOCG00040593001,chr6,36319053,36320670,putative protein of unknown function (DUF620)
+Chr6_R6,GSCOCG00040592001,chr6,36320815,36322037,putative protein of unknown function (DUF620)
+Chr6_R6,GSCOCG00040591001,chr6,36322111,36323255,Germin-like protein
+Chr6_R6,GSCOCG00040590001,chr6,36325035,36328880,SET domain-containing protein
+Chr6_R6,GSCOCG00040587001,chr6,36331432,36332681,Fatty acyl-CoA reductase
+Chr6_R6,GSCOCG00040586001,chr6,36332744,36334344,Fatty acyl-CoA reductase
+Chr6_R6,GSCOCG00040585001,chr6,36336440,36341546,acidPPc domain-containing protein
+Chr6_R6,GSCOCG00040584001,chr6,36359672,36369881,Structural maintenance of chromosomes protein
+Chr6_R6,GSCOCG00040583001,chr6,36372305,36378292,DEAD-box ATP-dependent RNA helicase 37
+Chr6_R6,GSCOCG00040581001,chr6,36420543,36421323,putative 60S ribosomal protein L39-3
+Chr6_R6,GSCOCG00040580001,chr6,36424712,36433520,Cation_ATPase_N domain-containing protein
+Chr6_R6,GSCOCG00040579001,chr6,36443814,36449800,WD_REPEATS_REGION domain-containing protein
+Chr6_R6,GSCOCG00040577001,chr6,36450515,36455114,DAO domain-containing protein
+Chr6_R6,GSCOCG00040576001,chr6,36458748,36461587,Plasma membrane ATPase
+Chr6_R6,GSCOCG00040572001,chr6,36483054,36487237,WD_REPEATS_REGION domain-containing protein
+Chr6_R6,GSCOCG00040571001,chr6,36487438,36491902,DAO domain-containing protein
+Chr6_R6,GSCOCG00040570001,chr6,36494682,36501748,DNA helicase
+Chr7_R1,GSCOCG00036945001,chr7,8767474,8773362,putative PTHR21726//PTHR21726:SF37 - PHOSPHATIDYLINOSITOL N-ACETYLGLUCOSAMINYLTRANSFERASE SUBUNIT P  DOWN SYNDROME CRITICAL REGION PROTEIN 5 -RELATED // SUBFAMILY NOT NAMED (1 of 1)
+Chr7_R1,GSCOCG00036944001,chr7,8779630,8783449,Homeobox domain-containing protein
+Chr7_R1,GSCOCG00036943001,chr7,8783978,8786281,phosphatidylinositolglycan-related
+Chr7_R1,GSCOCG00036942001,chr7,8786802,8796315,putative DNA mismatch repair protein MLH3
+Chr7_R1,GSCOCG00036941001,chr7,8800372,8802621,putative AT4G35510.1
+Chr7_R1,GSCOCG00036940001,chr7,8806331,8810492,Protein kinase domain-containing protein
+Chr7_R1,GSCOCG00036939001,chr7,8815723,8825934,epidermal growth factor receptor substrate 15-like
+Chr7_R1,GSCOCG00036937001,chr7,8826713,8829484,"Pentatricopeptide repeat-containing protein At2g17525, mitochondrial"
+Chr7_R1,GSCOCG00036936001,chr7,8829876,8833617,PPM-type phosphatase domain-containing protein
+Chr7_R1,GSCOCG00036935001,chr7,8836134,8837093,conserved hypothetical protein
+Chr7_R1,GSCOCG00036934001,chr7,8837169,8841376,Glutamate receptor
+Chr7_R1,GSCOCG00036933001,chr7,8841747,8848652,Serine/threonine-protein kinase/endoribonuclease IRE1a
+Chr7_R1,GSCOCG00036932001,chr7,8850331,8862874,Exosome complex exonuclease RRP44
+Chr7_R1,GSCOCG00036931001,chr7,8864617,8870139,Vacuolar protein sorting-associated protein 11
+Chr7_R1,GSCOCG00036930001,chr7,8870229,8874618,Protein PIN-LIKES 5
+Chr7_R1,GSCOCG00036929001,chr7,8880946,8885122,putative AT5G16660.2
+Chr7_R1,GSCOCG00036928001,chr7,8887003,8890488,MLO-like protein
+Chr7_R1,GSCOCG00036926001,chr7,8894835,8895500,RING-type domain-containing protein
+Chr7_R1,GSCOCG00036925001,chr7,8895618,8896040,conserved hypothetical protein
+Chr7_R1,GSCOCG00036924001,chr7,8901351,8904866,GTP binding
+Chr7_R1,GSCOCG00036923001,chr7,8906581,8911682,MFS domain-containing protein
+Chr7_R1,GSCOCG00036922001,chr7,8916378,8917443,putative Transcription factor MYBS1
+Chr7_R1,GSCOCG00036921001,chr7,8922281,8924054,conserved hypothetical protein
+Chr7_R1,GSCOCG00036919001,chr7,8926701,8930479,"Mitochondrial phosphate carrier protein 1, mitochondrial"
+Chr7_R1,GSCOCG00036918001,chr7,8931164,8934063,Eukaryotic translation initiation factor 6-2
+Chr7_R1,GSCOCG00036917001,chr7,8935449,8936567,conserved hypothetical protein
+Chr7_R1,GSCOCG00036916001,chr7,8937882,8940201,Eukaryotic translation initiation factor 6-2
+Chr7_R1,GSCOCG00036915001,chr7,8950601,8954054,Plant intracellular Ras-group-related LRR protein 4
+Chr7_R1,GSCOCG00036914001,chr7,8960996,8961307,conserved hypothetical protein
+Chr7_R1,GSCOCG00036913001,chr7,8961359,8968481,RNA polymerase I specific transcription initiation factor RRN3 protein
+Chr7_R1,GSCOCG00036912001,chr7,8969003,8983313,CW-type domain-containing protein
+Chr7_R1,GSCOCG00036911001,chr7,8985645,8989357,WD_REPEATS_REGION domain-containing protein
+Chr7_R1,GSCOCG00036910001,chr7,8989416,8997697,Foie-gras_1 domain-containing protein
+Chr7_R1,GSCOCG00036908001,chr7,8999338,9005682,RRM domain-containing protein
+Chr7_R1,GSCOCG00036907001,chr7,9027732,9031333,3-hydroxy-3-methylglutaryl coenzyme A reductase
+Chr7_R1,GSCOCG00036904001,chr7,9038407,9041063,Thioredoxin reductase
+Chr7_R1,GSCOCG00036903001,chr7,9043863,9044900,conserved hypothetical protein
+Chr7_R1,GSCOCG00036901001,chr7,9052637,9053570,Acyl carrier protein
+Chr7_R1,GSCOCG00036899001,chr7,9056589,9061762,Serine/threonine-protein phosphatase
+Chr7_R1,GSCOCG00036898001,chr7,9062044,9068984,Protein PIN-LIKES 3
+Chr7_R1,GSCOCG00036897001,chr7,9074273,9079711,Protein PIN-LIKES 1
+Chr7_R1,GSCOCG00036895001,chr7,9082526,9086763,Protein PIN-LIKES 1
+Chr7_R1,GSCOCG00036893001,chr7,9088162,9092518,Protein PIN-LIKES 1
+Chr7_R1,GSCOCG00036890001,chr7,9097858,9101439,Diacylglycerol O-acyltransferase 2D
+Chr7_R1,GSCOCG00036889001,chr7,9104515,9113049,putative Diacylglycerol O-acyltransferase 2D
+Chr7_R1,GSCOCG00036888001,chr7,9113151,9116065,AT3G51510.1
+Chr7_R1,GSCOCG00036887001,chr7,9122958,9127890,subtilisin-like protease SBT3.9
+Chr7_R1,GSCOCG00036885001,chr7,9131713,9133887,HXXXD-type acyl-transferase family protein
+Chr7_R1,GSCOCG00036884001,chr7,9148686,9152320,Protein kinase domain-containing protein
+Chr7_R1,GSCOCG00036882001,chr7,9153142,9155522,DUF1990 domain-containing protein
+Chr7_R1,GSCOCG00036880001,chr7,9157231,9169550,Kinesin-like protein KIN-14E
+Chr7_R1,GSCOCG00036879001,chr7,9174038,9176104,HEM4 domain-containing protein
+Chr7_R1,GSCOCG00036878001,chr7,9176239,9180480,Tafazzin family protein
+Chr7_R2,GSCOCG00018647001,chr7,17175798,17177720,"putative pentatricopeptide repeat-containing protein At1g12700, mitochondrial"
+Chr7_R2,GSCOCG00018646001,chr7,17180596,17192556,Protein kinase domain-containing protein
+Chr7_R2,GSCOCG00018645001,chr7,17198633,17198884,putative Abhydrolase_3 domain-containing protein
+Chr7_R2,GSCOCG00018644001,chr7,17200445,17207327,Signal recognition particle 19 kDa protein
+Chr7_R2,GSCOCG00018643001,chr7,17209991,17213583,conserved hypothetical protein
+Chr7_R2,GSCOCG00018642001,chr7,17220514,17220844,putative ATP-dependent DNA helicase Q-like 4B
+Chr7_R2,GSCOCG00018641001,chr7,17239851,17241732,Protein kinase domain-containing protein
+Chr7_R2,GSCOCG00018640001,chr7,17245199,17246719,conserved hypothetical protein
+Chr7_R2,GSCOCG00018639001,chr7,17267371,17267496,HTH myb-type domain-containing protein
+Chr7_R2,GSCOCG00018638001,chr7,17267637,17268398,putative transmembrane protein 53-like
+Chr7_R2,GSCOCG00018636001,chr7,17277220,17285058,Protein kinase domain-containing protein
+Chr7_R2,GSCOCG00018635001,chr7,17295813,17301586,K13173 - arginine and glutamate-rich protein 1 (ARGLU1)  (1 of 2)
+Chr7_R2,GSCOCG00018633001,chr7,17302818,17312897,KOG4538 - putative coiled-coil protein (1 of 1)
+Chr7_R2,GSCOCG00018631001,chr7,17359065,17363999,WD_REPEATS_REGION domain-containing protein
+Chr7_R2,GSCOCG00018629001,chr7,17364388,17367276,WD_REPEATS_REGION domain-containing protein
+Chr7_R2,GSCOCG00018628001,chr7,17368090,17369265,Kin17_mid domain-containing protein
+Chr7_R2,GSCOCG00018625001,chr7,17374152,17375489,Peptidase A1 domain-containing protein
+Chr7_R2,GSCOCG00018623001,chr7,17476795,17477103,Auxin-responsive protein
+Chr7_R2,GSCOCG00018620001,chr7,17482970,17492580,S-M checkpoint control protein CID1 OS=Handroanthus impetiginosus OX=429701 GN=CDL12
+Chr9_R1,GSCOCG00023115001,chr9,16101632,16120206,starch synthase 4
+Chr9_R1,GSCOCG00023114001,chr9,16121907,16208413,Ldh_1_N domain-containing protein
+Chr9_R1,GSCOCG00023113001,chr9,16228800,16229519,putative 60S ribosomal protein L4
+Chr9_R1,GSCOCG00023111001,chr9,16230067,16231806,conserved hypothetical protein
+Chr9_R1,GSCOCG00023109001,chr9,16254844,16256758,Purine permease 21
+Chr9_R1,GSCOCG00023108001,chr9,16315298,16317604,Drug/metabolite transporter superfamily protein
+Chr9_R1,GSCOCG00023107001,chr9,16324661,16325502,conserved hypothetical protein
+Chr9_R1,GSCOCG00023097001,chr9,16415885,16420770,Brix domain-containing protein
+Chr9_R1,GSCOCG00023096001,chr9,16422683,16425700,RING-type domain-containing protein
+Chr9_R1,GSCOCG00023095001,chr9,16425823,16427937,conserved hypothetical protein
+Chr9_R1,GSCOCG00023092001,chr9,16503834,16508323,TOG domain-containing protein
+Chr9_R1,GSCOCG00023091001,chr9,16512407,16513712,Protein kinase domain-containing protein
+Chr10_R1,GSCOCG00024545001,chr10,698986,701751,Aa
+Chr10_R1,GSCOCG00024546001,chr10,701962,704408,AT1G76185.1
+Chr10_R1,GSCOCG00024547001,chr10,710672,712078,Dehydrin
+Chr10_R1,GSCOCG00024548001,chr10,715466,726676,Ubiquitin-like domain-containing protein
+Chr10_R1,GSCOCG00024549001,chr10,727843,733567,Cytoplasmic tRNA 2-thiolation protein 1
+Chr10_R1,GSCOCG00024550001,chr10,733821,735252,AT1G20430.1
+Chr10_R1,GSCOCG00024551001,chr10,741384,748316,L-ascorbate oxidase
+Chr10_R1,GSCOCG00024552001,chr10,748599,749973,DUF295 domain-containing protein
+Chr10_R1,GSCOCG00024553001,chr10,751810,754555,tRNA pseudouridine synthase
+Chr10_R1,GSCOCG00024555001,chr10,770280,774978,PRONE domain-containing protein
+Chr10_R1,GSCOCG00024556001,chr10,780370,786326,Prolyl oligopeptidase
+Chr10_R1,GSCOCG00024558001,chr10,790264,790488,BBE domain-containing protein
+Chr10_R1,GSCOCG00024559001,chr10,790624,791475,FAD-binding PCMH-type domain-containing protein
+Chr10_R1,GSCOCG00024561001,chr10,794059,801170,Pseudouridine synthase family protein
+Chr10_R1,GSCOCG00024562001,chr10,801226,806636,MaoC-like domain-containing protein
+Chr10_R1,GSCOCG00024563001,chr10,808124,808318,conserved hypothetical protein
+Chr10_R1,GSCOCG00024564001,chr10,812450,815629,High mobility group B protein 9
+Chr10_R1,GSCOCG00024565001,chr10,816371,818059,Ubiquitin-like domain-containing protein
+Chr10_R1,GSCOCG00024566001,chr10,818425,821047,Mechanosensitive ion channel protein
+Chr10_R1,GSCOCG00024568001,chr10,822062,824314,Glutathione S-transferase PARB
+Chr10_R1,GSCOCG00024569001,chr10,825272,830171,Mechanosensitive ion channel protein
+Chr10_R1,GSCOCG00024570001,chr10,831891,839236,Serine/threonine-protein kinase STY46
+Chr10_R1,GSCOCG00024573001,chr10,846765,848582,DNL-type domain-containing protein
+Chr10_R1,GSCOCG00024574001,chr10,850470,851809,Plastocyanin
+Chr10_R1,GSCOCG00024575001,chr10,851893,855944,putative Phospholipase D delta
+Chr10_R1,GSCOCG00024576001,chr10,856593,859036,C2 domain-containing protein
+Chr10_R1,GSCOCG00024577001,chr10,860343,868474,MFS domain-containing protein
+Chr10_R1,GSCOCG00024578001,chr10,870109,871384,Thioredoxin domain-containing protein
+Chr10_R1,GSCOCG00024579001,chr10,874257,875048,putative AT1G76070.1
+Chr10_R1,GSCOCG00024580001,chr10,878281,879853,LYR family of Fe/S cluster biogenesis protein
+Chr10_R1,GSCOCG00024581001,chr10,880779,882992,LYR family of Fe/S cluster biogenesis protein
+Chr10_R1,GSCOCG00024582001,chr10,883044,889216,Fe2OG dioxygenase domain-containing protein
+Chr10_R1,GSCOCG00024583001,chr10,889494,893552,S4 RNA-binding domain-containing protein
+Chr10_R1,GSCOCG00024584001,chr10,893983,899296,Calcium-dependent protein kinase 29
+Chr10_R1,GSCOCG00024586001,chr10,900476,903350,DYW_deaminase domain-containing protein
+Chr10_R1,GSCOCG00024587001,chr10,903546,907811,Thioredoxin_8 domain-containing protein OS=Cephalotus follicularis OX=3775 GN=CFOL_v3
+Chr10_R1,GSCOCG00024589001,chr10,925911,927102,RING-type domain-containing protein
+Chr10_R1,GSCOCG00024591001,chr10,929934,932939,Thioredoxin-like_fold domain-containing protein
+Chr10_R1,GSCOCG00024592001,chr10,933976,937926,Alba domain-containing protein
+Chr10_R1,GSCOCG00024594001,chr10,943586,945974,FAD_binding_3 domain-containing protein
+Chr10_R1,GSCOCG00024595001,chr10,949947,951048,Expansin
+Chr10_R1,GSCOCG00024596001,chr10,951366,951779,conserved hypothetical protein
+Chr10_R1,GSCOCG00024597001,chr10,953761,955180,Peroxidase
+Chr10_R1,GSCOCG00024598001,chr10,956642,957577,putative protein Simiate-like
+Chr10_R1,GSCOCG00024599001,chr10,957647,959859,putative Single hybrid motif superfamily protein
+Chr10_R1,GSCOCG00024600001,chr10,959951,960973,DUF677 domain-containing protein (Fragment) OS=Cephalotus follicularis OX=3775 GN=CFOL_v3
+Chr10_R1,GSCOCG00024601001,chr10,963779,966538,PKS_ER domain-containing protein
+Chr10_R1,GSCOCG00024602001,chr10,970518,975433,HTH La-type RNA-binding domain-containing protein
+Chr10_R1,GSCOCG00024604001,chr10,979355,981099,BZIP domain-containing protein
+Chr10_R1,GSCOCG00024605001,chr10,997226,998382,AT4G22000.1
+Chr10_R1,GSCOCG00024606001,chr10,1000586,1004212,CO(2)-response secreted protease
+Chr10_R1,GSCOCG00024607001,chr10,1005875,1008447,AT1G11320.1
+Chr10_R1,GSCOCG00024608001,chr10,1011426,1013923,Lipase_GDSL domain-containing protein
+Chr10_R1,GSCOCG00024609001,chr10,1014174,1016978,Lipase_GDSL domain-containing protein
+Chr10_R1,GSCOCG00024610001,chr10,1020313,1028071,FYVE-type domain-containing protein
+Chr10_R1,GSCOCG00024611001,chr10,1032888,1033862,RING-type domain-containing protein
+Chr10_R1,GSCOCG00024612001,chr10,1035649,1038689,Glutaredoxin domain-containing protein
+Chr10_R1,GSCOCG00024613001,chr10,1042754,1046193,Regulatory protein
+Chr10_R1,GSCOCG00024614001,chr10,1046863,1056689,Vacuolar protein sorting-associated protein 35
+Chr10_R1,GSCOCG00024615001,chr10,1058001,1064099,ABC transporter B family member 13
+Chr10_R1,GSCOCG00024616001,chr10,1066410,1069265,DNA-directed RNA polymerase subunit
+Chr10_R1,GSCOCG00024617001,chr10,1076182,1083147,Synaptotagmin-2
+Chr10_R1,GSCOCG00024618001,chr10,1089710,1092893,Protein kinase domain-containing protein
+Chr10_R1,GSCOCG00024619001,chr10,1093043,1093743,putative Receptor protein kinase CLAVATA1
+Chr10_R1,GSCOCG00024620001,chr10,1094220,1100365,Kinesin motor domain-containing protein
+Chr10_R1,GSCOCG00024622001,chr10,1105097,1110613,putative Midasin like
+Chr11_R1,GSCOCG00025439001,chr11,12198438,12206245,BRAP2 RING ZnF UBP domain-containing protein 2
+Chr11_R1,GSCOCG00025438001,chr11,12212530,12213997,DUF659 domain-containing protein
+Chr11_R1,GSCOCG00025436001,chr11,12256009,12266302,UBX domain-containing protein
+Chr11_R1,GSCOCG00025435001,chr11,12271910,12280594,Ubiquitin carboxyl-terminal hydrolase
+Chr11_R1,GSCOCG00025431001,chr11,12314625,12318948,Glycosyltransferase
+Chr11_R1,GSCOCG00025430001,chr11,12351934,12352748,conserved hypothetical protein
+Chr11_R1,GSCOCG00025429001,chr11,12353245,12367447,Protein ACCUMULATION AND REPLICATION OF CHLOROPLASTS 3 like
+Chr11_R1,GSCOCG00025428001,chr11,12371384,12372276,conserved hypothetical protein
+Chr11_R1,GSCOCG00025424001,chr11,12401824,12404853,C2H2-type domain-containing protein
+Chr11_R1,GSCOCG00025423001,chr11,12427538,12429633,conserved hypothetical protein
+Chr11_R1,GSCOCG00025421001,chr11,12434463,12445474,Protein CHROMATIN REMODELING 19
+Chr11_R1,GSCOCG00025420001,chr11,12456127,12457760,NmrA domain-containing protein
+Chr11_R1,GSCOCG00025419001,chr11,12458226,12461438,putative Disease resistance protein RPM1
+Chr11_R1,GSCOCG00040778001,chr11,12521624,12523712,Protein of unknown function (DUF789)
+Chr11_R2,GSCOCG00020729001,chr11,23476686,23477435,putative Farnesoic acid carboxyl-O-methyltransferase
+Chr11_R2,GSCOCG00020732001,chr11,23487101,23496910,RNA-dependent RNA polymerase
+Chr11_R2,GSCOCG00020733001,chr11,23504270,23517982,RNA-dependent RNA polymerase
+Chr11_R2,GSCOCG00020734001,chr11,23538795,23546726,RNA-dependent RNA polymerase
+Chr11_R2,GSCOCG00020735001,chr11,23552744,23561261,RNA-dependent RNA polymerase
+Chr11_R2,GSCOCG00020736001,chr11,23566867,23570606,Semialdhyde_dhC domain-containing protein
+Chr11_R2,GSCOCG00018120001,chr11,23599313,23602840,Plasmodesmata-located protein 6
+Chr11_R2,GSCOCG00018119001,chr11,23613166,23617022,Caleosin-related family protein
+Chr11_R2,GSCOCG00018118001,chr11,23619747,23625854,UBIQUITIN_CONJUGAT_2 domain-containing protein
+Chr11_R2,GSCOCG00018117001,chr11,23630552,23634530,Fe2OG dioxygenase domain-containing protein
+Chr11_R2,GSCOCG00018116001,chr11,23637573,23641450,Ran BP2/NZF zinc finger-like superfamily protein
+Chr11_R2,GSCOCG00018115001,chr11,23654781,23656635,Nudix hydrolase domain-containing protein
+Chr11_R2,GSCOCG00018114001,chr11,23662297,23663829,Nudix hydrolase domain-containing protein
+Chr11_R2,GSCOCG00018112001,chr11,23685761,23686688,conserved hypothetical protein
+Chr11_R2,GSCOCG00018111001,chr11,23689939,23693071,"putative protein OSB1, mitochondrial"
+Chr11_R2,GSCOCG00018110001,chr11,23693548,23695162,PORR domain-containing protein
+Chr11_R2,GSCOCG00018109001,chr11,23696248,23698977,DYW_deaminase domain-containing protein
+Chr11_R2,GSCOCG00018107001,chr11,23700649,23702462,Peroxidase
+Chr11_R2,GSCOCG00018104001,chr11,23707754,23708731,PEROXIDASE_4 domain-containing protein
+Chr11_R2,GSCOCG00018102001,chr11,23715382,23715749,Flowering-promoting factor 1
+Chr11_R2,GSCOCG00018101001,chr11,23719611,23721094,Peroxidase
+Chr11_R2,GSCOCG00018099001,chr11,23726332,23729782,SET domain-containing protein
+Chr11_R2,GSCOCG00018098001,chr11,23731978,23733073,Polcalcin Cup a 4
+Chr11_R2,GSCOCG00018092001,chr11,23799516,23800818,Knot1 domain-containing protein
+Chr11_R2,GSCOCG00018091001,chr11,23804435,23808156,Transcription factor IIIA
+Chr11_R2,GSCOCG00018090001,chr11,23809436,23814142,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018089001,chr11,23815083,23817554,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018085001,chr11,23827897,23832345,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018119001,chr11,23613166,23617022,Caleosin-related family protein
+Chr11_R2,GSCOCG00018118001,chr11,23619747,23625854,UBIQUITIN_CONJUGAT_2 domain-containing protein
+Chr11_R2,GSCOCG00018117001,chr11,23630552,23634530,Fe2OG dioxygenase domain-containing protein
+Chr11_R2,GSCOCG00018116001,chr11,23637573,23641450,Ran BP2/NZF zinc finger-like superfamily protein
+Chr11_R2,GSCOCG00018115001,chr11,23654781,23656635,Nudix hydrolase domain-containing protein
+Chr11_R2,GSCOCG00018114001,chr11,23662297,23663829,Nudix hydrolase domain-containing protein
+Chr11_R2,GSCOCG00018112001,chr11,23685761,23686688,conserved hypothetical protein
+Chr11_R2,GSCOCG00018111001,chr11,23689939,23693071,"putative protein OSB1, mitochondrial"
+Chr11_R2,GSCOCG00018110001,chr11,23693548,23695162,PORR domain-containing protein
+Chr11_R2,GSCOCG00018109001,chr11,23696248,23698977,DYW_deaminase domain-containing protein
+Chr11_R2,GSCOCG00018107001,chr11,23700649,23702462,Peroxidase
+Chr11_R2,GSCOCG00018104001,chr11,23707754,23708731,PEROXIDASE_4 domain-containing protein
+Chr11_R2,GSCOCG00018102001,chr11,23715382,23715749,Flowering-promoting factor 1
+Chr11_R2,GSCOCG00018101001,chr11,23719611,23721094,Peroxidase
+Chr11_R2,GSCOCG00018099001,chr11,23726332,23729782,SET domain-containing protein
+Chr11_R2,GSCOCG00018098001,chr11,23731978,23733073,Polcalcin Cup a 4
+Chr11_R2,GSCOCG00018092001,chr11,23799516,23800818,Knot1 domain-containing protein
+Chr11_R2,GSCOCG00018091001,chr11,23804435,23808156,Transcription factor IIIA
+Chr11_R2,GSCOCG00018090001,chr11,23809436,23814142,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018089001,chr11,23815083,23817554,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018085001,chr11,23827897,23832345,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018084001,chr11,23841778,23842386,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018081001,chr11,23855606,23860165,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018079001,chr11,23863438,23863966,conserved hypothetical protein
+Chr11_R2,GSCOCG00018078001,chr11,23866963,23867465,Abhydrolase_3 domain-containing protein
+Chr11_R2,GSCOCG00018076001,chr11,23919424,23922565,ANK_REP_REGION domain-containing protein
+Chr11_R2,GSCOCG00018075001,chr11,23933227,23937074,Vac14_Fig4_bd domain-containing protein
+Chr11_R2,GSCOCG00018074001,chr11,23937236,23943915,Vac14_Fab1_bd domain-containing protein
+Chr11_R2,GSCOCG00018073001,chr11,23948514,23954301,UDP-3-O-acyl N-acetylglycosamine deacetylase family protein
+Chr11_R2,GSCOCG00018071001,chr11,23964431,23969265,RING-type domain-containing protein
+Chr11_R2,GSCOCG00018070001,chr11,23975176,23976451,putative PTHR33133:SF7 - F26K24.10 PROTEIN (1 of 2)
+Chr11_R2,GSCOCG00018068001,chr11,24000829,24013707,Cleavage and polyadenylation specificity factor subunit 3-II
+Chr11_R2,GSCOCG00018067001,chr11,24014485,24015898,Pentatricopeptide repeat-containing protein
+Chr11_R2,GSCOCG00018066001,chr11,24015963,24016839,conserved hypothetical protein
+Chr11_R2,GSCOCG00018065001,chr11,24016897,24018973,conserved hypothetical protein

@@ -328,10 +328,29 @@ if (dir.exists(runs_dir)) {
   
   # Consolidate Runtime Information
   time_files <- list.files(runs_dir, pattern = "runtime_info.csv", recursive = TRUE, full.names = TRUE)
+  
   if (length(time_files) > 0) {
-    time_data <- map_dfr(time_files, read.csv)
-    write.csv(time_data, file.path(base_out_dir, "GWAS_Runtime_Summary.csv"), row.names = FALSE)
-    cat("Runtime summary saved to GWAS_Runtime_Summary.csv\n")
+    
+    # MODIFICAÇÃO: Usar uma função segura que checa se o arquivo tem conteúdo
+    read_safe <- function(f) {
+      # Só lê se o arquivo tiver mais de 0 bytes
+      if (file.size(f) > 0) {
+        tryCatch({
+          return(read.csv(f))
+        }, error = function(e) return(NULL))
+      } else {
+        return(NULL) # Pula arquivos vazios
+      }
+    }
+    
+    time_data <- map_dfr(time_files, read_safe)
+    
+    if (nrow(time_data) > 0) {
+      write.csv(time_data, file.path(base_out_dir, "GWAS_Runtime_Summary.csv"), row.names = FALSE)
+      cat("Runtime summary saved to GWAS_Runtime_Summary.csv\n")
+    } else {
+      cat("Warning: runtime_info files were found but contained no valid data.\n")
+    }
   }
 }
 ```

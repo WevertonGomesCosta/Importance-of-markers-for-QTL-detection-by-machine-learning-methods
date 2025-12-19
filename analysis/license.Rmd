@@ -64,12 +64,23 @@ Under the following terms:
 
 ## Autores / Authors
 
-**Weverton Gomes da Costa** [1], **Cosme Damião Cruz** [2], **Moyses Nascimento** [1]*
+**Weverton Gomes da Costa**^1,2^, **Cosme Damião Cruz**^2^, **Moyses Nascimento**^1,2^
 
-1.  Departamento de Estatística, Universidade Federal de Viçosa (UFV)
-2.  Instituto de Inteligência Artificial e Computacional (Idata), UFV
+<br>
 
-*\*Autor para correspondência / Corresponding Author:* [moysesnascim@ufv.br](mailto:moysesnascim@ufv.br)
+**Afiliações / Affiliations:**
+
+^1^ Departamento de Estatística, Universidade Federal de Viçosa (UFV)
+
+^2^ Instituto de Inteligência Artificial e Computacional (Idata), Universidade Federal de Viçosa (UFV)
+
+---
+
+*\*Autores para correspondência / Corresponding Authors:*
+
+* [weverton.costa@ufv.br](mailto:weverton.costa@ufv.br)
+* [cdcruz@ufv.br](mailto:cdcruz@ufv.br)
+* [moysesnascim@ufv.br](mailto:moysesnascim@ufv.br)
 
 ## Instituições / Institutions
 

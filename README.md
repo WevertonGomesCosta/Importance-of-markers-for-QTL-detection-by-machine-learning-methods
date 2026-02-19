@@ -5,9 +5,9 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)
 ![GitHub last commit](https://img.shields.io/github/last-commit/WevertonGomesCosta/Importance-of-markers-for-QTL-detection-by-machine-learning-methods)
 [![Website](https://img.shields.io/badge/Project%20Site-online-brightgreen)](https://wevertongomescosta.github.io/Importance-of-markers-for-QTL-detection-by-machine-learning-methods/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17866542.svg)](https://doi.org/10.5281/zenodo.17866542)
+[![DOI](https://doi.org/10.3390/ijpb17010006)](https://doi.org/10.3390/ijpb17010006)
 
-> **Note:** This repository contains the source code and reproducible pipeline for the research article: *"Comparison of Machine Learning Methods for Marker Identification in GWAS: A Simulation Study for Complex Traits"*.
+> **Note:** This repository contains the source code and reproducible pipeline for the research article: *"Comparison of Machine Learning Methods for Marker Identification in GWAS"*.
 
 ---
 
